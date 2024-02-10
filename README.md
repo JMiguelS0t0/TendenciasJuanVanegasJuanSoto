@@ -1,5 +1,3 @@
-# tendenciasJuanVanegasJuanSoto
-
 # Tendencias en desarrollo de software
 ## Integrantes del Equipo
 - Juan José Vanegas Ospina
