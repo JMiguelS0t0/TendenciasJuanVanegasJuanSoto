@@ -15,14 +15,14 @@ def validateUserName(hospital, userName):
 def getAll():
     pass
 
-def createUser(hospital, name, cedula, email, dateBirth, address, rol, userName, password):
+def createUser(hospital, name, cedula, email, phoneNumber, dateBirth, address, rol, userName, password):
     user = validateId(hospital, cedula)
     if user:
         raise Exception("Ya existe una persona con esa cedula registrada")
     user = validateUserName(hospital, userName)
     if user: 
         raise Exception("Ya existe un usuario con ese username")
-    user = models.Person(name, cedula, email, dateBirth, address, rol, userName, password)
+    user = models.Person(name, cedula, email, phoneNumber, dateBirth, address, rol, userName, password)
     hospital.persons.append(user)
     
 def eliminateUser():
