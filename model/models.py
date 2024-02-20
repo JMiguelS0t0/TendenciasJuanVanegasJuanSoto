@@ -56,12 +56,13 @@ class MedicalRecord():
         self.diagnosis = diagnosis
 
 class Medications():
-    def __init__(self, id, idMedication, dose, duration, item):
+    def __init__(self, id, idMedication, dose, duration, item, price):
         self.id = id
         self.idMedication = idMedication
         self.dose = dose
         self.duration = duration
         self.item = item
+        self.price = price
 
 class Procedure():
     def __init__(self, id, idProcedure, quantity, frequency, reqAssistance, idSpecialist, item):
