@@ -3,7 +3,7 @@ from service import loginService
 from menu import adminMenu
 
 hospital = models.Hospital()
-admin = models.Person("Admin Admin", "1040570", "admin@admin.com", "2971094000", "08/08/2004", "Cra 55b", "admin", "admin", "admin123")
+admin = models.Person("Admin Admin", "1040570", "admin@admin.com", "297109400", "08/08/2004", "Cra 55b", "admin", "admin", "admin123")
 hospital.persons.append(admin)
 
 initialMenu = "1. Iniciar Sesion\n0.Cerrar Programa\n"

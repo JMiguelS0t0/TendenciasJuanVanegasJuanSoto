@@ -3,7 +3,7 @@ class Person():
         self.name = name
         self.cedula = cedula
         self.email = email
-        self.phone = phoneNumber
+        self.phoneNumber = phoneNumber
         self.dateBirth = dateBirth
         self.address = address
         self.rol = rol
