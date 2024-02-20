@@ -1,8 +1,9 @@
 class Person():
-    def __init__(self, name, cedula, email, dateBirth, address, rol, userName, password):
+    def __init__(self, name, cedula, email, phoneNumber, dateBirth, address, rol, userName, password):
         self.name = name
         self.cedula = cedula
         self.email = email
+        self.phone = phoneNumber
         self.dateBirth = dateBirth
         self.address = address
         self.rol = rol
