@@ -12,8 +12,8 @@ def validateUserName(hospital, userName):
             return person
     return None
 
-def getAll():
-    pass
+def getAllUsers(hospital):
+    return hospital.persons.copy()
 
 def createUser(hospital, name, cedula, email, phoneNumber, dateBirth, address, rol, userName, password):
     user = validateId(hospital, cedula)

@@ -2,14 +2,16 @@ from validators import personTypeValidator
       
 def adminMenu(hospital, user):
      while True:
-        option=input("1. Crear usuario\n2. Eliminar Usuario\n3. Editar usuario\n4. Salir\n")
+        option=input("1. Crear usuario\n2. Eliminar Usuario\n3. Editar usuario\n4.Mostrar Usuarios\n5. Salir\n")
         if option=="1":
             createUser(hospital)
         if option=="2":
-            break
+            deleteUser(hospital, user)
         if option=="3":
-            break
-        if option == "4":
+            updateUser(hospital, user)
+        if option=="4":
+            getUsers(hospital)
+        if option == "5":
             print("Cerrando Sesion")
             return
 
@@ -20,4 +22,15 @@ def createUser(hospital):
         print("Se ha creado el", rol)
     except Exception as error:
         print(str(error))
-  
+
+def deleteUser(hospital, user):
+    pass
+
+def updateUser(hospital, user):
+    pass
+
+def getUsers(hospital):
+    try:
+        personTypeValidator.getAllUsers(hospital)
+    except Exception as error:
+        print(str(error))
