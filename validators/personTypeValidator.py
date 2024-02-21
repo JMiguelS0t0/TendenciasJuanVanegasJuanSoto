@@ -10,10 +10,12 @@ def createUser(hospital, rol):
     address = addressValidator(input("Ingrese la direccion del: " + rol + "\n"), "La direccion de: " + rol)
     userName = userNameValidator(input("Ingrese usuario del: " + rol + "\n"), "El nombre de usuario de: " + rol)
     password = passwordValidator(input("Ingrese la contraseña:\n"), "Contraseña de: " + rol)
+    
     AS.createUser(hospital, name, cedula, email, phoneNumber, dateBirth, address, rol, userName, password)
 
+
 def getAllUsers(hospital):
-    allUsers = AS.getAllUsers(hospital)
+    allUsers = hospital.persons  
     for user in allUsers:
         print(f"Nombre: {user.name}")
         print(f"Cedula: {user.cedula}")
@@ -24,4 +26,3 @@ def getAllUsers(hospital):
         print(f"Rol: {user.rol}")
         print(f"Usuario: {user.userName}")
         print("-" * 20)
-

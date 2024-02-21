@@ -1,17 +1,17 @@
 import re
 from datetime import datetime, timedelta
 
-def textValidator(string,element):
-    if string==None or string=="":
-        raise Exception(element + "no es un valor es valido")
+def textValidator(string, element):
+    if string is None or string == "":
+        raise ValueError(element + " no es un valor válido")
+    return string
 
-def numberValidator(string,element):
-    textValidator(string,element)
+def numberValidator(string, element):
+    textValidator(string, element)
     try:
         return int(string)
-    except:
-        raise Exception(element + " no es un numero valido")
-
+    except ValueError:
+        raise ValueError(element + " no es un número válido")
 
 def passwordValidator(string, element):
     textValidator(string, element)
@@ -30,7 +30,7 @@ def passwordValidator(string, element):
     
     if ' ' in string:
         raise ValueError("La contraseña no debe contener espacios")
-    return True
+    return string
 
 def emailValidator(string, element):
     textValidator(string, element)
@@ -52,18 +52,19 @@ def emailValidator(string, element):
     if " " in domain or " " in username:
         raise ValueError("El nombre de usuario y el dominio no deben contener espacios.")
 
-    return True
+    return string
 
 def phoneNumberValidator(string, element):
+    string = str(string)
     try:
         numberValidator(string, element)
     except ValueError as e:
         raise ValueError("No es un número de teléfono válido") from e
 
-    if not 1 <= len(str(string)) <= 10:
+    if not 1 <= len(string) <= 10:
         raise ValueError("El número de teléfono debe tener entre 1 y 10 dígitos.")
 
-    return True
+    return string
 
 def dateBirthValidator(string, element):
     textValidator(string, element)
@@ -76,19 +77,19 @@ def dateBirthValidator(string, element):
     if dateBirth > datetime.today():
         raise ValueError("No puede ser una fecha en el futuro.")
     
-    maxAge = datetime.today() - timedelta(days=365.25 * 150)
+    maxAge = datetime.today() - timedelta(days=365 * 150)  
     if dateBirth < maxAge:
         raise ValueError("No puede ser mayor a 150 años")
     
-    return True
+    return string
 
 def addressValidator(string, element):
     textValidator(string, element)
     
     if len(string) > 30:
-        raise ValueError("No puede tener mas de 30 caracteres.")
+        raise ValueError("No puede tener más de 30 caracteres.")
     
-    return True
+    return string
 
 def userNameValidator(string, element):
     textValidator(string, element)
@@ -96,7 +97,7 @@ def userNameValidator(string, element):
     if len(string) > 15:
         raise ValueError("No puede tener más de 15 caracteres.")
 
-    if not re.match("[a-zA-Z0-9]+", string):
+    if not re.match(r"^[a-zA-Z0-9]+$", string): 
         raise ValueError("Solo puede contener letras y números.")
 
-    return True
+    return string

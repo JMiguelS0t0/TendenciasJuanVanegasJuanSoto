@@ -28,5 +28,6 @@ while True:
             continue
         loginRouter(hospital, user)
     if option == "0":
+
         print("Suerte!!")
         break
