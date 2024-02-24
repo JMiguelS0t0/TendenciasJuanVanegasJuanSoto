@@ -25,6 +25,9 @@ def createUser(hospital, name, cedula, email, phoneNumber, dateBirth, address, r
     user = models.Person(name, cedula, email, phoneNumber, dateBirth, address, rol, userName, password)
     hospital.persons.append(user)
 
-def eliminateUser():
-    pass
+def deleteUser(hospital, cedula):
+    for person in hospital.persons:
+        if person.cedula == cedula:
+            return True
+    return False
 

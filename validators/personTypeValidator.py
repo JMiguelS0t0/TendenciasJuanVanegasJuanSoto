@@ -1,5 +1,5 @@
 from .typeValidator import *
-from service.rolServices import adminServices as AS
+from service.rolServices import adminServices
 
 def createUser(hospital, rol):
     cedula = numberValidator(input("Ingrese la cedula de: " +  rol + "\n"), "Cedula de " + rol)
@@ -11,7 +11,7 @@ def createUser(hospital, rol):
     userName = userNameValidator(input("Ingrese usuario del: " + rol + "\n"), "El nombre de usuario de: " + rol)
     password = passwordValidator(input("Ingrese la contraseña:\n"), "Contraseña de: " + rol)
     
-    AS.createUser(hospital, name, cedula, email, phoneNumber, dateBirth, address, rol, userName, password)
+    adminServices.createUser(hospital, name, cedula, email, phoneNumber, dateBirth, address, rol, userName, password)
 
 
 def getAllUsers(hospital):
@@ -26,3 +26,17 @@ def getAllUsers(hospital):
         print(f"Rol: {user.rol}")
         print(f"Usuario: {user.userName}")
         print("-" * 20)
+
+def deleteUserById(hospital, cedula):
+    cedula = int(cedula)
+    if adminServices.deleteUser(hospital, cedula):
+        deleteUser(hospital, cedula)
+    else:
+        print("No se encontró ningun usuario con esa identificación")
+
+def deleteUser(hospital, cedula):
+    for i, person in enumerate(hospital.persons):
+        if person.cedula == cedula:
+            del hospital.persons[i]
+            print("Usuario eliminado exitosamente.")
+            return 

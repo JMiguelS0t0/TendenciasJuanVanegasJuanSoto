@@ -10,6 +10,7 @@ initialMenu = "1. Iniciar Sesion\n0.Cerrar Programa\n"
 
 def loginRouter(hospital, user):
     if user.rol == "admin":
+        print("Bienvenido:", admin.name)
         adminMenu.adminMenu(hospital, user)
 
 while True:
