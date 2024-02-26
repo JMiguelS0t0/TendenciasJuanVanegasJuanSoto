@@ -25,16 +25,16 @@ def createUser(hospital, name, cedula, email, phoneNumber, dateBirth, address, r
     user = models.Person(name, cedula, email, phoneNumber, dateBirth, address, rol, userName, password)
     hospital.persons.append(user)
     
-def updateUser(hospital, cedula, new_name, new_email, new_phoneNumber, new_dateBirth, new_address, new_userName, new_password):
+def updateUser(hospital, cedula, newName, newEmail, newPhoneNumber, newDateBirth, newAddress, newUserName, newPassword):
     for person in hospital.persons:
          if person.cedula == cedula:
-            person.name = new_name
-            person.email = new_email
-            person.phoneNumber = new_phoneNumber
-            person.dateBirth = new_dateBirth
-            person.address = new_address
-            person.userName = new_userName
-            person.password = new_password
+            person.name = newName
+            person.email = newEmail
+            person.phoneNumber = newPhoneNumber
+            person.dateBirth = newDateBirth
+            person.address = newAddress
+            person.userName = newUserName
+            person.password = newPassword
             print("Usuario actualizado exitosamente.")
             return
     print("No se encontró ningún usuario con esa identificación.")
