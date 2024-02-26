@@ -13,14 +13,14 @@ def createUser(hospital, rol):
     adminServices.createUser(hospital, name, cedula, email, phoneNumber, dateBirth, address, rol, userName, password)
 
 def updateUser(hospital, cedula):
-    new_name = textValidator(input("Ingrese el nuevo nombre del usuario:\n"), "Nuevo nombre de usuario")
-    new_email = emailValidator(input("Ingrese el nuevo correo del usuario:\n"), "Nuevo correo del usuario")
-    new_phoneNumber = phoneNumberValidator(input("Ingrese el nuevo número de teléfono del usuario:\n"), "Nuevo número de teléfono del usuario")
-    new_dateBirth = dateBirthValidator(input("Ingrese la nueva fecha de nacimiento del usuario (DD/MM/YYYY):\n"), "Nueva fecha de nacimiento del usuario")
-    new_address = addressValidator(input("Ingrese la nueva dirección del usuario:\n"), "Nueva dirección del usuario")
-    new_userName = userNameValidator(input("Ingrese el nuevo nombre de usuario del usuario:\n"), "Nuevo nombre de usuario del usuario")
-    new_password = passwordValidator(input("Ingrese la nueva contraseña del usuario:\n"), "Nueva contraseña del usuario")
-    adminServices.updateUser(hospital, cedula, new_name, new_email, new_phoneNumber, new_dateBirth, new_address, new_userName, new_password)
+    newName = textValidator(input("Ingrese el nuevo nombre del usuario:\n"), "Nuevo nombre de usuario")
+    newEmail = emailValidator(input("Ingrese el nuevo correo del usuario:\n"), "Nuevo correo del usuario")
+    newPhoneNumber = phoneNumberValidator(input("Ingrese el nuevo número de teléfono del usuario:\n"), "Nuevo número de teléfono del usuario")
+    newDateBirth = dateBirthValidator(input("Ingrese la nueva fecha de nacimiento del usuario (DD/MM/YYYY):\n"), "Nueva fecha de nacimiento del usuario")
+    newAddress = addressValidator(input("Ingrese la nueva dirección del usuario:\n"), "Nueva dirección del usuario")
+    newUserName = userNameValidator(input("Ingrese el nuevo nombre de usuario del usuario:\n"), "Nuevo nombre de usuario del usuario")
+    newPassword = passwordValidator(input("Ingrese la nueva contraseña del usuario:\n"), "Nueva contraseña del usuario")
+    adminServices.updateUser(hospital, cedula, newName, newEmail, newPhoneNumber, newDateBirth, newAddress, newUserName, newPassword)
 
 def getAllUsers(hospital):
     allUsers = adminServices.getAllUsers(hospital)  
