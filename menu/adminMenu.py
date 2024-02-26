@@ -30,8 +30,12 @@ def deleteUser(hospital, cedula):
     except Exception as error:
         print(str(error))
 
-def updateUser(hospital, user):
-    pass
+def updateUser(hospital, cedula):
+    try:
+        cedula = input("Ingrese la identificación del usuario que desea actualizar: ")
+        personTypeValidator.updateUser(hospital, cedula)
+    except Exception as error:
+        print(str(error))
 
 def getUsers(hospital):
     try:
