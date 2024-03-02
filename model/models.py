@@ -19,15 +19,18 @@ class Patient():
         self.address = address 
         self.phoneNumber = phoneNumber
         self.email = email
+        self.emergencyContact = EmergencyContact
+        self.insurance = Insurance
         
 class EmergencyContact():
-    def __init__(self, name, relationship, phoneNumber):
+    def __init__(self, idUser, name, relationship, phoneNumber):
+        self.idUser = idUser
         self.name = name
         self.relationship = relationship
         self.phoneNumber = phoneNumber
 
 class Insurance():
-    def __init__(self, company, number, status, term):
+    def __init__(self, idUser, company, number, status, term):
         self.company = company
         self.number = number
         self.status = status
@@ -96,5 +99,7 @@ class Hospital():
     def __init__(self):
         self.persons = []
         self.patients = []
+        self.emergencyContacts = []
+        self.insurances = []
         self.invoices = []
         
