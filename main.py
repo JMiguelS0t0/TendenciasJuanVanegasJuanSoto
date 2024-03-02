@@ -5,9 +5,7 @@ from menu import adminMenu, administrativePersonnelMenu
 hospital = models.Hospital()
 user = models.Person("Admin Admin", "1040570", "admin@admin.com", "297109400", "08/08/2004", "Cra 55b", "Personnel Administrative", "admin", "admin123")
 hospital.persons.append(user)
-
 patient = models.Patient("1040", "John Kratos", "10/10/2002", "Male", "Cra 55b", "3014436008", "kratos@correo.com")
-
 hospital.patients.append(patient)
 
 initialMenu = "1. Iniciar Sesion\n0.Cerrar Programa\n"

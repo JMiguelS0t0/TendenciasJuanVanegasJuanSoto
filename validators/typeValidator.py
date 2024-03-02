@@ -66,21 +66,24 @@ def phoneNumberValidator(string, element):
 
     return string
 
-def dateBirthValidator(string, element):
-    textValidator(string, element)
-    
+def validateDateFormat(string, element):
     try:
-        dateBirth = datetime.strptime(string, "%d/%m/%Y")
+        dateFormat = datetime.strptime(string, "%d/%m/%Y")
     except ValueError:
-        raise ValueError("No tiene formato de fecha valido (DD/MM/YYYY)")
-    
+        raise ValueError(element + ": No tiene formato de fecha válido (DD/MM/YYYY)")
+    return dateFormat
+
+def dateBirthValidator(string, element):
+    string = textValidator(string, element)
+    dateBirth = validateDateFormat(string, element)
+
     if dateBirth > datetime.today():
-        raise ValueError("No puede ser una fecha en el futuro.")
-    
-    maxAge = datetime.today() - timedelta(days=365 * 150)  
+        raise ValueError("La fecha de nacimiento no puede estar en el futuro.")
+
+    maxAge = datetime.today() - timedelta(days=365 * 150)
     if dateBirth < maxAge:
-        raise ValueError("No puede ser mayor a 150 años")
-    
+        raise ValueError("La fecha de nacimiento no puede ser mayor a 150 años.")
+
     return string
 
 def addressValidator(string, element):
