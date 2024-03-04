@@ -1,6 +1,7 @@
 from service.rolServices import administrativePersonnelServices as administrativeS
 from .typeValidator import *
 
+# ------------------------------------------------------- PATIENTS
 def createPatient(hospital):
     id = numberValidator(input("Ingrese la cedula (ID) del paciente: " + "\n"), "Cedula del paciente")
     name = textValidator(input("Ingrese el nombre del paciente: " + "\n"), "Nombre del paciente")
@@ -29,7 +30,6 @@ def createInsurance(hospital, idUser):
     administrativeS.createInsurance(hospital, idUser, company, number, status, term)
 
 # ------------------------------------------- UPDATES
-
 def updatePatient(hospital, id):
     name = textValidator(input("Ingrese el nuevo nombre del paciente: " + "\n") or "", "Nombre del paciente")
     dateBirth = dateBirthValidator(input("Ingrese la nueva fecha de nacimiento del paciente: " + "(DD/MM/YYYY)\n") or "", "Fecha de nacimiento del paciente")
@@ -109,4 +109,21 @@ def getInsuranceStatus():
             return False
         else:
             print("Por favor, responda 'Sí' o 'No'.")
-            
+
+# ------------------------------------------------------- PATIENTS
+
+# -------------------------------------------------------- APPOINTMENTS
+
+def scheduleAppointment():
+    pass
+
+def cancelAppointment():
+    pass
+
+def patientAppointmentHistory():
+    pass
+
+def searchAppointmentsByDay():
+    pass
+
+# -------------------------------------------------------- APPOINTMENTS

@@ -28,7 +28,6 @@ def createInsurance(hospital, idUser, company, number, status, term):
     hospital.insurances.append(insurance)
     
 # ------------------------------------- UPDATES
-
 def updatePacient(hospital, id, name=None, dateBirth=None, gender=None, address=None, phoneNumber=None, email=None):
     patient = getPatientById(hospital, id)
     if not patient:
@@ -73,9 +72,21 @@ def updateInsurance(hospital, idUser, company=None, number=None, status=None, te
         patient.insurance.term = term
     print("Datos del seguro actualizados correctamente.")
 
-def scheduleAppointment():
+# ----------------------------------------------- APPOINTMENTS
+def scheduleAppointment(hospital, id, idPatient, idDoctor, date, reason):
+    appointment = models.Appointment(id, idPatient, idDoctor, date, reason)
+    hospital.appointments.append(appointment)
+    
+def cancelAppointment():
     pass
 
+def patientAppointmentHistory():
+    pass
+
+def searchAppointmentsByDay():
+    pass
+
+# ----------------------------------------------- INVOICE
 def invoice():
     pass
 

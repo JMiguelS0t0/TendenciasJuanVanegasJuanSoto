@@ -2,7 +2,7 @@ from validators import administrativePersonnelValidator
 
 def administrativePersonnelMenu(hospital, user):
     while True:
-        option = input("1. Gestionar Pacientes\n2. Programar cita\n3. Generar Factura\n4. Cerrar Sesión\n")
+        option = input("1. Gestionar Pacientes\n2. Gestionar Citas\n3. Generar Factura\n4. Cerrar Sesión\n")
         if option == "1":
             managePatientsMenu(hospital, user)
         if option == "2":
@@ -13,6 +13,7 @@ def administrativePersonnelMenu(hospital, user):
             print("Cerrando Sesion")
             return
 
+# ----------------------------- PATIENTS
 
 def managePatientsMenu(hospital, id):
     while True:
@@ -46,3 +47,31 @@ def updatePatient(hospital, id):
         administrativePersonnelValidator.updatePatient(hospital, id)
     except Exception as error:
         print(str(error))
+
+# -------------------------- APPOINTMENTS
+
+def appointmentMenu(hospital, id):
+    while True:
+        option = input("1. Agendar Cita\n2. Cancelar Cita\n3. Historial de citas de paciente\n4. Buscar citas de un dia\n5. Salir\n")
+        if option == "1":
+            pass
+        if option == "2":
+            pass
+        if option == "3":
+            pass
+        if option == "3":
+            pass
+        if option == "5":
+            return
+
+def scheduleAppointment():
+    pass
+
+def cancelAppointment():
+    pass
+
+def patientAppointmentHistory():
+    pass
+
+def searchAppointmentsByDay():
+    pass
