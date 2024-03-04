@@ -1,4 +1,4 @@
-from validators import personTypeValidator
+from validators import adminTypeValidator
       
 def adminMenu(hospital, user):
      while True:
@@ -17,28 +17,48 @@ def adminMenu(hospital, user):
 
 def createUser(hospital):
     try:
-        rol = input("Que rol tendra el usuario?\n")
-        personTypeValidator.createUser(hospital, rol) 
+        rol = selectRole()
+        adminTypeValidator.createUser(hospital, rol) 
         print("Se ha creado el", rol)
     except Exception as error:
         print(str(error))
 
+
 def deleteUser(hospital, cedula):
     try:
         cedula = input("Ingrese la identificación del usuario que desea eliminar: ")
-        personTypeValidator.deleteUser(hospital, cedula)
+        adminTypeValidator.deleteUser(hospital, cedula)
     except Exception as error:
         print(str(error))
 
 def updateUser(hospital, cedula):
     try:
         cedula = input("Ingrese la identificación del usuario que desea actualizar: ")
-        personTypeValidator.updateUser(hospital, cedula)
+        adminTypeValidator.updateUser(hospital, cedula)
     except Exception as error:
         print(str(error))
 
 def getUsers(hospital):
     try:
-        personTypeValidator.getAllUsers(hospital)
+        adminTypeValidator.getAllUsers(hospital)
     except Exception as error:
         print(str(error))
+
+
+def selectRole():
+    print("Seleccione el rol del usuario:")
+    print("1. Medico")
+    print("2. Personnel Administrative")
+    print("3. Admin")
+    option = input("Ingrese el número correspondiente al rol: ")
+    
+    if option == "1":
+        rol = "Medico"
+    elif option == "2":
+        rol = "Personnel Administrative"
+    elif option == "3":
+        rol = "Admin"
+    else:
+        raise ValueError("Opción inválida")
+    
+    return rol

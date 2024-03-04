@@ -31,6 +31,7 @@ class EmergencyContact():
 
 class Insurance():
     def __init__(self, idUser, company, number, status, term):
+        self.idUser = idUser
         self.company = company
         self.number = number
         self.status = status
