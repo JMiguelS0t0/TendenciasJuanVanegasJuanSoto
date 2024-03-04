@@ -20,7 +20,7 @@ def managePatientsMenu(hospital, id):
         if option == "1":
             createPatient(hospital)
         if option == "2":
-            updatePacient(hospital, id)
+            updatePatient(hospital, id)
         if option == "3":
             searchPatient(hospital, id)
         if option == "4":
@@ -40,5 +40,9 @@ def searchPatient(hospital, id):
     except Exception as error:
         print(str(error))
 
-def updatePacient(hospital, id):
-    pass
+def updatePatient(hospital, id):
+    try:
+        id = input("Ingrese el ID del paciente a editar: ")
+        administrativePersonnelValidator.updatePatient(hospital, id)
+    except Exception as error:
+        print(str(error))

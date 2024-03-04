@@ -6,6 +6,7 @@ def getPatientById(hospital, id):
             return patient
     return None
 
+# ------------------------------------- CREATE
 def createPacient(hospital, id, name, dateBirth, gender, address, phoneNumber, email):
     patient = validateId(hospital, id)
     if patient:
@@ -25,12 +26,52 @@ def createInsurance(hospital, idUser, company, number, status, term):
     insurance = models.Insurance(idUser, company, number, status, term)
     patient.insurance = insurance
     hospital.insurances.append(insurance)
+    
+# ------------------------------------- UPDATES
 
-def updatePacient():
-    pass
+def updatePacient(hospital, id, name=None, dateBirth=None, gender=None, address=None, phoneNumber=None, email=None):
+    patient = getPatientById(hospital, id)
+    if not patient:
+        raise Exception("No existe una persona con esa cedula registrada")
+    if name is not None:
+        patient.name = name
+    if dateBirth is not None:
+        patient.dateBirth = dateBirth
+    if gender is not None:
+        patient.gender = gender
+    if address is not None:
+        patient.address = address
+    if phoneNumber is not None:
+        patient.phoneNumber = phoneNumber
+    if email is not None:
+        patient.email = email
+    print("Datos del paciente actualizados correctamente.")
+    
+def updateEmergencyContact(hospital, idUser, name=None, relationship=None, phoneNumber=None):
+    patient = getPatientById(hospital, idUser)
+    if not patient:
+        raise Exception("No existe una persona con esa cedula registrada")
+    if name is not None:
+        patient.emergencyContact.name = name
+    if relationship is not None:
+        patient.emergencyContact.relationship = relationship
+    if phoneNumber is not None:
+        patient.emergencyContact.phoneNumber = phoneNumber
+    print("Datos del contacto de emergencia actualizados correctamente.")
 
-def deletePacient():
-    pass
+def updateInsurance(hospital, idUser, company=None, number=None, status=None, term=None):
+    patient = getPatientById(hospital, idUser)
+    if not patient:
+        raise Exception("No existe una persona con esa cedula registrada")
+    if company is not None:
+        patient.insurance.company = company
+    if number is not None:
+        patient.insurance.number = number
+    if status is not None:
+        patient.insurance.status = status
+    if term is not None:
+        patient.insurance.term = term
+    print("Datos del seguro actualizados correctamente.")
 
 def scheduleAppointment():
     pass

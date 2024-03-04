@@ -8,7 +8,7 @@ hospital.persons.append(user)
 patient = models.Patient("1040", "John Kratos", "10/10/2002", "Male", "Cra 55b", "3014436008", "kratos@correo.com")
 hospital.patients.append(patient)
 
-initialMenu = "1. Iniciar Sesion\n0.Cerrar Programa\n"
+initialMenu = "1. Iniciar Sesion\n0. Cerrar Programa\n"
 def loginRouter(hospital, user):
     if user.rol == "admin":
         print("Bienvenido:")
