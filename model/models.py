@@ -27,7 +27,12 @@ class EmergencyContact():
         self.phoneNumber = phoneNumber
 
 class Insurance():
+<<<<<<< HEAD
     def __init__(self, company, number, status, term):
+=======
+    def __init__(self, idUser, company, number, status, term):
+        self.idUser = idUser
+>>>>>>> c8cb5a0 (ADD - UPDATE PATIENTS (EMERGENCYCONTACT & INSURANCE))
         self.company = company
         self.number = number
         self.status = status

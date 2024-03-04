@@ -3,22 +3,21 @@ import model.models as models
 def validateId(hospital, cedula):
     for person in hospital.persons:
         if person.cedula == cedula:
-            return person
-    return None
+            return True
+    return False
 
 def validateUserName(hospital, userName):
     for person in hospital.persons:
         if person.userName == userName:
-            return person
-    return None
+            return True
+    return False
 
 def getAllUsers(hospital):
     return hospital.persons.copy()
 
 def createUser(hospital, name, cedula, email, phoneNumber, dateBirth, address, rol, userName, password):
-    user = validateId(hospital, cedula)
-    if user:
-        raise Exception("Ya existe una persona con esa cedula registrada")
+    if validateId(hospital, cedula):
+        raise Exception("Ya existe un usuario con esa cedula")
     user = validateUserName(hospital, userName)
     if user: 
         raise Exception("Ya existe un usuario con ese username")
