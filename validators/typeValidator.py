@@ -8,7 +8,7 @@ def textValidator(string, element):
                 raise ValueError(element + " no es un valor válido")
             return string
         except ValueError as e:
-            string = input("Formato incorrecto. Ingrese nuevamente el valor para " + element + ": " + str(e))
+            string = input("Formato incorrecto. Ingrese nuevamente el valor para " + element + ": " + str(e) + "\n")
 
 def numberValidator(string, element):
     while True:
@@ -16,7 +16,7 @@ def numberValidator(string, element):
             textValidator(string, element)
             return int(string)
         except ValueError as e:
-            string = input("Formato incorrecto. Ingrese nuevamente el valor numérico para " + element + ": " + str(e))
+            string = input("Formato incorrecto. Ingrese nuevamente el valor numérico para " + element + ": " + str(e) + "\n")
 
 def passwordValidator(string, element):
     while True:
@@ -40,7 +40,7 @@ def passwordValidator(string, element):
             
             return string
         except ValueError as e:
-            string = input("Ingrese nuevamente la contraseña para " + element + ": " + str(e))
+            string = input("Ingrese nuevamente la contraseña para " + element + ": " + str(e) + "\n")
 
 def emailValidator(string, element):
     while True:
@@ -66,7 +66,7 @@ def emailValidator(string, element):
 
             return string
         except ValueError as e:
-            string = input("Ingrese nuevamente el correo electrónico para " + element + ": " + str(e))
+            string = input("Ingrese nuevamente el correo electrónico para " + element + ": " + str(e) + "\n")
 
 def phoneNumberValidator(string, element):
     while True:
@@ -82,7 +82,7 @@ def phoneNumberValidator(string, element):
 
             return string
         except ValueError as e:
-            string = input("Ingrese nuevamente el número de teléfono para " + element + ": " + str(e))
+            string = input("Ingrese nuevamente el número de teléfono para " + element + ": " + str(e) + "\n")
 
 def validateDateFormat(string, element):
     while True:
@@ -107,7 +107,7 @@ def dateBirthValidator(string, element):
 
             return string
         except ValueError as e:
-            string = input("Ingrese nuevamente la fecha de nacimiento para " + element + ": " + str(e))
+            string = input("Ingrese nuevamente la fecha de nacimiento para " + element + ": " + str(e) + "\n")
 
 def futureDateValidator(string, element):
     while True:
@@ -129,7 +129,7 @@ def addressValidator(string, element):
             
             return string
         except ValueError as e:
-            string = input("Ingrese nuevamente la dirección para " + element + ": " + str(e))
+            string = input("Ingrese nuevamente la dirección para " + element + ": " + str(e) + "\n")
 
 def userNameValidator(string, element):
     while True:
@@ -144,4 +144,4 @@ def userNameValidator(string, element):
 
             return string
         except ValueError as e:
-            string = input("Ingrese nuevamente el nombre de usuario para " + element + ": " + str(e))
+            string = input("Ingrese nuevamente el nombre de usuario para " + element + ": " + str(e) + "\n")
