@@ -37,6 +37,13 @@ class Insurance():
         self.status = status
         self.term = term
 
+class Appointment():
+    def __init__(self, id, idPatient, date, reason):
+        self.id = id
+        self.idPatient = idPatient
+        self.date = date
+        self.reason = reason
+
 class Visit():
     def __init__(self, patient, date, bloodPressure, temperature, pulse, oxygenLvl, medicationsAdm, procedures, tests, observations):
         self.patient = patient
@@ -102,5 +109,6 @@ class Hospital():
         self.patients = []
         self.emergencyContacts = []
         self.insurances = []
+        self.appointments = []
         self.invoices = []
         

@@ -1,11 +1,19 @@
 from service.rolServices import administrativePersonnelServices as administrativeS
 from .typeValidator import *
 
+# ------------------------------------------------------- PATIENTS
 def createPatient(hospital):
     id = numberValidator(input("Ingrese la cedula (ID) del paciente: " + "\n"), "Cedula del paciente")
     name = textValidator(input("Ingrese el nombre del paciente: " + "\n"), "Nombre del paciente")
     dateBirth = dateBirthValidator(input("Ingrese la fecha de nacimiento del paciente: " + "(DD/MM/YYYY)\n"), "Fecha de nacimiento del paciente")
-    gender = textValidator(input("Ingrese el genero del paciente: " + "\n"), "Genero del paciente")
+    genderInput = input("Ingrese el genero del paciente (1. Masculino - 2. Femenino): ")
+    if genderInput == "1":
+        gender = "masculino"
+    elif genderInput == "2":
+        gender = "femenino"
+    else:
+        print("Opción inválida. Por favor, ingrese 1 para masculino o 2 para femenino.")
+        return
     address = addressValidator(input("Ingrese la direccion del paciente: " + "\n"), "La direccion del paciente")
     phoneNumber = phoneNumberValidator(input("Ingrese el numero de telefono del paciente: " + "\n"), "Numero del paciente")
     email = emailValidator(input("Ingrese el correo del paciente:" + "\n"), "Email del paciente")
@@ -25,11 +33,10 @@ def createInsurance(hospital, idUser):
     company = textValidator(input("Ingrese el nombre del seguro medico: " + "\n"), "Nombre del seguro medico")
     number = numberValidator(input("Ingrese el numero de póliza del seguro medico : " + "\n"), "Numero de poliza del seguro medico")
     status = getInsuranceStatus()
-    term = validateDateFormat(input("Ingrese la fecha de finalizacion del seguro medico: " + "(DD/MM/YYYY)\n"), "Fecha de finalizacion del seguro medico")
+    term = futureDateValidator(input("Ingrese la fecha de finalizacion del seguro medico: " + "(DD/MM/YYYY)\n"), "Fecha de finalizacion del seguro medico")
     administrativeS.createInsurance(hospital, idUser, company, number, status, term)
 
 # ------------------------------------------- UPDATES
-
 def updatePatient(hospital, id):
     name = textValidator(input("Ingrese el nuevo nombre del paciente: " + "\n") or "", "Nombre del paciente")
     dateBirth = dateBirthValidator(input("Ingrese la nueva fecha de nacimiento del paciente: " + "(DD/MM/YYYY)\n") or "", "Fecha de nacimiento del paciente")
@@ -69,7 +76,7 @@ def updateInsurance(hospital, idUser):
     company = textValidator(input("Ingrese el nuevo nombre del seguro medico: " + "\n") or "", "Nombre del seguro medico")
     number = numberValidator(input("Ingrese el nuevo numero de póliza del seguro medico : " + "\n") or "", "Numero de poliza del seguro medico")
     status = getInsuranceStatus()
-    term = validateDateFormat(input("Ingrese la nueva fecha de finalizacion del seguro medico: " + "\n") or "", "Fecha de finalizacion del seguro medico")
+    term = futureDateValidator(input("Ingrese la nueva fecha de finalizacion del seguro medico: " + "\n") or "", "Fecha de finalizacion del seguro medico")
     administrativeS.updateInsurance(hospital, idUser, company, number, status, term)
 
 # ----------------------------------------- GET
@@ -100,6 +107,49 @@ def getPatient(hospital, id):
     else:
         print("Paciente no encontrado.")
 
+# ------------------------------------------------------- PATIENTS
+
+# -------------------------------------------------------- APPOINTMENTS
+
+def scheduleAppointment(hospital):
+    id = administrativeS.assignAppointmentId(hospital)
+    idUser = numberValidator(input("Ingrese la cedula (ID) del paciente: " + "\n"), "Cedula del paciente")
+    date = futureDateValidator(input("Ingrese la fecha de la cita: " + "(DD/MM/YYYY)\n"), "Fecha de la cita")
+    reason = textValidator(input("Ingrese el motivo de la cita: " + "\n"), "Motivo de la cita")
+    
+    patient = administrativeS.getPatientById(hospital, str(idUser))
+    if not patient:
+        print("El paciente no existe.")
+        print("¿Desea agregar al paciente? (Sí/No)")
+        answer = input().lower()
+        if answer == "si":
+            createPatient(hospital)
+        else:
+            print("La cita no se puede programar sin un paciente existente.")
+            return
+    administrativeS.scheduleAppointment(hospital, str(id), str(idUser), date, reason)
+
+def cancelAppointment():
+    pass
+
+def patientAppointmentHistory(hospital, idUser):
+    appointments = administrativeS.getAppointmentsByUserId(hospital, str(idUser))
+    if appointments:
+        print(f"Citas del paciente con ID {idUser}:")
+        for appointment in appointments:
+            print(f"Id: {appointment.id}")
+            print(f"Fecha: {appointment.date}")
+            print(f"Motivo: {appointment.reason}")
+            print("-" * 20)
+    else:
+        print("No se encontraron citas para el paciente con ID {idUser}.")
+
+def searchAppointmentsByDay():
+    pass
+
+# -------------------------------------------------------- APPOINTMENTS
+# -------------------------------------------------------- OTHERS
+
 def getInsuranceStatus():
     while True:
         status_input = input("¿El seguro está activo? (Si/No): ").lower()
@@ -109,4 +159,3 @@ def getInsuranceStatus():
             return False
         else:
             print("Por favor, responda 'Sí' o 'No'.")
-            
