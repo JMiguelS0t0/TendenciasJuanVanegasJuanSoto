@@ -73,15 +73,24 @@ def updateInsurance(hospital, idUser, company=None, number=None, status=None, te
     print("Datos del seguro actualizados correctamente.")
 
 # ----------------------------------------------- APPOINTMENTS
-def scheduleAppointment(hospital, id, idPatient, idDoctor, date, reason):
-    appointment = models.Appointment(id, idPatient, idDoctor, date, reason)
+def scheduleAppointment(hospital, id, idPatient, date, reason):
+    print("Cita agendada correctamente.")
+    appointment = models.Appointment(id, idPatient, date, reason)
     hospital.appointments.append(appointment)
-    
+
 def cancelAppointment():
     pass
 
-def patientAppointmentHistory():
-    pass
+def getAppointmentsByUserId(hospital, idUser):
+    appointments = []
+    for appointment in hospital.appointments:
+        if appointment.idPatient == idUser:
+            appointments.append(appointment)
+    if appointments:
+        return appointments
+    else:
+        print("No se encontraron citas para el paciente con ID {idUser}.")
+        return
 
 def searchAppointmentsByDay():
     pass
@@ -95,3 +104,10 @@ def validateId(hospital, id):
         if patient.id == id:
             return patient
     return None
+
+def assignAppointmentId(hospital):
+    if len(hospital.appointments) == 0:
+        return 1
+    else:
+        lastId = hospital.appointments[-1].id
+        return int(lastId) + 1

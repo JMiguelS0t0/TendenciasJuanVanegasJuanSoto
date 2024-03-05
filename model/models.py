@@ -38,10 +38,9 @@ class Insurance():
         self.term = term
 
 class Appointment():
-    def __init__(self, id, idPatient, idDoctor, date, reason):
+    def __init__(self, id, idPatient, date, reason):
         self.id = id
         self.idPatient = idPatient
-        self.idDoctor = idDoctor
         self.date = date
         self.reason = reason
 
