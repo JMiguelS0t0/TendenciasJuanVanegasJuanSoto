@@ -38,9 +38,10 @@ class Insurance():
         self.term = term
 
 class Appointment():
-    def __init__(self, id, idPatient, date, reason):
+    def __init__(self, id, idPatient, doctorName, date, reason):
         self.id = id
         self.idPatient = idPatient
+        self.doctorName = doctorName
         self.date = date
         self.reason = reason
 
@@ -95,9 +96,11 @@ class DiagnosticAid():
         self.item = item
 
 class Invoice():
-    def __init__(self, patient, diagnosis, medications, procedures, diagnosticTest):
-        self.patient = patient
+    def __init__(self, doctorName, diagnosis, medications, procedures, diagnosticTest):
+        self.patient = Patient
+        self.doctorName = doctorName
         self.diagnosis = diagnosis
+        self.insuranceData = Insurance
         self.medications = medications
         self.procedures = procedures
         self.diagnosticTest = diagnosticTest

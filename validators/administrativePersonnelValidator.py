@@ -1,7 +1,8 @@
 from service.rolServices import administrativePersonnelServices as administrativeS
 from .typeValidator import *
 
-# ------------------------------------------------------- PATIENTS
+# --------------------------------------------------------- PATIENTS
+# ------------------------------------------------- CREATES
 def createPatient(hospital):
     id = numberValidator(input("Ingrese la cedula (ID) del paciente: " + "\n"), "Cedula del paciente")
     name = textValidator(input("Ingrese el nombre del paciente: " + "\n"), "Nombre del paciente")
@@ -35,8 +36,9 @@ def createInsurance(hospital, idUser):
     status = getInsuranceStatus()
     term = futureDateValidator(input("Ingrese la fecha de finalizacion del seguro medico: " + "(DD/MM/YYYY)\n"), "Fecha de finalizacion del seguro medico")
     administrativeS.createInsurance(hospital, idUser, company, number, status, term)
+# ------------------------------------------------- CREATES
 
-# ------------------------------------------- UPDATES
+# ------------------------------------------------- UPDATES
 def updatePatient(hospital, id):
     name = textValidator(input("Ingrese el nuevo nombre del paciente: " + "\n") or "", "Nombre del paciente")
     dateBirth = dateBirthValidator(input("Ingrese la nueva fecha de nacimiento del paciente: " + "(DD/MM/YYYY)\n") or "", "Fecha de nacimiento del paciente")
@@ -78,8 +80,9 @@ def updateInsurance(hospital, idUser):
     status = getInsuranceStatus()
     term = futureDateValidator(input("Ingrese la nueva fecha de finalizacion del seguro medico: " + "\n") or "", "Fecha de finalizacion del seguro medico")
     administrativeS.updateInsurance(hospital, idUser, company, number, status, term)
+# ------------------------------------------------- UPDATES
 
-# ----------------------------------------- GET
+# ------------------------------------------------- GET
 def getPatient(hospital, id):
     id = str(id)
     patient = administrativeS.getPatientById(hospital, id)
@@ -106,14 +109,14 @@ def getPatient(hospital, id):
             print(f"Estado de poliza: {patient.insurance.term}")
     else:
         print("Paciente no encontrado.")
-
+# ------------------------------------------------- GET
 # ------------------------------------------------------- PATIENTS
 
 # -------------------------------------------------------- APPOINTMENTS
-
 def scheduleAppointment(hospital):
     id = administrativeS.assignAppointmentId(hospital)
     idUser = numberValidator(input("Ingrese la cedula (ID) del paciente: " + "\n"), "Cedula del paciente")
+    doctorName = textValidator(input("Ingrese el nombre del doctor: " + "\n"), "Nombre del doctor")
     date = futureDateValidator(input("Ingrese la fecha de la cita: " + "(DD/MM/YYYY)\n"), "Fecha de la cita")
     reason = textValidator(input("Ingrese el motivo de la cita: " + "\n"), "Motivo de la cita")
     
@@ -127,10 +130,7 @@ def scheduleAppointment(hospital):
         else:
             print("La cita no se puede programar sin un paciente existente.")
             return
-    administrativeS.scheduleAppointment(hospital, str(id), str(idUser), date, reason)
-
-def cancelAppointment():
-    pass
+    administrativeS.scheduleAppointment(hospital, str(id), str(idUser), doctorName, date, reason)
 
 def patientAppointmentHistory(hospital, idUser):
     appointments = administrativeS.getAppointmentsByUserId(hospital, str(idUser))
@@ -139,17 +139,15 @@ def patientAppointmentHistory(hospital, idUser):
         for appointment in appointments:
             print(f"Id: {appointment.id}")
             print(f"Fecha: {appointment.date}")
+            print(f"Doctor: {appointment.doctorName}")
             print(f"Motivo: {appointment.reason}")
             print("-" * 20)
     else:
         print("No se encontraron citas para el paciente con ID {idUser}.")
 
-def searchAppointmentsByDay():
-    pass
-
 # -------------------------------------------------------- APPOINTMENTS
-# -------------------------------------------------------- OTHERS
 
+# -------------------------------------------------------- OTHERS
 def getInsuranceStatus():
     while True:
         status_input = input("¿El seguro está activo? (Si/No): ").lower()

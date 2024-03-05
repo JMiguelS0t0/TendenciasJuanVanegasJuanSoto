@@ -73,9 +73,9 @@ def updateInsurance(hospital, idUser, company=None, number=None, status=None, te
     print("Datos del seguro actualizados correctamente.")
 
 # ----------------------------------------------- APPOINTMENTS
-def scheduleAppointment(hospital, id, idPatient, date, reason):
+def scheduleAppointment(hospital, id, idPatient, doctorName, date, reason):
     print("Cita agendada correctamente.")
-    appointment = models.Appointment(id, idPatient, date, reason)
+    appointment = models.Appointment(id, idPatient, doctorName, date, reason)
     hospital.appointments.append(appointment)
 
 def cancelAppointment():
