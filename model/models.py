@@ -38,6 +38,16 @@ class Insurance():
         self.status = status
         self.term = term
 
+<<<<<<< HEAD
+=======
+class Appointment():
+    def __init__(self, id, idPatient, date, reason):
+        self.id = id
+        self.idPatient = idPatient
+        self.date = date
+        self.reason = reason
+
+>>>>>>> 30393c8 (ADD - schedule/search Appointments)
 class Visit():
     def __init__(self, patient, date, bloodPressure, temperature, pulse, oxygenLvl, medicationsAdm, procedures, tests, observations):
         self.patient = patient

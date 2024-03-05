@@ -6,7 +6,7 @@ def administrativePersonnelMenu(hospital, user):
         if option == "1":
             managePatientsMenu(hospital, user)
         if option == "2":
-            pass
+            appointmentMenu(hospital, user)
         if option == "3":
             pass
         if option == "4":
@@ -46,3 +46,41 @@ def updatePatient(hospital, id):
         administrativePersonnelValidator.updatePatient(hospital, id)
     except Exception as error:
         print(str(error))
+<<<<<<< HEAD
+=======
+
+# -------------------------- APPOINTMENTS
+
+def appointmentMenu(hospital, id):
+    while True:
+        option = input("1. Agendar Cita\n2. Cancelar Cita\n3. Historial de citas de paciente\n4. Buscar citas de un dia\n5. Salir\n")
+        if option == "1":
+            scheduleAppointment(hospital)
+        if option == "2":
+            cancelAppointment(hospital, id)
+        if option == "3":
+            patientAppointmentHistory(hospital, id)
+        if option == "3":
+            searchAppointmentsByDay(hospital, id)
+        if option == "5":
+            return
+
+def scheduleAppointment(hospital):
+    try:
+        administrativePersonnelValidator.scheduleAppointment(hospital)
+    except Exception as error:
+        print(str(error))
+
+def cancelAppointment():
+    pass
+
+def patientAppointmentHistory(hospital, id):
+    try:
+        id = input("Ingrese el ID del paciente: ")
+        administrativePersonnelValidator.patientAppointmentHistory(hospital, id)
+    except Exception as error:
+        print(str(error))
+
+def searchAppointmentsByDay(hospital, id):
+    pass
+>>>>>>> 30393c8 (ADD - schedule/search Appointments)

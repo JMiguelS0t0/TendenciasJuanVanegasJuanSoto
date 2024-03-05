@@ -3,8 +3,16 @@ from service import loginService
 from menu import adminMenu
 
 hospital = models.Hospital()
+<<<<<<< HEAD
 admin = models.Person("Admin Admin", "1040570", "admin@admin.com", "297109400", "08/08/2004", "Cra 55b", "admin", "admin", "admin123")
 hospital.persons.append(admin)
+=======
+user = models.Person("Admin Admin", "1040570", "admin@admin.com", "297109400", "08/08/2004", "Cra 55b", "Personnel Administrative", "admin", "admin123")
+hospital.persons.append(user)
+
+# appointment = models.Appointment("1", "1040570", "1040570", "08/08/2024", "Cita motivo")
+# hospital.appointments.append(appointment)
+>>>>>>> 30393c8 (ADD - schedule/search Appointments)
 
 <<<<<<< HEAD
 initialMenu = "1. Iniciar Sesion\n0.Cerrar Programa\n"
