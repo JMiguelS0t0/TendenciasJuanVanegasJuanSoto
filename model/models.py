@@ -46,7 +46,7 @@ class Appointment():
         self.reason = reason
 
 class Visit():
-    def __init__(self, patientId, date, bloodPressure, temperature, pulse, oxygenLvl, medications, procedures, observations):
+    def __init__(self, patientId, date, bloodPressure, temperature, pulse, oxygenLvl, medications, orderMedication, procedures, orderProcedure, observations):
         self.patientId = patientId
         self.date = date
         self.bloodPressure = bloodPressure
@@ -54,7 +54,9 @@ class Visit():
         self.pulse = pulse
         self.oxygenLvl = oxygenLvl
         self.medications = medications
+        self.orderMedication = orderMedication
         self.procedures = procedures
+        self.orderProcedure = orderProcedure
         self.observations = observations
 class MedicalRecord():
     def __init__(self, idPatient, date, idDoctor, reasonConsulta, symptoms, diagnosis):
