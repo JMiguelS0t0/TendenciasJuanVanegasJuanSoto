@@ -2,7 +2,7 @@ import model.models as models
 from .administrativePersonnelServices import getPatientById
 import datetime
 
-def addVisit(hospital, patientId, bloodPressure, temperature, pulse, oxygenLvl, medications, procedures, observations):
+def addVisit(hospital, patientId, bloodPressure, temperature, pulse, oxygenLvl, medications, orderMedication, procedures, orderProcedure, observations):
     patient = getPatientById(hospital, patientId)
     if patient is None:
         raise Exception("El paciente no existe")
@@ -16,14 +16,18 @@ def addVisit(hospital, patientId, bloodPressure, temperature, pulse, oxygenLvl, 
     newVisit["oxygenLvl"] = oxygenLvl
     if medications != "N/A":
         newVisit["medications"] = medications
+        orderMedication = orderMedication  # Inicializar orderMedication
+        newVisit["orderMedication"] = orderMedication
     if procedures != "N/A":
         newVisit["procedures"] = procedures
+        orderProcedure = orderProcedure  # Inicializar orderProcedure
+        newVisit["orderProcedure"] = orderProcedure
     if observations != "N/A":
         newVisit["observations"] = observations
     if patientId not in hospital.visits:
         hospital.visits[patientId] = []
     hospital.visits[patientId].append(newVisit)
-    print("Visita agregada con exito")
+    print("Visita agregada con éxito")
     print("-" * 20)
     print(newVisit)
 

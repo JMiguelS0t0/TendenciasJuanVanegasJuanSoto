@@ -40,12 +40,30 @@ def createInsurance(hospital, idUser):
 
 # ------------------------------------------------- UPDATES
 def updatePatient(hospital, id):
-    name = textValidator(input("Ingrese el nuevo nombre del paciente: " + "\n") or "", "Nombre del paciente")
-    dateBirth = dateBirthValidator(input("Ingrese la nueva fecha de nacimiento del paciente: " + "(DD/MM/YYYY)\n") or "", "Fecha de nacimiento del paciente")
-    gender = textValidator(input("Ingrese el nuevo genero del paciente: " + "\n") or "", "Genero del paciente")
-    address = addressValidator(input("Ingrese la nueva direccion del paciente: " + "\n") or "", "La direccion del paciente")
-    phoneNumber = phoneNumberValidator(input("Ingrese el nuevo numero de telefono del paciente: " + "\n") or "", "Numero del paciente")
-    email = emailValidator(input("Ingrese el nuevo correo del paciente:" + "\n") or "", "Email del paciente")
+    nameInput = input("Ingrese el nuevo nombre del paciente: " + "\n") or "No update"
+    name = textValidator(nameInput, "Nombre del paciente")
+    
+    dateBirth = None
+    dateBirthInput = input("Ingrese la nueva fecha de nacimiento del paciente: " + "(DD/MM/YYYY)\n") or "No Update"
+    if dateBirthInput != "No Update":
+        dateBirth = dateBirthValidator(dateBirthInput, "Fecha de nacimiento del paciente")
+    
+    genderInput = input("Ingrese el nuevo genero del paciente: " + "\n") or "No update"
+    gender = textValidator(genderInput, "Genero del paciente")
+    
+    addressInput = input("Ingrese la nueva direccion del paciente: " + "\n") or "No update"
+    address = addressValidator(addressInput, "La direccion del paciente")
+    
+    phoneNumber = None
+    phoneNumberInput = input("Ingrese el nuevo numero de telefono del paciente: " + "\n") or "No Update"
+    if phoneNumberInput != "No Update":
+        phoneNumber = phoneNumberValidator(phoneNumberInput, "Numero del paciente")
+    
+    email = None
+    emailInput = input("Ingrese el nuevo correo del paciente:" + "\n") or "No Update"
+    if emailInput != "No Update":
+        email = emailValidator(emailInput, "Email del paciente")
+    
     administrativeS.updatePacient(hospital, id, name, dateBirth, gender, address, phoneNumber, email)
 
     print("¿Deseas actualizar la información del contacto de emergencia? (Sí/No)")
@@ -69,16 +87,29 @@ def updatePatient(hospital, id):
         print("Por favor, ingresa una opción válida (Sí/No).")
     
 def updateEmergencyContact(hospital, idUser):
-    name = textValidator(input("Ingrese el nuevo nombre del contacto de emergencia del paciente: " + "\n") or "", "Nombre del contacto de emergencia del paciente")
-    relationship = textValidator(input("Ingrese la nueva relacion del contacto de emergencia con el paciente: " + "\n") or "", "Relacion del contacto de emergencia con el paciente")
-    phoneNumber = phoneNumberValidator(input("Ingrese el nuevo numero de telefono del contacto de emergencia del paciente: " + "\n") or "", "Numero del contacto de emergencia del paciente")
+    nameInput = input("Ingrese el nuevo nombre del contacto de emergencia del paciente: " + "\n") or "No update"
+    name = textValidator(nameInput, "Nombre del contacto de emergencia del paciente")
+    
+    relationshipInput = input("Ingrese la nueva relacion del contacto de emergencia con el paciente: " + "\n") or "No update"
+    relationship = textValidator(relationshipInput, "Relacion del contacto de emergencia con el paciente")
+    
+    phoneNumberInput = input("Ingrese el nuevo numero de telefono del contacto de emergencia del paciente: " + "\n") or "No update"
+    phoneNumber = phoneNumberValidator(phoneNumberInput, "Numero del contacto de emergencia del paciente")
+    
     administrativeS.updateEmergencyContact(hospital, idUser, name, relationship, phoneNumber)
 
 def updateInsurance(hospital, idUser):
-    company = textValidator(input("Ingrese el nuevo nombre del seguro medico: " + "\n") or "", "Nombre del seguro medico")
-    number = numberValidator(input("Ingrese el nuevo numero de póliza del seguro medico : " + "\n") or "", "Numero de poliza del seguro medico")
+    companyInput = input("Ingrese el nuevo nombre del seguro medico: " + "\n") or "No update"
+    company = textValidator(companyInput, "Nombre del seguro medico")
+    
+    numberInput = input("Ingrese el nuevo numero de póliza del seguro medico : " + "\n") or "No update"
+    number = numberValidator(numberInput, "Numero de poliza del seguro medico")
+    
     status = getInsuranceStatus()
-    term = futureDateValidator(input("Ingrese la nueva fecha de finalizacion del seguro medico: " + "\n") or "", "Fecha de finalizacion del seguro medico")
+    
+    termInput = input("Ingrese la nueva fecha de finalizacion del seguro medico: " + "\n") or "No update"
+    term = futureDateValidator(termInput, "Fecha de finalizacion del seguro medico")
+    
     administrativeS.updateInsurance(hospital, idUser, company, number, status, term)
 # ------------------------------------------------- UPDATES
 

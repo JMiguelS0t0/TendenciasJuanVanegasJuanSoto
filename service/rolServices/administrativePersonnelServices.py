@@ -32,17 +32,17 @@ def updatePacient(hospital, id, name=None, dateBirth=None, gender=None, address=
     patient = getPatientById(hospital, id)
     if not patient:
         raise Exception("No existe una persona con esa cedula registrada")
-    if name is not None:
+    if name != "No update":
         patient.name = name
-    if dateBirth is not None:
+    if dateBirth != "No Update" and dateBirth != None:
         patient.dateBirth = dateBirth
-    if gender is not None:
+    if gender != "No update":
         patient.gender = gender
-    if address is not None:
+    if address != "No update":
         patient.address = address
-    if phoneNumber is not None:
+    if phoneNumber != "No Update" and phoneNumber != None:
         patient.phoneNumber = phoneNumber
-    if email is not None:
+    if email != "No Update" and email != None:
         patient.email = email
     print("Datos del paciente actualizados correctamente.")
     
@@ -50,11 +50,11 @@ def updateEmergencyContact(hospital, idUser, name=None, relationship=None, phone
     patient = getPatientById(hospital, idUser)
     if not patient:
         raise Exception("No existe una persona con esa cedula registrada")
-    if name is not None:
+    if name is not None and name != "No update":
         patient.emergencyContact.name = name
-    if relationship is not None:
+    if relationship is not None and relationship != "No update":
         patient.emergencyContact.relationship = relationship
-    if phoneNumber is not None:
+    if phoneNumber is not None and phoneNumber != "No update":
         patient.emergencyContact.phoneNumber = phoneNumber
     print("Datos del contacto de emergencia actualizados correctamente.")
 
@@ -62,13 +62,13 @@ def updateInsurance(hospital, idUser, company=None, number=None, status=None, te
     patient = getPatientById(hospital, idUser)
     if not patient:
         raise Exception("No existe una persona con esa cedula registrada")
-    if company is not None:
+    if company is not None and company != "No update":
         patient.insurance.company = company
-    if number is not None:
+    if number is not None and number != "No update":
         patient.insurance.number = number
-    if status is not None:
+    if status is not None and status != "No update":
         patient.insurance.status = status
-    if term is not None:
+    if term is not None and term != "No update":
         patient.insurance.term = term
     print("Datos del seguro actualizados correctamente.")
 
