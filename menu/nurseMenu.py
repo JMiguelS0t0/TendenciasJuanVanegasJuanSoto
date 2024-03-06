@@ -1,7 +1,6 @@
 from validators import nurseValidator
 
-
-def nurseMenu(hospital, idUser):
+def nurseMenu(hospital):
      while True:
         option=input("1. Registrar Visita\n2. Ver visitas registradas de un paciente\n3. Salir\n")
         if option=="1":

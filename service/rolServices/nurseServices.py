@@ -16,11 +16,11 @@ def addVisit(hospital, patientId, bloodPressure, temperature, pulse, oxygenLvl, 
     newVisit["oxygenLvl"] = oxygenLvl
     if medications != "N/A":
         newVisit["medications"] = medications
-        orderMedication = orderMedication  # Inicializar orderMedication
+        orderMedication = orderMedication
         newVisit["orderMedication"] = orderMedication
     if procedures != "N/A":
         newVisit["procedures"] = procedures
-        orderProcedure = orderProcedure  # Inicializar orderProcedure
+        orderProcedure = orderProcedure
         newVisit["orderProcedure"] = orderProcedure
     if observations != "N/A":
         newVisit["observations"] = observations

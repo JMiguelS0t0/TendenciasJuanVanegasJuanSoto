@@ -58,14 +58,6 @@ class Visit():
         self.procedures = procedures
         self.orderProcedure = orderProcedure
         self.observations = observations
-class MedicalRecord():
-    def __init__(self, idPatient, date, idDoctor, reasonConsulta, symptoms, diagnosis):
-        self.idPatient = idPatient
-        self.date = date
-        self.idDoctor = idDoctor
-        self.reasonConsulta = reasonConsulta
-        self.symptoms = symptoms
-        self.diagnosis = diagnosis
 
 class Medications():
     def __init__(self, id, idMedication, dose, duration, item, price):
@@ -105,6 +97,14 @@ class Invoice():
         self.procedures = procedures
         self.diagnosticTest = diagnosticTest
 
+class Order():
+    def __init__(self, id, patientId, date, medicine, procedure, diagnosisAid):
+        self.id = id
+        self.patientId = patientId
+        self.date = date
+        self.medicine = medicine
+        self.procedure = procedure
+        self.diagnosisAid = diagnosisAid
 
 class Hospital():
     def __init__(self):
@@ -113,4 +113,6 @@ class Hospital():
         self.emergencyContacts = []
         self.insurances = []
         self.appointments = []
-        self.visits = {}        
+        self.visits = {}
+        self.orders = []
+        self.clinicalHistory = {}
