@@ -26,7 +26,6 @@ def createUser(hospital):
 
 def deleteUser(hospital, cedula):
     try:
-        cedula = input("Ingrese la identificación del usuario que desea eliminar: ")
         adminTypeValidator.deleteUser(hospital, cedula)
     except Exception as error:
         print(str(error))
