@@ -2,14 +2,12 @@ import model.models as models
 from .administrativePersonnelServices import getPatientById
 import datetime
 
-def addVisit(hospital, id, patientId, bloodPressure, temperature, pulse, oxygenLvl, medications, procedures, observations):
+def addVisit(hospital, patientId, bloodPressure, temperature, pulse, oxygenLvl, medications, procedures, observations):
     patient = getPatientById(hospital, patientId)
     if patient is None:
         raise Exception("El paciente no existe")
     date = datetime.date.today()
-    id =  assignVisitId(hospital.visits)
     newVisit = {}
-    newVisit["id"] = id
     newVisit["patientId"] = patient.id
     newVisit["date"] = date
     newVisit["bloodPressure"] = bloodPressure
@@ -22,20 +20,21 @@ def addVisit(hospital, id, patientId, bloodPressure, temperature, pulse, oxygenL
         newVisit["procedures"] = procedures
     if observations != "N/A":
         newVisit["observations"] = observations
-    hospital.visits[(patientId, date)] = newVisit
+    if patientId not in hospital.visits:
+        hospital.visits[patientId] = []
+    hospital.visits[patientId].append(newVisit)
     print("Visita agregada con exito")
     print("-" * 20)
     print(newVisit)
 
-def updateVisit():
-    pass
+def getVisitsById(hospital, patientId):
+    visits = []
+    for (visitPatientId), visit in hospital.visits.items():
+        if visitPatientId == patientId:
+            visits.append(visit)
+    if not visits:
+        raise Exception("El paciente no existe o no tiene registro de visitas")
+    return visits
 
 def deleteVisit():
     pass
-
-def assignVisitId(visits):
-    if len(visits) == 0:
-        return 1
-    else:
-        lastId = max(visits.keys(), key=int)
-        return int(lastId) + 1
