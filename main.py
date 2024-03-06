@@ -1,9 +1,9 @@
 from model import models
 from service import loginService
-from menu import adminMenu, administrativePersonnelMenu, nurseMenu
+from menu import adminMenu, administrativePersonnelMenu, nurseMenu, doctorMenu
 
 hospital = models.Hospital()
-user = models.Person("Admin Admin", "1040570", "admin@admin.com", "297109400", "08/08/2004", "Cra 55b", "admin", "admin", "admin123")
+user = models.Person("Admin Admin", "1040570", "admin@admin.com", "297109400", "08/08/2004", "Cra 55b", "doctor", "admin", "admin123")
 hospital.persons.append(user)
 nurse = models.Person("Admin Admin", "1040570", "admin@admin.com", "297109400", "08/08/2004", "Cra 55b", "nurse", "n", "n")
 hospital.persons.append(nurse)
@@ -21,14 +21,21 @@ hospital.emergencyContacts.append(emergencyContact)
 initialMenu = "1. Iniciar Sesion\n0. Cerrar Programa\n"
 def loginRouter(hospital, user):
     if user.rol == "admin":
+        print("-- Personal de Recursos Humanos -- ", )
         print("Bienvenid@:")
         adminMenu.adminMenu(hospital, user)
     if user.rol == "Personnel Administrative":
+        print("-- Personal Administrativo -- ", )
         print("Bienvenid@:", )
         administrativePersonnelMenu.administrativePersonnelMenu(hospital, user)
     if user.rol == "nurse":
+        print("-- Enfermeras -- ", )
         print("Bienvenid@:")
-        nurseMenu.nurseMenu(hospital, user)
+        nurseMenu.nurseMenu(hospital)
+    if user.rol == "doctor":
+        print("-- Doctores -- ", )
+        print("Bienvenid@:")
+        doctorMenu.doctorMenu(hospital)
 
 while True:
     option = input(initialMenu)

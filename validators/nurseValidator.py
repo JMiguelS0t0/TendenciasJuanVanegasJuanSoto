@@ -2,7 +2,7 @@ from .typeValidator import *
 from service.rolServices import nurseServices
 
 def addVisit(hospital):
-    patientId = input("Ingrese el ID del paciente: " + "\n")
+    patientId = numberValidator(input("Ingrese el ID del paciente: " + "\n"), "Id del paciente")
     bloodPressure = numberValidator(input("Ingrese la presion sanguinea del paciente: " + "\n"), "Presion sanguinea del paciente")
     temperature = numberValidator(input("Ingrese la temperatura del paciente: " + "\n"), "Temperatura del paciente")
     pulse = numberValidator(input("Ingrese el pulso del paciente: " + "\n"), "Pulso del paciente")
