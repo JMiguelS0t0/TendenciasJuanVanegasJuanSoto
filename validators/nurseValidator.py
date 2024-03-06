@@ -1,7 +1,7 @@
 from .typeValidator import *
 from service.rolServices import nurseServices
 
-def addVisit(hospital, idUser):
+def addVisit(hospital):
     patientId = input("Ingrese el ID del paciente: " + "\n")
     bloodPressure = numberValidator(input("Ingrese la presion sanguinea del paciente: " + "\n"), "Presion sanguinea del paciente")
     temperature = numberValidator(input("Ingrese la temperatura del paciente: " + "\n"), "Temperatura del paciente")
@@ -19,4 +19,11 @@ def addVisit(hospital, idUser):
     if observations == "":
         observations = "N/A"
     textValidator(observations, "Observaciones del paciente")
-    nurseServices.addVisit(hospital, idUser, patientId, bloodPressure, temperature, pulse, oxygenLvl, medications, procedures, observations)
+    nurseServices.addVisit(hospital, patientId, bloodPressure, temperature, pulse, oxygenLvl, medications, procedures, observations)
+
+def getVisitsById(hospital):
+    patientId = input("Ingrese el ID del paciente: " + "\n")
+    visits = nurseServices.getVisitsById(hospital, patientId)
+    for visit in visits:
+        print(visit)
+        print("-" * 20)
