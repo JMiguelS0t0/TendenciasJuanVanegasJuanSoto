@@ -3,7 +3,7 @@ from service import loginService
 from menu import adminMenu, administrativePersonnelMenu, nurseMenu
 
 hospital = models.Hospital()
-user = models.Person("Admin Admin", "1040570", "admin@admin.com", "297109400", "08/08/2004", "Cra 55b", "Personnel Administrative", "admin", "admin123")
+user = models.Person("Admin Admin", "1040570", "admin@admin.com", "297109400", "08/08/2004", "Cra 55b", "admin", "admin", "admin123")
 hospital.persons.append(user)
 nurse = models.Person("Admin Admin", "1040570", "admin@admin.com", "297109400", "08/08/2004", "Cra 55b", "nurse", "n", "n")
 hospital.persons.append(nurse)

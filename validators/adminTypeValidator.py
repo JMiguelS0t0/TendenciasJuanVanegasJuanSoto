@@ -13,13 +13,38 @@ def createUser(hospital, rol):
     adminServices.createUser(hospital, name, cedula, email, phoneNumber, dateBirth, address, rol, userName, password)
 
 def updateUser(hospital, cedula):
-    newName = textValidator(input("Ingrese el nuevo nombre del usuario:\n"), "Nuevo nombre de usuario")
-    newEmail = emailValidator(input("Ingrese el nuevo correo del usuario:\n"), "Nuevo correo del usuario")
-    newPhoneNumber = phoneNumberValidator(input("Ingrese el nuevo número de teléfono del usuario:\n"), "Nuevo número de teléfono del usuario")
-    newDateBirth = dateBirthValidator(input("Ingrese la nueva fecha de nacimiento del usuario (DD/MM/YYYY):\n"), "Nueva fecha de nacimiento del usuario")
-    newAddress = addressValidator(input("Ingrese la nueva dirección del usuario:\n"), "Nueva dirección del usuario")
-    newUserName = userNameValidator(input("Ingrese el nuevo nombre de usuario del usuario:\n"), "Nuevo nombre de usuario del usuario")
-    newPassword = passwordValidator(input("Ingrese la nueva contraseña del usuario:\n"), "Nueva contraseña del usuario")
+    newName = input("Ingrese el nuevo nombre del usuario:\n") or "No update"
+    newName = textValidator(newName, "Nuevo nombre de usuario")
+    
+    newEmail = None
+    newEmail = input("Ingrese el nuevo correo del usuario:\n") or "No update"
+    if newEmail != "No update":
+        newEmail = emailValidator(newEmail, "Nuevo correo del usuario")
+    
+    newPhoneNumber = None
+    newPhoneNumber = input("Ingrese el nuevo número de teléfono del usuario:\n") or "No update"
+    if newPhoneNumber != "No update":
+        newPhoneNumber = phoneNumberValidator(newPhoneNumber, "Nuevo número de teléfono del usuario")
+    
+    newDateBirth = None
+    newDateBirth = input("Ingrese la nueva fecha de nacimiento del usuario (DD/MM/YYYY):\n") or "No update"
+    if newDateBirth != "No update":
+        newDateBirth = dateBirthValidator(newDateBirth, "Nueva fecha de nacimiento del usuario")
+    
+    newAddress = input("Ingrese la nueva dirección del usuario:\n") or "No update"
+    if newAddress != "No update":
+        newAddress = addressValidator(newAddress, "Nueva dirección del usuario")
+    
+    newUserName = None
+    newUserName = input("Ingrese el nuevo nombre de usuario del usuario:\n") or "No update"
+    if newUserName != "No update":
+        newUserName = userNameValidator(newUserName, "Nuevo nombre de usuario del usuario")
+    
+    newPassword = None
+    newPassword = input("Ingrese la nueva contraseña del usuario:\n") or "No update"
+    if newPassword != "No update":
+        newPassword = passwordValidator(newPassword, "Nueva contraseña del usuario")
+
     adminServices.updateUser(hospital, cedula, newName, newEmail, newPhoneNumber, newDateBirth, newAddress, newUserName, newPassword)
 
 def getAllUsers(hospital):
@@ -35,16 +60,6 @@ def getAllUsers(hospital):
         print(f"Usuario: {user.userName}")
         print("-" * 20)
 
-def deleteUserById(hospital, cedula):
-    cedula = int(cedula)
-    if adminServices.deleteUser(hospital, cedula):
-        deleteUser(hospital, cedula)
-    else:
-        print("No se encontró ningun usuario con esa identificación")
-
 def deleteUser(hospital, cedula):
-    for i, person in enumerate(hospital.persons):
-        if person.cedula == cedula:
-            del hospital.persons[i]
-            print("Usuario eliminado exitosamente.")
-            return 
+    cedula = input("Ingrese la cedula del usuario a eliminar:\n")
+    adminServices.deleteUserById(hospital, cedula)
