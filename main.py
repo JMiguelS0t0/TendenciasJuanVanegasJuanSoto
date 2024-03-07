@@ -9,6 +9,7 @@ nurse = models.Person("Admin Admin", "1040570", "admin@admin.com", "297109400", 
 hospital.persons.append(nurse)
 
 patient = models.Patient("1", "John Doe", "01/01/1990", "Male", "123 Main St", "555-1234", "john.doe@example.com")
+hospital.clinicalHistory["1"] = {}
 emergencyContact = models.EmergencyContact("1", "Jane Doe", "Spouse", "555-5678")
 insurance = models.Insurance("1", "ABC Insurance", "123456789", "Active", "01/01/2023")
 patient.emergencyContact = emergencyContact

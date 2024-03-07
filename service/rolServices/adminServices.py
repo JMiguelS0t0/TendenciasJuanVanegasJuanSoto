@@ -28,6 +28,7 @@ def createUser(hospital, name, cedula, email, phoneNumber, dateBirth, address, r
     if user: 
         raise Exception("Ya existe un usuario con ese username")
     user = models.Person(name, cedula, email, phoneNumber, dateBirth, address, rol, userName, password)
+    hospital.clinicalHistory[str(cedula)] = {}
     hospital.persons.append(user)
     
 def updateUser(hospital, cedula, newName=None, newEmail=None, newPhoneNumber=None, newDateBirth=None, newAddress=None, newUserName=None, newPassword=None):
