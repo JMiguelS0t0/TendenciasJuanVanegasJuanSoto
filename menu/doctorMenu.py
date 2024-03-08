@@ -1,21 +1,27 @@
 from validators import doctorValidator
+from validators.administrativePersonnelValidator import getPatient
 
-def doctorMenu(hospital):
+def doctorMenu(hospital, user):
      while True:
-        option=input("1. Crear registro medico\n2. Editar registro medico\n3. Salir\n")
+        print("\n" + f"Doctor: {user.name}")
+        option=input("1. Crear registro medico\n2. Ver datos del paciente\n3. Salir\n")
         if option=="1":
-            addMedicalRecord(hospital)
+            addMedicalRecord(hospital, user.cedula)
         if option=="2":
-            updateMedicalRecord(hospital)
+            searchPatient(hospital, user)
         if option=="3":
             print("Salir")
             return
 
-def addMedicalRecord(hospital):
+def addMedicalRecord(hospital, user):
     try:
-        doctorValidator.addMedicalRecord(hospital)
+        doctorValidator.addMedicalRecord(hospital, user)
     except Exception as e:
         print(str(e))
 
-def updateMedicalRecord(hospital):
-    pass
+def searchPatient(hospital, id):
+    try:
+        id = input("Ingrese el ID del paciente a buscar: ")
+        getPatient(hospital, id)
+    except Exception as error:
+        print(str(error))

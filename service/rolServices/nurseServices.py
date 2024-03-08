@@ -6,7 +6,7 @@ def addVisit(hospital, patientId, bloodPressure, temperature, pulse, oxygenLvl, 
     patient = getPatientById(hospital, patientId)
     if patient is None:
         raise Exception("El paciente no existe")
-    date = datetime.date.today()
+    date = datetime.date.today().strftime("%d/%m/%Y")
     newVisit = {}
     newVisit["patientId"] = patient.id
     newVisit["date"] = date
