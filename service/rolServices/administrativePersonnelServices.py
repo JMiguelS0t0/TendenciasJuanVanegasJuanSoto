@@ -2,18 +2,15 @@ import model.models as models
 
 def getPatientById(hospital, id):
     for patient in hospital.patients:
-        if str(patient.id) == id:
+        if str(patient.id) == str(id):
             return patient
     return None
 
 # ------------------------------------- CREATE
 def createPacient(hospital, id, name, dateBirth, gender, address, phoneNumber, email):
-    patient = validateId(hospital, id)
-    if patient:
-        raise Exception("Ya existe una persona con esa cedula registrada")
     patient = models.Patient(id, name, dateBirth, gender, address, phoneNumber, email)
+    hospital.clinicalHistory[str(id)] = {}
     hospital.patients.append(patient)
-    # print(f"ID: {patient.id}")
 
 def createEmergencyContact(hospital, idUser, name, relationship, phoneNumber):
     patient = next((p for p in hospital.patients if p.id == idUser), None)
@@ -101,7 +98,7 @@ def invoice():
 
 def validateId(hospital, id):
     for patient in hospital.patients:
-        if patient.id == id:
+        if patient.id == str(id):
             return patient
     return None
 

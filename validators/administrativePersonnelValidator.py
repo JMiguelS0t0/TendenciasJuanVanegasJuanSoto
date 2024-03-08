@@ -5,6 +5,10 @@ from .typeValidator import *
 # ------------------------------------------------- CREATES
 def createPatient(hospital):
     id = numberValidator(input("Ingrese la cedula (ID) del paciente: " + "\n"), "Cedula del paciente")
+    userExist = administrativeS.getPatientById(hospital, id)
+    if userExist:
+        raise Exception("Ya existe un paciente con esa cedula.")
+        
     name = textValidator(input("Ingrese el nombre del paciente: " + "\n"), "Nombre del paciente")
     dateBirth = dateBirthValidator(input("Ingrese la fecha de nacimiento del paciente: " + "(DD/MM/YYYY)\n"), "Fecha de nacimiento del paciente")
     try:
