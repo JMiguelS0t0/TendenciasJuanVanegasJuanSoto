@@ -12,7 +12,19 @@ def createUser(hospital, rol):
     password = passwordValidator(input("Ingrese la contraseña:\n"), "Contraseña de: " + rol)
     adminServices.createUser(hospital, name, cedula, email, phoneNumber, dateBirth, address, rol, userName, password)
 
+
+def deleteUser(hospital, cedula):
+    cedula = numberValidator(input("Ingrese la cedula del usuario a eliminar:\n"), "Cedula del usuario a eliminar")
+    adminServices.deleteUserById(hospital, cedula)
+
+
 def updateUser(hospital, cedula):
+    cedula = numberValidator(input("Ingrese la cedula del usuario que desea actualizar:\n"), "Cedula del usuario a actualizar")
+    user = adminServices.getPersonById(hospital, cedula)
+    if user is None:
+        print("El usuario no existe.")
+        return
+    
     newName = input("Ingrese el nuevo nombre del usuario:\n") or "No update"
     newName = textValidator(newName, "Nuevo nombre de usuario")
     
@@ -59,7 +71,3 @@ def getAllUsers(hospital):
         print(f"Rol: {user.rol}")
         print(f"Usuario: {user.userName}")
         print("-" * 20)
-
-def deleteUser(hospital, cedula):
-    cedula = input("Ingrese la cedula del usuario a eliminar:\n")
-    adminServices.deleteUserById(hospital, cedula)

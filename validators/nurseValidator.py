@@ -60,18 +60,20 @@ def patientOrders(hospital):
         
         print("Medications:")
         for medication in order.orderMedication:
-            print("- ID:", medication.idMedication)
-            print("  Dose:", medication.dose)
-            print("  Duration:", medication.duration)
-            print("  Amount:", medication.amount)
+            for med in medication:
+                print("- ID:", med.idMedication)
+                print("  Dose:", med.dose)
+                print("  Duration:", med.duration)
+                print("  Amount:", med.amount)
         
         print("Procedures:")
         for procedure in order.orderProcedure:
-            print("- ID:", procedure.idProcedure)
-            print("  Amount:", procedure.amount)
-            print("  Frequency:", procedure.frequency)
-            print("  Special Assistance:", procedure.specialAssistance)
-            print("  Specialist ID:", procedure.idSpecialist)
+            for pro in procedure:
+                print("- ID:", pro.idProcedure)
+                print("  Amount:", pro.amount)
+                print("  Frequency:", pro.frequency)
+                print("  Special Assistance:", pro.specialAssistance)
+                print("  Specialist ID:", pro.idSpecialist)
         
         print("Diagnostic Aids:")
         for orderDiagnosticAid in order.orderDiagnosticAid:

@@ -2,13 +2,12 @@ from service.rolServices import doctorServices
 from .typeValidator import *
 
 def addMedicalRecord(hospital, idDoctor):
-    # doctorServices.createEmptyOrder(hospital)
     patientId = numberValidator(input("Ingrese el ID del paciente: " + "\n"), "Id del paciente")
     consultationReason = textValidator(input("Ingrese el motivo de la consulta: " + "\n"), "Motivo de la consulta")
     symptoms = textValidator(input("Ingrese los sintomas del paciente: " + "\n"), "Sintomas del paciente")
     diagnosis = textValidator(input("Ingrese el diagnostico del paciente: " + "\n"), "Diagnostico del paciente")
-    medications = "N/A"
-    procedures = "N/A"
+    medications = []
+    procedures = []
     lastOrderId = len(hospital.orders) + 1
     
 
@@ -23,7 +22,11 @@ def addMedicalRecord(hospital, idDoctor):
     if diagnosticAid == "N/A":
         try:
             if askYesNoQuestion("Va a agregar un medicamento?"):
-                medications = addMedicationOrder(lastOrderId)
+                while True:
+                    medication = addMedicationOrder(lastOrderId)
+                    medications.append(medication)
+                    if not askYesNoQuestion("¿Desea agregar otro medicamento?"):
+                        break
             else:
                 medications = "N/A"
         except ValueError as e:
@@ -31,11 +34,16 @@ def addMedicalRecord(hospital, idDoctor):
 
         try:
             if askYesNoQuestion("Va a agregar un procedimiento?"):
-                procedures = addProcedureOrder(lastOrderId)
+                while True:
+                    procedure = addProcedureOrder(lastOrderId)
+                    procedures.append(procedure)
+                    if not askYesNoQuestion("¿Desea agregar otro procedimiento?"):
+                        break
             else:
                 procedures = "N/A"
         except ValueError as e:
             print(str(e))
+
     doctorServices.addMedicalRecord(hospital, patientId, idDoctor, consultationReason, symptoms, diagnosis, diagnosticAid, medications, procedures)
 
 def addDiagnosisAidOrder(idOrder):

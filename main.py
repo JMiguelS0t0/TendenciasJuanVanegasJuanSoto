@@ -3,10 +3,13 @@ from service import loginService
 from menu import adminMenu, administrativePersonnelMenu, nurseMenu, doctorMenu
 
 hospital = models.Hospital()
-user = models.Person("Admin Admin", "1040570", "admin@admin.com", "297109400", "08/08/2004", "Cra 55b", "doctor", "admin", "admin123")
+user = models.Person("Admin Admin", "1040570", "admin@admin.com", "297109400", "08/08/2004", "Cra 55b", "admin", "admin", "admin123")
 hospital.persons.append(user)
-nurse = models.Person("Admin Admin", "1040570", "admin@admin.com", "297109400", "08/08/2004", "Cra 55b", "nurse", "n", "n")
+nurse = models.Person("Admin Admin", "1040", "admin@admin.com", "297109400", "08/08/2004", "Cra 55b", "nurse", "n", "n")
 hospital.persons.append(nurse)
+doctor = models.Person("Doctor Name", "1234567", "doctor@example.com", "987654321", "01/01/1980", "123 Main St", "doctor", "d", "d")
+personnelAdmin = models.Person("Personnel Admin", "9876543", "personnel@admin.com", "123456789", "01/01/1990", "456 Main St", "Personnel Administrative", "pa", "pa")
+hospital.persons.append(personnelAdmin)
 
 patient = models.Patient("1", "John Doe", "01/01/1990", "Male", "123 Main St", "555-1234", "john.doe@example.com")
 hospital.clinicalHistory["1"] = {}
