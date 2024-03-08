@@ -3,7 +3,7 @@ from .administrativePersonnelServices import getPatientById
 import datetime
 
 def addVisit(hospital, patientId, bloodPressure, temperature, pulse, oxygenLvl, medications, orderMedication, procedures, orderProcedure, observations):
-    patient = getPatientById(hospital, patientId)
+    patient = getPatientById(hospital, str(patientId))
     if patient is None:
         raise Exception("El paciente no existe")
     date = datetime.date.today().strftime("%d/%m/%Y")
@@ -40,5 +40,17 @@ def getVisitsById(hospital, patientId):
         raise Exception("El paciente no existe o no tiene registro de visitas")
     return visits
 
-def deleteVisit():
-    pass
+def patientOrders(hospital, patientId):
+    orders = []
+    for order in hospital.orders:
+        if order.patientId == patientId:
+            orders.append(order)
+    if not orders:
+        raise Exception("No se encontraron órdenes para el paciente")
+    return orders
+
+def checkOrderById(hospital, orderId):
+    for order in hospital.orders:
+        if order.id == int(orderId):
+            return True
+    return False
