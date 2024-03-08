@@ -4,7 +4,8 @@ import datetime
 
 def addMedicalRecord(hospital, patientId, idDoctor, consultationReason, symptoms, diagnosis, diagnosisAid, medications, procedures):
     patient = getPatientById(hospital, str(patientId))
-    idOrder = len(hospital.orders) - 1
+    idOrder = len(hospital.orders) + 1
+    actualOrder = models.Order(idOrder, patient.id, idDoctor, None)
 
     if patient is None:
         raise Exception("El paciente no existe")
@@ -58,33 +59,14 @@ def addMedicalRecord(hospital, patientId, idDoctor, consultationReason, symptoms
     for key, value in actualOrder.__dict__.items():
         print(f"{key}: {value}")
 
-def createEmptyOrder(hospital):
-    idOrder = len(hospital.orders)
-    order = models.Order(idOrder, "N/A", "N/A", "N/A")
-    hospital.orders.append(order)
-    return order
-
-def addDiagnosisAidOrder(hospital, idOrder, nameDiagnosticAid, quantity, amount, specialAssistance, idSpecialist):
-    order = next((o for o in hospital.orders if o.id == idOrder), None)
-    if order is None:
-        raise Exception("La orden no existe")
+def addDiagnosisAidOrder(idOrder, nameDiagnosticAid, quantity, amount, specialAssistance, idSpecialist = None):
     diagnosisAidOrder = models.OrderDiagnosticAid(idOrder, nameDiagnosticAid, quantity, amount, specialAssistance, idSpecialist)
     return diagnosisAidOrder
 
-def addMedicationOrder(hospital, idOrder, idMedication, dose, duration, amount):
-    order = next((o for o in hospital.orders if o.id == idOrder), None)
-    if order is None:
-        raise Exception("La orden no existe")
+def addMedicationOrder(idOrder, idMedication, dose, duration, amount):
     medicationOrder = models.OrderMedication(idOrder, idMedication, dose, duration, amount)
     return medicationOrder
     
-def addProcedureOrder(hospital, idOrder, idProcedure, amount, frequency, specialAssistance, idSpecialist):
-    order = next((o for o in hospital.orders if o.id == idOrder), None)
-    if order is None:
-        raise Exception("La orden no existe")
+def addProcedureOrder(idOrder, idProcedure, amount, frequency, specialAssistance, idSpecialist = None):
     procedureOrder = models.orderProcedure(idOrder, idProcedure, amount, frequency, specialAssistance, idSpecialist)
     return procedureOrder
-
-def updateMedicalRecord(hospital):
-    pass
-

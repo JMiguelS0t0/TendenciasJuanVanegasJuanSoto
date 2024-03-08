@@ -14,8 +14,13 @@ def addVisit(hospital):
     textValidator(medications, "Medicamentos del paciente")
     orderMedication = None
     if medications != "N/A":
-        orderMedication = input("- Ingrese la orden a la que pertenecen los medicamentos aplicados al paciente: - " + "\n")
-        textValidator(orderMedication, "Orden de medicamentos del paciente")
+        while True:
+            orderMedication = input("- Ingrese la orden a la que pertenecen los medicamentos aplicados al paciente: - " + "\n")
+            if nurseServices.checkOrderById(hospital, orderMedication):
+                numberValidator(orderMedication, "Orden de medicamentos del paciente")
+                break
+            else:
+                print("La orden ingresada no es válida.")
 
     procedures = input("Ingrese los procedimientos del paciente: " + "\n")
     if procedures == "":
@@ -23,8 +28,13 @@ def addVisit(hospital):
     textValidator(procedures, "Procedimientos del paciente")
     orderProcedure = None 
     if procedures != "N/A":
-        orderProcedure = input("- Ingrese la orden a la que pertenece el procedimiento hecho al paciente: - " + "\n")
-        textValidator(orderProcedure, "Orden de procedimientos del paciente")
+        while True:
+            orderProcedure = input("- Ingrese la orden a la que pertenece el procedimiento hecho al paciente: - " + "\n")
+            if nurseServices.checkOrderById(hospital, orderProcedure):
+                numberValidator(orderProcedure, "Orden de procedimientos del paciente")
+                break
+            else:
+                print("La orden ingresada no es válida.")
 
     observations = input("Ingrese las observaciones del paciente: " + "\n")
     if observations == "":
@@ -37,4 +47,38 @@ def getVisitsById(hospital):
     visits = nurseServices.getVisitsById(hospital, patientId)
     for visit in visits:
         print(visit)
+        print("-" * 20 + "\n")
+
+def patientOrders(hospital):
+    patientId = input("Ingrese el ID del paciente: " + "\n")
+    orders = nurseServices.patientOrders(hospital, patientId)
+    for order in orders:
+        print("Order ID:", order.id)
+        print("Patient ID:", order.patientId)
+        print("Doctor ID:", order.doctorId)
+        print("Date:", order.date)
+        
+        print("Medications:")
+        for medication in order.orderMedication:
+            print("- ID:", medication.idMedication)
+            print("  Dose:", medication.dose)
+            print("  Duration:", medication.duration)
+            print("  Amount:", medication.amount)
+        
+        print("Procedures:")
+        for procedure in order.orderProcedure:
+            print("- ID:", procedure.idProcedure)
+            print("  Amount:", procedure.amount)
+            print("  Frequency:", procedure.frequency)
+            print("  Special Assistance:", procedure.specialAssistance)
+            print("  Specialist ID:", procedure.idSpecialist)
+        
+        print("Diagnostic Aids:")
+        for orderDiagnosticAid in order.orderDiagnosticAid:
+            print("- Name:", orderDiagnosticAid.nameDiagnosticAid)
+            print("  Quantity:", orderDiagnosticAid.quantity)
+            print("  Amount:", orderDiagnosticAid.amount)
+            print("  Special Assistance:", orderDiagnosticAid.specialAssistance)
+            print("  Specialist ID:", orderDiagnosticAid.idSpecialist)
+        
         print("-" * 20 + "\n")
