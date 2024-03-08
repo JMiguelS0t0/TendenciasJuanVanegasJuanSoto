@@ -60,13 +60,12 @@ class Visit():
         self.observations = observations
 
 class Medications():
-    def __init__(self, id, idMedication, dose, duration, item, price):
+    def __init__(self, id, idMedication, dose, duration, item):
         self.id = id
         self.idMedication = idMedication
         self.dose = dose
         self.duration = duration
         self.item = item
-        self.price = price
 
 class Procedure():
     def __init__(self, id, idProcedure, quantity, frequency, reqAssistance, idSpecialist, item):
@@ -98,13 +97,40 @@ class Invoice():
         self.diagnosticTest = diagnosticTest
 
 class Order():
-    def __init__(self, id, patientId, date, medicine, procedure, diagnosisAid):
+    def __init__(self, id, patientId, doctorId, date):
         self.id = id
         self.patientId = patientId
+        self.doctorId = doctorId
         self.date = date
-        self.medicine = medicine
-        self.procedure = procedure
-        self.diagnosisAid = diagnosisAid
+        self.orderMedication = []
+        self.orderProcedure = []
+        self.orderDiagnosticAid = []
+        
+class OrderMedication():
+    def __init__(self, idOrder, idMedication, dose, duration, amount):
+        self.idOrder = idOrder
+        self.idMedication = idMedication
+        self.dose = dose
+        self.duration = duration
+        self.amount = amount
+
+class orderProcedure():
+    def __init__(self, idOrder, idProcedure, amount, frequency, specialAssistance, idSpecialist):
+        self.idOrder = idOrder
+        self.idProcedure = idProcedure
+        self.amount = amount
+        self.frequency = frequency
+        self.specialAssistance = specialAssistance
+        self.idSpecialist = idSpecialist
+
+class OrderDiagnosticAid():
+    def __init__(self, idOrder, nameDiagnosticAid, quantity, amount, specialAssistance, idSpecialist):
+        self.idOrder = idOrder
+        self.nameDiagnosticAid = nameDiagnosticAid
+        self.quantity = quantity
+        self.amount = amount
+        self.specialAssistance = specialAssistance
+        self.idSpecialist = idSpecialist
 
 class Hospital():
     def __init__(self):

@@ -36,7 +36,7 @@ def loginRouter(hospital, user):
     if user.rol == "doctor":
         print("-- Doctores -- ", )
         print("Bienvenid@:")
-        doctorMenu.doctorMenu(hospital)
+        doctorMenu.doctorMenu(hospital, user)
 
 while True:
     option = input(initialMenu)
