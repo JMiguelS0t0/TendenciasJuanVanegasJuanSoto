@@ -53,6 +53,7 @@ def addMedicalRecord(hospital, idDoctor):
             print(str(e))
 
     doctorServices.addMedicalRecord(hospital, patientId, idDoctor, consultationReason, symptoms, diagnosis, diagnosticAid, medications, procedures)
+    print("-" * 25)
 
 def addDiagnosisAidOrder(idOrder):
     nameDiagnosticAid = textValidator(input("Ingrese el nombre de la ayuda diagnostica: " + "\n"), "Nombre de la ayuda diagnostica")
