@@ -53,11 +53,27 @@ def addMedicalRecord(hospital, patientId, idDoctor, consultationReason, symptoms
 
     print("\n" + "----------- Historia clinica: -----------")
     for key, value in newClinicalHistory.items():
-        print(f"{key}: {value}")
+        if key == "order":
+            print(f"Orden asignada: {actualOrder.id}")
+        else:
+            print(f"{key}: {value}")
     
     print("\n" + "-----------Orden: -----------")
     for key, value in actualOrder.__dict__.items():
-        print(f"{key}: {value}")
+        if key == "orderDiagnosticAid":
+            print("Ayudas diagnosticas:")
+            for diagnosticAid in value:
+                print(diagnosticAid.__dict__)
+        elif key == "orderMedication":
+            print("Medicamentos:")
+            for medication in value:
+                print(medication.__dict__)
+        elif key == "orderProcedure":
+            print("Procedimientos:")
+            for procedure in value:
+                print(procedure.__dict__)
+        else:
+            print(f"{key}: {value}")
 
 def addDiagnosisAidOrder(idOrder, nameDiagnosticAid, quantity, specialAssistance, idSpecialist = None):
     diagnosisAidOrder = models.OrderDiagnosticAid(idOrder, nameDiagnosticAid, quantity, specialAssistance, idSpecialist)
