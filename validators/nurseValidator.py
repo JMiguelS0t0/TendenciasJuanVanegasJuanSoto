@@ -65,6 +65,7 @@ def patientOrders(hospital):
                 print("  Dose:", med.dose)
                 print("  Duration:", med.duration)
                 print("  Amount:", med.amount)
+                print("  Item:", med.item)
         
         print("Procedures:")
         for procedure in order.orderProcedure:
@@ -79,7 +80,6 @@ def patientOrders(hospital):
         for orderDiagnosticAid in order.orderDiagnosticAid:
             print("- Name:", orderDiagnosticAid.nameDiagnosticAid)
             print("  Quantity:", orderDiagnosticAid.quantity)
-            print("  Amount:", orderDiagnosticAid.amount)
             print("  Special Assistance:", orderDiagnosticAid.specialAssistance)
             print("  Specialist ID:", orderDiagnosticAid.idSpecialist)
         
