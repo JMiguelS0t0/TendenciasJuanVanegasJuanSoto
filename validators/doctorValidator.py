@@ -7,7 +7,7 @@ def addMedicalRecord(hospital, idDoctor):
     try:
         patient = getPatientById(hospital, patientId)
         if patient is None:
-            raise ValueError("No existe el paciente")
+            raise ValueError("No existe el paciente. Ingrese nuevamente el ID")
     except ValueError as e:
         print(str(e))
         return 
