@@ -107,12 +107,13 @@ class Order():
         self.orderDiagnosticAid = []
         
 class OrderMedication():
-    def __init__(self, idOrder, idMedication, dose, duration, amount):
+    def __init__(self, idOrder, idMedication, dose, duration, amount, item):
         self.idOrder = idOrder
         self.idMedication = idMedication
         self.dose = dose
         self.duration = duration
         self.amount = amount
+        self.item = item
 
 class orderProcedure():
     def __init__(self, idOrder, idProcedure, amount, frequency, specialAssistance, idSpecialist):
@@ -124,11 +125,10 @@ class orderProcedure():
         self.idSpecialist = idSpecialist
 
 class OrderDiagnosticAid():
-    def __init__(self, idOrder, nameDiagnosticAid, quantity, amount, specialAssistance, idSpecialist):
+    def __init__(self, idOrder, nameDiagnosticAid, quantity, specialAssistance, idSpecialist):
         self.idOrder = idOrder
         self.nameDiagnosticAid = nameDiagnosticAid
         self.quantity = quantity
-        self.amount = amount
         self.specialAssistance = specialAssistance
         self.idSpecialist = idSpecialist
 

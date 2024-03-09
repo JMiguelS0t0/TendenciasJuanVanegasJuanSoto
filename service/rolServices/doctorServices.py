@@ -59,12 +59,12 @@ def addMedicalRecord(hospital, patientId, idDoctor, consultationReason, symptoms
     for key, value in actualOrder.__dict__.items():
         print(f"{key}: {value}")
 
-def addDiagnosisAidOrder(idOrder, nameDiagnosticAid, quantity, amount, specialAssistance, idSpecialist = None):
-    diagnosisAidOrder = models.OrderDiagnosticAid(idOrder, nameDiagnosticAid, quantity, amount, specialAssistance, idSpecialist)
+def addDiagnosisAidOrder(idOrder, nameDiagnosticAid, quantity, specialAssistance, idSpecialist = None):
+    diagnosisAidOrder = models.OrderDiagnosticAid(idOrder, nameDiagnosticAid, quantity, specialAssistance, idSpecialist)
     return diagnosisAidOrder
 
-def addMedicationOrder(idOrder, idMedication, dose, duration, amount):
-    medicationOrder = models.OrderMedication(idOrder, idMedication, dose, duration, amount)
+def addMedicationOrder(idOrder, idMedication, dose, duration, amount, item):
+    medicationOrder = models.OrderMedication(idOrder, idMedication, dose, duration, amount, item)
     return medicationOrder
     
 def addProcedureOrder(idOrder, idProcedure, amount, frequency, specialAssistance, idSpecialist = None):
