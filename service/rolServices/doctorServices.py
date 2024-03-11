@@ -60,12 +60,12 @@ def addDiagnosisAidOrder(idOrder, nameDiagnosticAid, quantity, specialAssistance
     diagnosisAidOrder = models.OrderDiagnosticAid(idOrder, nameDiagnosticAid, quantity, specialAssistance, idSpecialist)
     return diagnosisAidOrder
 
-def addMedicationOrder(idOrder, idMedication, dose, duration, amount):
-    medicationOrder = models.OrderMedication(idOrder, idMedication, dose, duration, amount)
+def addMedicationOrder(idOrder, idMedication, dose, duration, amount, item):
+    medicationOrder = models.OrderMedication(idOrder, idMedication, dose, duration, amount, item)
     return medicationOrder
     
-def addProcedureOrder(idOrder, idProcedure, amount, frequency, specialAssistance, idSpecialist = None):
-    procedureOrder = models.orderProcedure(idOrder, idProcedure, amount, frequency, specialAssistance, idSpecialist)
+def addProcedureOrder(idOrder, idProcedure, amount, frequency, specialAssistance, idSpecialist = None, item = None):
+    procedureOrder = models.orderProcedure(idOrder, idProcedure, amount, frequency, specialAssistance, idSpecialist, item)
     return procedureOrder
 
 

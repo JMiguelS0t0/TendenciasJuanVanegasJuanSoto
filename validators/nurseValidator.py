@@ -69,6 +69,7 @@ def printMedications(orderMedication):
             print("  Dose:", med.dose)
             print("  Duration:", med.duration)
             print("  Amount:", med.amount)
+            print("  Item:", med.item)
 
 def printProcedures(orderProcedure):
     for procedure in orderProcedure:
@@ -78,6 +79,7 @@ def printProcedures(orderProcedure):
             print("  Frequency:", pro.frequency)
             print("  Special Assistance:", pro.specialAssistance)
             print("  Specialist ID:", pro.idSpecialist)
+            print("  Item:", pro.item)
 
 def printDiagnosticAids(orderDiagnosticAid):
     for orderDiagnosticAid in orderDiagnosticAid:
