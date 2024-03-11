@@ -25,7 +25,7 @@ def createInsurance(hospital, idUser, company, number, status, term):
     hospital.insurances.append(insurance)
     
 # ------------------------------------- UPDATES
-def updatePacient(hospital, id, name=None, dateBirth=None, gender=None, address=None, phoneNumber=None, email=None):
+def updatePatient(hospital, id, name=None, dateBirth=None, gender=None, address=None, phoneNumber=None, email=None):
     patient = getPatientById(hospital, id)
     if not patient:
         raise Exception("No existe una persona con esa cedula registrada")

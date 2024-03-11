@@ -4,34 +4,33 @@ from .typeValidator import *
 # --------------------------------------------------------- PATIENTS
 # ------------------------------------------------- CREATES
 def createPatient(hospital):
-    id = numberValidator(input("Ingrese la cedula (ID) del paciente: " + "\n"), "Cedula del paciente")
-    userExist = administrativeS.getPatientById(hospital, id)
+    idNumber = numberValidator(input("Ingrese la cedula (ID) del paciente: " + "\n"), "Cedula del paciente")
+    userExist = administrativeS.getPatientById(hospital, idNumber)
     if userExist:
         raise Exception("Ya existe un paciente con esa cedula.")
         
     name = textValidator(input("Ingrese el nombre del paciente: " + "\n"), "Nombre del paciente")
     dateBirth = dateBirthValidator(input("Ingrese la fecha de nacimiento del paciente: " + "(DD/MM/YYYY)\n"), "Fecha de nacimiento del paciente")
-    try:
+    
+    gender = None
+    while gender not in ["masculino", "femenino"]:
         genderInput = input("Ingrese el genero del paciente (1. Masculino - 2. Femenino): ")
-        while True:
-            if genderInput == "1":
-                gender = "masculino"
-                break
-            elif genderInput == "2":
-                gender = "femenino"
-                break
-            else:
-                print("Opción inválida. Por favor, ingrese 1 para masculino o 2 para femenino.")
-    except Exception as e:
-        print("Ingresa una opción válida.")
+        if genderInput == "1":
+            gender = "masculino"
+        elif genderInput == "2":
+            gender = "femenino"
+        else:
+            print("Opción inválida. Por favor, ingrese 1 para masculino o 2 para femenino.")
+    
     address = addressValidator(input("Ingrese la direccion del paciente: " + "\n"), "La direccion del paciente")
     phoneNumber = phoneNumberValidator(input("Ingrese el numero de telefono del paciente: " + "\n"), "Numero del paciente")
     email = emailValidator(input("Ingrese el correo del paciente:" + "\n"), "Email del paciente")
-    administrativeS.createPacient(hospital, id, name, dateBirth, gender, address, phoneNumber, email)
+    
+    administrativeS.createPacient(hospital, idNumber, name, dateBirth, gender, address, phoneNumber, email)
     print("-" * 20)
-    createEmergencyContact(hospital, id)
+    createEmergencyContact(hospital, idNumber)
     print("-" * 20)
-    createInsurance(hospital, id)
+    createInsurance(hospital, idNumber)
     
 def createEmergencyContact(hospital, idUser):
     name = textValidator(input("Ingrese el nombre del contacto de emergencia del paciente: " + "\n"), "Nombre del contacto de emergencia del paciente")
@@ -48,7 +47,7 @@ def createInsurance(hospital, idUser):
 # ------------------------------------------------- CREATES
 
 # ------------------------------------------------- UPDATES
-def updatePatient(hospital, id):
+def updatePatient(hospital, patientId):
     nameInput = input("Ingrese el nuevo nombre del paciente: " + "\n") or "No update"
     name = textValidator(nameInput, "Nombre del paciente")
     
@@ -57,65 +56,35 @@ def updatePatient(hospital, id):
     if dateBirthInput != "No Update":
         dateBirth = dateBirthValidator(dateBirthInput, "Fecha de nacimiento del paciente")
     
-    try:
+    gender = None
+    while gender not in ["masculino", "femenino", "No update"]:
         genderInput = input("Ingrese el genero del paciente (1. Masculino - 2. Femenino): ")
-        while True:
-            if genderInput == "1":
-                gender = "masculino"
-                break
-            elif genderInput == "2":
-                gender = "femenino"
-                break
-            elif genderInput == "":
-                gender = "No update"
-                break
-            else:
-                print("Opción inválida. Por favor, ingrese 1 para masculino o 2 para femenino.")
-    except Exception as e:
-        print("Ingresa una opción válida.")
+        if genderInput == "1":
+            gender = "masculino"
+        elif genderInput == "2":
+            gender = "femenino"
+        elif genderInput == "":
+            gender = "No update"
+        else:
+            print("Opción inválida. Por favor, ingrese 1 para masculino o 2 para femenino.")
     
-    addressInput = input("Ingrese la nueva direccion del paciente: " + "\n") or "No update"
-    address = addressValidator(addressInput, "La direccion del paciente")
+    addressInput = input("Ingrese la nueva dirección del paciente: " + "\n") or "No update"
+    address = addressValidator(addressInput, "La dirección del paciente")
     
     phoneNumber = None
-    phoneNumberInput = input("Ingrese el nuevo numero de telefono del paciente: " + "\n") or "No Update"
+    phoneNumberInput = input("Ingrese el nuevo número de teléfono del paciente: " + "\n") or "No Update"
     if phoneNumberInput != "No Update":
-        phoneNumber = phoneNumberValidator(phoneNumberInput, "Numero del paciente")
+        phoneNumber = phoneNumberValidator(phoneNumberInput, "Número del paciente")
     
     email = None
     emailInput = input("Ingrese el nuevo correo del paciente:" + "\n") or "No Update"
     if emailInput != "No Update":
         email = emailValidator(emailInput, "Email del paciente")
     
-    administrativeS.updatePacient(hospital, id, name, dateBirth, gender, address, phoneNumber, email)
+    administrativeS.updatePatient(hospital, patientId, name, dateBirth, gender, address, phoneNumber, email)
 
-    while True:
-        try:
-            print("¿Deseas actualizar la información del contacto de emergencia? (Sí/No)")
-            answer = input().lower()
-            if answer == "si":
-                updateEmergencyContact(hospital, id)
-                break
-            elif answer == "no":
-                break
-            else:
-                print("Por favor, ingresa una opción válida (Sí/No).")
-        except Exception as e:
-            print("Ingresa una opción válida.")
-
-    while True:
-        try:
-            print("¿Deseas actualizar la información del seguro médico? (Sí/No)")
-            answer = input().lower()
-            if answer == "si":
-                updateInsurance(hospital, id)
-                break
-            elif answer == "no":
-                break
-            else:
-                print("Por favor, ingresa una opción válida (Sí/No).")
-        except Exception as e:
-            print("Ingresa una opción válida.")
+    updateEmergencyContact(hospital, patientId)
+    updateInsurance(hospital, patientId)
 
     print("Datos del paciente actualizados correctamente.")
     

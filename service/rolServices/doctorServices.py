@@ -51,38 +51,63 @@ def addMedicalRecord(hospital, patientId, idDoctor, consultationReason, symptoms
     hospital.clinicalHistory[str(patient.id)][date] = newClinicalHistory
     print("Historia clinica agregada con exito")
 
+    printClinicalHistory(newClinicalHistory, actualOrder)
+    printOrderInfo(actualOrder)
+
+
+
+def addDiagnosisAidOrder(idOrder, nameDiagnosticAid, quantity, specialAssistance, idSpecialist = None):
+    diagnosisAidOrder = models.OrderDiagnosticAid(idOrder, nameDiagnosticAid, quantity, specialAssistance, idSpecialist)
+    return diagnosisAidOrder
+
+def addMedicationOrder(idOrder, idMedication, dose, duration, amount):
+    medicationOrder = models.OrderMedication(idOrder, idMedication, dose, duration, amount)
+    return medicationOrder
+    
+def addProcedureOrder(idOrder, idProcedure, amount, frequency, specialAssistance, idSpecialist = None):
+    procedureOrder = models.orderProcedure(idOrder, idProcedure, amount, frequency, specialAssistance, idSpecialist)
+    return procedureOrder
+
+
+# -------------------------------- PRINTS
+
+def printClinicalHistory(newClinicalHistory, actualOrder):
     print("\n" + "----------- Historia clinica: -----------")
     for key, value in newClinicalHistory.items():
         if key == "order":
             print(f"Orden asignada: {actualOrder.id}")
         else:
             print(f"{key}: {value}")
-    
+
+def printOrderInfo(actualOrder):
     print("\n" + "-----------Orden: -----------")
     for key, value in actualOrder.__dict__.items():
         if key == "orderDiagnosticAid":
-            print("Ayudas diagnosticas:")
-            for diagnosticAid in value:
-                print(diagnosticAid.__dict__)
+            printDiagnosticAids(value)
         elif key == "orderMedication":
-            print("Medicamentos:")
-            for medication in value:
-                print(medication.__dict__)
+            printMedications(value)
         elif key == "orderProcedure":
-            print("Procedimientos:")
-            for procedure in value:
-                print(procedure.__dict__)
+            printProcedures(value)
         else:
             print(f"{key}: {value}")
 
-def addDiagnosisAidOrder(idOrder, nameDiagnosticAid, quantity, specialAssistance, idSpecialist = None):
-    diagnosisAidOrder = models.OrderDiagnosticAid(idOrder, nameDiagnosticAid, quantity, specialAssistance, idSpecialist)
-    return diagnosisAidOrder
+def printDiagnosticAids(value):
+    print("Ayudas diagnosticas:")
+    for diagnosticAid in value:
+        printItem(diagnosticAid)
 
-def addMedicationOrder(idOrder, idMedication, dose, duration, amount, item):
-    medicationOrder = models.OrderMedication(idOrder, idMedication, dose, duration, amount, item)
-    return medicationOrder
-    
-def addProcedureOrder(idOrder, idProcedure, amount, frequency, specialAssistance, idSpecialist = None):
-    procedureOrder = models.orderProcedure(idOrder, idProcedure, amount, frequency, specialAssistance, idSpecialist)
-    return procedureOrder
+def printMedications(value):
+    print("Medicamentos:")
+    for medication in value:
+        printItem(medication)
+
+def printProcedures(value):
+    print("Procedimientos:")
+    for procedure in value:
+        printItem(procedure)
+
+def printItem(item):
+    if hasattr(item, '__dict__'):
+        print(item.__dict__)
+    else:
+        print(item)
