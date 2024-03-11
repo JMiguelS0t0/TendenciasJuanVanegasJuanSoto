@@ -59,24 +59,30 @@ def addDiagnosisAidOrder(idOrder):
     return diagnosticAid
 
 # --------------------------------------- MEDICATIONS
-def addMedicationOrder(idOrder):
+def addMedicationOrder(idOrder, item):
     idMedication = numberValidator(input("Ingrese el ID del medicamento: " + "\n"), "Id del medicamento")
     dose = textValidator(input("Ingrese la dosis del medicamento: " + "\n"), "Dosis del medicamento")
     duration = textValidator(input("Ingrese la duracion del medicamento: " + "\n"), "Duracion del medicamento")
     amount = numberValidator(input("Ingrese la cantidad del medicamento: " + "\n"), "Cantidad del medicamento")
-    medication = doctorServices.addMedicationOrder(idOrder, idMedication, dose, duration, amount)  
+    medication = doctorServices.addMedicationOrder(idOrder, idMedication, dose, duration, amount, item)  
     return medication
 
 def addMedications(lastOrderId, medications):
+    if not medications:
+        item = 1
+    else:
+        item = max(medication.item for medication in medications) + 1
     while True:
-        medication = addMedicationOrder(lastOrderId)
+        medication = addMedicationOrder(lastOrderId, item)
         medications.append(medication)
         if not askYesNoQuestion("¿Desea agregar otro medicamento?"):
             break
+        item += 1
+
 
 # --------------------------------------- PROCEDURES
 
-def addProcedureOrder(idOrder):
+def addProcedureOrder(idOrder, item):
     idProcedure = numberValidator(input("Ingrese el ID del procedimiento: " + "\n"), "Id del procedimiento")
     amount = numberValidator(input("Ingrese la cantidad del procedimiento: " + "\n"), "Cantidad del procedimiento")
     frequency = textValidator(input("Ingrese la frecuencia del procedimiento: " + "\n"), "Frecuencia del procedimiento")
@@ -85,15 +91,20 @@ def addProcedureOrder(idOrder):
         idSpecialist = numberValidator(input("Ingrese el ID del especialista: " + "\n"), "Id del especialista")
     else:
         idSpecialist = None
-    procedure = doctorServices.addProcedureOrder(idOrder, idProcedure, amount, frequency, specialAssistance, idSpecialist)
+    procedure = doctorServices.addProcedureOrder(idOrder, idProcedure, amount, frequency, specialAssistance, idSpecialist, item)
     return procedure
 
 def addProcedures(lastOrderId, procedures):
+    if not procedures:
+        item = 1
+    else:
+        item = max(procedure.item for procedure in procedures) + 1
     while True:
-        procedure = addProcedureOrder(lastOrderId)
+        procedure = addProcedureOrder(lastOrderId, item)
         procedures.append(procedure)
         if not askYesNoQuestion("¿Desea agregar otro procedimiento?"):
             break
+        item += 1
 
 # ----------------------- OTHERS
 def askYesNoQuestion(question):
