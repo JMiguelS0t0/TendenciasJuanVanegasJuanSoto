@@ -17,7 +17,6 @@ def addMedicalRecord(hospital, idDoctor):
     medications = []
     procedures = []
     lastOrderId = len(hospital.orders) + 1
-    
 
     try:
         if askYesNoQuestion("Va a solicitar una ayuda diagnostica?"):
@@ -30,11 +29,7 @@ def addMedicalRecord(hospital, idDoctor):
     if diagnosticAid == "N/A":
         try:
             if askYesNoQuestion("Va a agregar un medicamento?"):
-                while True:
-                    medication = addMedicationOrder(hospital, lastOrderId)
-                    medications.append(medication)
-                    if not askYesNoQuestion("¿Desea agregar otro medicamento?"):
-                        break
+                addMedications(lastOrderId, medications)
             else:
                 medications = "N/A"
         except ValueError as e:
@@ -42,11 +37,7 @@ def addMedicalRecord(hospital, idDoctor):
 
         try:
             if askYesNoQuestion("Va a agregar un procedimiento?"):
-                while True:
-                    procedure = addProcedureOrder(lastOrderId)
-                    procedures.append(procedure)
-                    if not askYesNoQuestion("¿Desea agregar otro procedimiento?"):
-                        break
+                addProcedures(lastOrderId, procedures)
             else:
                 procedures = "N/A"
         except ValueError as e:
@@ -54,23 +45,12 @@ def addMedicalRecord(hospital, idDoctor):
 
     doctorServices.addMedicalRecord(hospital, patientId, idDoctor, consultationReason, symptoms, diagnosis, diagnosticAid, medications, procedures)
     print("-" * 25)
+# --------------------------------------- DIAGNOSTIC AID
 
 def addDiagnosisAidOrder(idOrder):
     nameDiagnosticAid = textValidator(input("Ingrese el nombre de la ayuda diagnostica: " + "\n"), "Nombre de la ayuda diagnostica")
     quantity = numberValidator(input("Ingrese la cantidad de la ayuda diagnostica: " + "\n"), "Cantidad de la ayuda diagnostica")
-    while True:
-        try:
-            answer = input("¿Necesita asistencia especial? (Si/No): ").lower()
-            if answer == "si":
-                specialAssistance = True
-                break
-            elif answer == "no":
-                specialAssistance = False
-                break
-            else:
-                print("Opcion incorrecta. Por favor ingrese 'Si' o 'No'.")
-        except ValueError as e:
-            print(str(e))
+    specialAssistance = getSpecialAssistance()
     if specialAssistance:
         idSpecialist = numberValidator(input("Ingrese el ID del especialista: " + "\n"), "Id del especialista")
     else:
@@ -78,33 +58,29 @@ def addDiagnosisAidOrder(idOrder):
     diagnosticAid = doctorServices.addDiagnosisAidOrder(idOrder, nameDiagnosticAid, quantity, specialAssistance, idSpecialist)
     return diagnosticAid
 
+# --------------------------------------- MEDICATIONS
 def addMedicationOrder(idOrder):
     idMedication = numberValidator(input("Ingrese el ID del medicamento: " + "\n"), "Id del medicamento")
     dose = textValidator(input("Ingrese la dosis del medicamento: " + "\n"), "Dosis del medicamento")
     duration = textValidator(input("Ingrese la duracion del medicamento: " + "\n"), "Duracion del medicamento")
     amount = numberValidator(input("Ingrese la cantidad del medicamento: " + "\n"), "Cantidad del medicamento")
-    item = input("Ingrese el item del medicamento: " + "\n")
-    medication = doctorServices.addMedicationOrder(idOrder, idMedication, dose, duration, amount, item)  
+    medication = doctorServices.addMedicationOrder(idOrder, idMedication, dose, duration, amount)  
     return medication
 
+def addMedications(lastOrderId, medications):
+    while True:
+        medication = addMedicationOrder(lastOrderId)
+        medications.append(medication)
+        if not askYesNoQuestion("¿Desea agregar otro medicamento?"):
+            break
+
+# --------------------------------------- PROCEDURES
 
 def addProcedureOrder(idOrder):
     idProcedure = numberValidator(input("Ingrese el ID del procedimiento: " + "\n"), "Id del procedimiento")
     amount = numberValidator(input("Ingrese la cantidad del procedimiento: " + "\n"), "Cantidad del procedimiento")
     frequency = textValidator(input("Ingrese la frecuencia del procedimiento: " + "\n"), "Frecuencia del procedimiento")
-    while True:
-        try:
-            answer = input("¿Necesita asistencia especial? (Si/No): ").lower()
-            if answer == "si":
-                specialAssistance = True
-                break
-            elif answer == "no":
-                specialAssistance = False
-                break
-            else:
-                print("Opcion incorrecta. Por favor ingrese 'Si' o 'No'.")
-        except ValueError as e:
-            print(str(e))
+    specialAssistance = getSpecialAssistance()
     if specialAssistance:
         idSpecialist = numberValidator(input("Ingrese el ID del especialista: " + "\n"), "Id del especialista")
     else:
@@ -112,6 +88,14 @@ def addProcedureOrder(idOrder):
     procedure = doctorServices.addProcedureOrder(idOrder, idProcedure, amount, frequency, specialAssistance, idSpecialist)
     return procedure
 
+def addProcedures(lastOrderId, procedures):
+    while True:
+        procedure = addProcedureOrder(lastOrderId)
+        procedures.append(procedure)
+        if not askYesNoQuestion("¿Desea agregar otro procedimiento?"):
+            break
+
+# ----------------------- OTHERS
 def askYesNoQuestion(question):
     while True:
         try:
@@ -123,5 +107,18 @@ def askYesNoQuestion(question):
                 return False
             else:
                 raise ValueError("Opcion incorrecta. Por favor ingrese 'Si' o 'No'.")
+        except ValueError as e:
+            print(str(e))
+
+def getSpecialAssistance():
+    while True:
+        try:
+            answer = input("¿Necesita asistencia especial? (Si/No): ").lower()
+            if answer == "si":
+                return True
+            elif answer == "no":
+                return False
+            else:
+                print("Opcion incorrecta. Por favor ingrese 'Si' o 'No'.")
         except ValueError as e:
             print(str(e))
