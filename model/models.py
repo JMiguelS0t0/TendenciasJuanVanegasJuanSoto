@@ -65,17 +65,11 @@ class Medication():
         self.name = name
         self.cost = cost
 class Invoice():
-    def __init__(self, id, date, patientName, patientDateBirth, patientId, doctorId, insuranceName, insuranceNumber, insuraceValidity, insuranceDate, medications, procedures, diagnosticAids, totalCost, dateOrder):
+    def __init__(self, id, date, patient, doctorId, medications, procedures, diagnosticAids, totalCost, dateOrder):
         self.id = id
         self.date = date
-        self.patientName = patientName
-        self.patientDateBirth = patientDateBirth
-        self.patientId = patientId
+        self.patient = patient
         self.doctorId = doctorId
-        self.insuranceName = insuranceName
-        self.insuranceNumber = insuranceNumber
-        self.insuraceValidity = insuraceValidity
-        self.insuranceDate = insuranceDate
         self.medications = medications
         self.procedures = procedures
         self.diagnosticAids = diagnosticAids
