@@ -8,7 +8,7 @@ def administrativePersonnelMenu(hospital, user):
         if option == "2":
             appointmentMenu(hospital, user)
         if option == "3":
-            pass
+            generateInvoice(hospital)
         if option == "4":
             print("Cerrando Sesion")
             return
@@ -70,5 +70,13 @@ def patientAppointmentHistory(hospital, id):
     try:
         id = input("Ingrese el ID del paciente: ")
         administrativePersonnelValidator.patientAppointmentHistory(hospital, id)
+    except Exception as error:
+        print(str(error))
+
+# INVOICE
+
+def generateInvoice(hospital):
+    try:
+        administrativePersonnelValidator.generateInvoice(hospital)
     except Exception as error:
         print(str(error))
