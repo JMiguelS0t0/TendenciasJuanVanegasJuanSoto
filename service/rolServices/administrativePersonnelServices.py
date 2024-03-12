@@ -99,7 +99,7 @@ def generateInvoice(hospital, id, date, patient, doctorId, medication, procedure
 def getInvoicesByPatientId(hospital, patientId):
     invoices = []
     for invoice in hospital.invoices:
-        if invoice.patientId == patientId:
+        if invoice.patient.id == patientId:
             invoices.append(invoice)
     if invoices:
         return invoices
