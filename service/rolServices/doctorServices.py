@@ -60,8 +60,8 @@ def addDiagnosisAidOrder(idOrder, nameDiagnosticAid, quantity, specialAssistance
     diagnosisAidOrder = models.OrderDiagnosticAid(idOrder, nameDiagnosticAid, quantity, specialAssistance, idSpecialist)
     return diagnosisAidOrder
 
-def addMedicationOrder(idOrder, idMedication, dose, duration, amount, item):
-    medicationOrder = models.OrderMedication(idOrder, idMedication, dose, duration, amount, item)
+def addMedicationOrder(idOrder, idMedication, dose, duration, amount, cost, item):
+    medicationOrder = models.OrderMedication(idOrder, idMedication, dose, duration, amount, cost, item)
     return medicationOrder
     
 def addProcedureOrder(idOrder, idProcedure, amount, frequency, specialAssistance, idSpecialist = None, item = None):
@@ -111,3 +111,10 @@ def printItem(item):
         print(item.__dict__)
     else:
         print(item)
+
+def getMedicationById(hospital, medicationId):
+    for medication in hospital.medications:
+        if medication.id == str(medicationId):
+            return medication
+    return None
+    

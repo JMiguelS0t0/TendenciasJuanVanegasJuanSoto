@@ -1,4 +1,6 @@
 import model.models as models
+import datetime
+
 
 def getPatientById(hospital, id):
     for patient in hospital.patients:
@@ -75,9 +77,6 @@ def scheduleAppointment(hospital, id, idPatient, doctorName, date, reason):
     appointment = models.Appointment(id, idPatient, doctorName, date, reason)
     hospital.appointments.append(appointment)
 
-def cancelAppointment():
-    pass
-
 def getAppointmentsByUserId(hospital, idUser):
     appointments = []
     for appointment in hospital.appointments:
@@ -89,13 +88,109 @@ def getAppointmentsByUserId(hospital, idUser):
         print("No se encontraron citas para el paciente con ID {idUser}.")
         return
 
-def searchAppointmentsByDay():
-    pass
-
 # ----------------------------------------------- INVOICE
-def invoice():
-    pass
+def generateInvoice(hospital, id, date, patientName, patientDateBirth, patientId, doctorId, insuranceName, insuranceNumber, insuraceValidity, insuranceDate, medication, procedure, diagnosticAid, totalCost, dateOrder):
+    invoice = models.Invoice(id, date, patientName, patientDateBirth, patientId, doctorId, insuranceName, insuranceNumber, insuraceValidity, insuranceDate, medication, procedure, diagnosticAid, totalCost, dateOrder)
+    hospital.invoices.append(invoice)
+    print("Factura generada correctamente.")
+    printInvoice(invoice)
+    
 
+def getInvoicesByPatientId(hospital, patientId):
+    invoices = []
+    for invoice in hospital.invoices:
+        if invoice.patientId == patientId:
+            invoices.append(invoice)
+    if invoices:
+        return invoices
+    else:
+        return invoices
+
+def calculateTotalCostForPatientYearly(hospital, patientId):
+    invoices = getInvoicesByPatientId(hospital, patientId)
+    if invoices:
+        totalCost = 0
+        currentYear = datetime.datetime.now().year
+        oneYearAgo = datetime.datetime(currentYear - 1, datetime.datetime.now().month, datetime.datetime.now().day)
+        
+        for invoice in invoices:
+            invoiceDate = datetime.datetime.strptime(invoice.date, "%d/%m/%Y")
+            if invoiceDate >= oneYearAgo:
+                totalCost += invoice.totalCost
+            else:
+                totalCost = 0
+        if totalCost > 1000000:
+            return True
+    else:
+        return False
+
+def getMedications(orderMedication):
+    medicationsInfo = []
+    for medication in orderMedication:
+        for med in medication:
+            medicationInfo = buildMedicationInfo(med)
+            medicationsInfo.append(medicationInfo)
+    return medicationsInfo
+
+def buildMedicationInfo(medication):
+    return {
+        "Id del medicamento": medication.idMedication,
+        "Costo": medication.cost,
+        "Dosis": medication.dose
+    }
+
+def getTotalCost(orderMedication):
+    medications = getMedications(orderMedication)
+    totalCost = 0
+    for medication in medications:
+        totalCost += int(medication["Costo"])
+    return totalCost
+
+def getInsuranceStatusCost(hospital, patientId):
+    patient = getPatientById(hospital, patientId)
+    if patient.insurance.status:
+        totalCost = 50000
+    return totalCost
+
+# -------- PROCEDURES
+def getProcedures(orderProcedures):
+    proceduresInfo = []
+    for procedure in orderProcedures:
+        for proc in procedure:
+            procedureInfo = {
+                "Id del procedimiento": proc.idProcedure,
+            }
+            proceduresInfo.append(procedureInfo)
+    return proceduresInfo
+
+# -------- DIAGNOSTICAID
+def getDiagnosticAid(orderDiagnostic):
+    diagnosticInfo = []
+    for diagnostic in orderDiagnostic:
+        diagnosticsInfo = {
+            "Nombre de la ayuda diagnostica": diagnostic.nameDiagnosticAid,
+        }
+        diagnosticInfo.append(diagnosticsInfo)
+    return diagnosticInfo
+
+# PRINT
+def printInvoice(invoice):
+    print(f"Factura No. {invoice.id}")
+    print(f"Fecha: {invoice.date}")
+    print(f"Nombre del paciente: {invoice.patientName}")
+    print(f"Fecha de nacimiento del paciente: {invoice.patientDateBirth}")
+    print(f"Cedula del paciente: {invoice.patientId}")
+    print(f"Cedula del doctor: {invoice.doctorId}")
+    print(f"Nombre de la aseguradora: {invoice.insuranceName}")
+    print(f"Numero de la aseguradora: {invoice.insuranceNumber}")
+    print(f"Vigencia de la aseguradora: {invoice.insuraceValidity}")
+    print(f"Medicamentos: {invoice.medications}")
+    print(f"Procedimientos: {invoice.procedures}")
+    print(f"Ayudas diagnosticas: {invoice.diagnosticAids}")
+    print(f"Costo total: {invoice.totalCost}")
+# ----------------------------------------------- INVOICE
+
+# -----------------------------------------OTHERS
 def validateId(hospital, id):
     for patient in hospital.patients:
         if patient.id == str(id):
@@ -107,4 +202,11 @@ def assignAppointmentId(hospital):
         return 1
     else:
         lastId = hospital.appointments[-1].id
+        return int(lastId) + 1
+
+def assignInvoiceId(hospital):
+    if len(hospital.invoices) == 0:
+        return 1
+    else:
+        lastId = hospital.invoices[-1].id
         return int(lastId) + 1

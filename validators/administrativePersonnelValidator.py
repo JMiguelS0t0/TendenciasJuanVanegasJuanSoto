@@ -1,5 +1,7 @@
 from service.rolServices import administrativePersonnelServices as administrativeS
 from .typeValidator import *
+from service.rolServices.nurseServices import patientOrders
+import datetime
 
 # --------------------------------------------------------- PATIENTS
 # ------------------------------------------------- CREATES
@@ -41,8 +43,8 @@ def createEmergencyContact(hospital, idUser):
 def createInsurance(hospital, idUser):
     company = textValidator(input("Ingrese el nombre del seguro medico: " + "\n"), "Nombre del seguro medico")
     number = numberValidator(input("Ingrese el numero de póliza del seguro medico : " + "\n"), "Numero de poliza del seguro medico")
-    status = getInsuranceStatus()
-    term = futureDateValidator(input("Ingrese la fecha de finalizacion del seguro medico: " + "(DD/MM/YYYY)\n"), "Fecha de finalizacion del seguro medico")
+    status = knowInsuranceStatus()
+    term = validateDateFormat(input("Ingrese la fecha de finalizacion del seguro medico: " + "(DD/MM/YYYY)\n"), "Fecha de finalizacion del seguro medico")
     administrativeS.createInsurance(hospital, idUser, company, number, status, term)
 # ------------------------------------------------- CREATES
 
@@ -112,7 +114,7 @@ def updateInsurance(hospital, idUser):
     else:
         number = "No update"
 
-    status = getInsuranceStatus()
+    status = knowInsuranceStatus()
     
     termInput = input("Ingrese la nueva fecha de finalizacion del seguro medico: " + "\n") or "No update"
     if termInput != "No update":
@@ -188,8 +190,41 @@ def patientAppointmentHistory(hospital, idUser):
 
 # -------------------------------------------------------- APPOINTMENTS
 
-# -------------------------------------------------------- OTHERS
-def getInsuranceStatus():
+# -------------------------------------------------------- INVOICES
+def generateInvoice(hospital):
+    id = administrativeS.assignInvoiceId(hospital)
+    patientId = input("Ingrese el ID del paciente: " + "\n")
+    try:
+        patient = administrativeS.getPatientById(hospital, patientId)
+        if patient is None:
+            raise ValueError("No existe el paciente. Ingrese nuevamente el ID")
+    except ValueError as e:
+        print(str(e))
+        return
+    dateInvoice = datetime.date.today().strftime("%d/%m/%Y")
+    date = validateDateFormat(input("Ingrese la fecha en que se generó la orden (DD/MM/YYYY): "), "Fecha de la orden")
+    date = date.strftime("%d/%m/%Y")
+    invoices = administrativeS.getInvoicesByPatientId(hospital, patientId)
+    for invoice in invoices:
+        if invoice.date == date:
+            raise Exception("Ya existe una factura de esta orden")
+    orderData = searchOrderByDate(hospital, patientId, date)
+    for orderData in orderData:
+        doctorId = orderData.doctorId 
+        medication = administrativeS.getMedications(orderData.orderMedication)
+        procedure = administrativeS.getProcedures(orderData.orderProcedure)
+        diagnosticAid = administrativeS.getDiagnosticAid(orderData.orderDiagnosticAid)
+    if administrativeS.calculateTotalCostForPatientYearly(hospital, patientId):
+        totalCost = 0
+    else:
+        if patient.insurance.status:
+            totalCost = 50000
+        else:
+            totalCost = administrativeS.getTotalCostMedications(orderData.orderMedication) 
+    administrativeS.generateInvoice(hospital, id, dateInvoice, patient.name, patient.dateBirth, patient.id, doctorId, patient.insurance.company, patient.insurance.number, patient.insurance.status, patient.insurance.term, medication, procedure, diagnosticAid, totalCost, date)
+# -------------------------------------------------------- INVOICES
+# ------------------------------------------------------ OTHERS
+def knowInsuranceStatus():
     while True:
         status_input = input("¿El seguro está activo? (Si/No): ").lower()
         if status_input == "si" or status_input == "si":
@@ -198,3 +233,13 @@ def getInsuranceStatus():
             return False
         else:
             print("Por favor, responda 'Sí' o 'No'.")
+
+def searchOrderByDate(hospital, patientId, date):
+    orders = patientOrders(hospital, patientId)
+    matchingOrders = []
+    for order in orders:
+        if order.date == str(date):
+            matchingOrders.append(order)
+    if len(matchingOrders) == 0:
+        raise Exception("No se encontraron órdenes para la fecha especificada.")
+    return matchingOrders

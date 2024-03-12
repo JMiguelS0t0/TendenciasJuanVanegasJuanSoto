@@ -59,42 +59,28 @@ class Visit():
         self.orderProcedure = orderProcedure
         self.observations = observations
 
-class Medications():
-    def __init__(self, id, idMedication, dose, duration, item):
+class Medication():
+    def __init__(self, id, name, cost):
         self.id = id
-        self.idMedication = idMedication
-        self.dose = dose
-        self.duration = duration
-        self.item = item
-
-class Procedure():
-    def __init__(self, id, idProcedure, quantity, frequency, reqAssistance, idSpecialist, item):
-        self.id = id
-        self.idProcedure = idProcedure
-        self.quantity = quantity
-        self.frequency = frequency
-        self.reqAssistance = reqAssistance
-        self.idSpecialist = idSpecialist
-        self.item = item
-
-class DiagnosticAid():
-    def __init__(self, id, idDiagnosticAid, quantity, reqAssistance, idSpecialist, item):
-        self.id = id
-        self.idDiagnosticAid = idDiagnosticAid
-        self.quantity = quantity
-        self.reqAssistance = reqAssistance
-        self.idSpecialist = idSpecialist
-        self.item = item
-
+        self.name = name
+        self.cost = cost
 class Invoice():
-    def __init__(self, doctorName, diagnosis, medications, procedures, diagnosticTest):
-        self.patient = Patient
-        self.doctorName = doctorName
-        self.diagnosis = diagnosis
-        self.insuranceData = Insurance
-        self.medications = medications
-        self.procedures = procedures
-        self.diagnosticTest = diagnosticTest
+    def __init__(self, id, date, patientName, patientDateBirth, patientId, doctorId, insuranceName, insuranceNumber, insuraceValidity, insuranceDate, medications, procedures, diagnosticAids, totalCost, dateOrder):
+        self.id = id
+        self.date = date
+        self.patientName = patientName
+        self.patientDateBirth = patientDateBirth
+        self.patientId = patientId
+        self.doctorId = doctorId
+        self.insuranceName = insuranceName
+        self.insuranceNumber = insuranceNumber
+        self.insuraceValidity = insuraceValidity
+        self.insuranceDate = insuranceDate
+        self.medications = [medications]
+        self.procedures = [procedures]
+        self.diagnosticAids = [diagnosticAids]
+        self.totalCost = totalCost
+        self.dateOrder = dateOrder
 
 class Order():
     def __init__(self, id, patientId, doctorId, date):
@@ -107,13 +93,14 @@ class Order():
         self.orderDiagnosticAid = []
         
 class OrderMedication():
-    def __init__(self, idOrder, idMedication, dose, duration, amount, item):
+    def __init__(self, idOrder, idMedication, dose, duration, amount, item, cost = None):
         self.idOrder = idOrder
         self.idMedication = idMedication
         self.dose = dose
         self.duration = duration
         self.amount = amount
         self.item = item
+        self.cost = cost
 
 class orderProcedure():
     def __init__(self, idOrder, idProcedure, amount, frequency, specialAssistance, idSpecialist, item):
@@ -137,9 +124,11 @@ class Hospital():
     def __init__(self):
         self.persons = []
         self.patients = []
+        self.medications = []
         self.emergencyContacts = []
         self.insurances = []
         self.appointments = []
+        self.invoices = []
         self.visits = {}
         self.orders = []
         self.clinicalHistory = {}

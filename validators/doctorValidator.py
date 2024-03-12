@@ -29,7 +29,7 @@ def addMedicalRecord(hospital, idDoctor):
     if diagnosticAid == "N/A":
         try:
             if askYesNoQuestion("Va a agregar un medicamento?"):
-                addMedications(lastOrderId, medications)
+                addMedications(hospital, lastOrderId, medications)
             else:
                 medications = "N/A"
         except ValueError as e:
@@ -59,27 +59,37 @@ def addDiagnosisAidOrder(idOrder):
     return diagnosticAid
 
 # --------------------------------------- MEDICATIONS
-def addMedicationOrder(idOrder, item):
-    idMedication = numberValidator(input("Ingrese el ID del medicamento: " + "\n"), "Id del medicamento")
+def addMedicationOrder(hospital, idOrder, item):
+    medication = getMedicationId(hospital)
     dose = textValidator(input("Ingrese la dosis del medicamento: " + "\n"), "Dosis del medicamento")
     duration = textValidator(input("Ingrese la duracion del medicamento: " + "\n"), "Duracion del medicamento")
     amount = numberValidator(input("Ingrese la cantidad del medicamento: " + "\n"), "Cantidad del medicamento")
-    medication = doctorServices.addMedicationOrder(idOrder, idMedication, dose, duration, amount, item)  
+    medication = doctorServices.addMedicationOrder(idOrder, medication.id, dose, duration, amount, item, medication.cost)  
     return medication
 
-def addMedications(lastOrderId, medications):
+def addMedications(hospital, lastOrderId, medications):
     if not medications:
         item = 1
     else:
         item = max(medication.item for medication in medications) + 1
     while True:
-        medication = addMedicationOrder(lastOrderId, item)
+        medication = addMedicationOrder(hospital, lastOrderId, item)
         medications.append(medication)
         if not askYesNoQuestion("¿Desea agregar otro medicamento?"):
             break
         item += 1
 
-
+def getMedicationId(hospital):
+    while True:
+        try:
+            idMedication = numberValidator(input("Ingrese el ID del medicamento: " + "\n"), "Id del medicamento")
+            medication = doctorServices.getMedicationById(hospital, idMedication)
+            if medication is None:
+                raise ValueError("No existe el medicamento. Ingrese nuevamente el ID")
+            break
+        except ValueError as e:
+            print(str(e))
+    return medication
 # --------------------------------------- PROCEDURES
 
 def addProcedureOrder(idOrder, item):
