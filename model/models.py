@@ -76,9 +76,9 @@ class Invoice():
         self.insuranceNumber = insuranceNumber
         self.insuraceValidity = insuraceValidity
         self.insuranceDate = insuranceDate
-        self.medications = [medications]
-        self.procedures = [procedures]
-        self.diagnosticAids = [diagnosticAids]
+        self.medications = medications
+        self.procedures = procedures
+        self.diagnosticAids = diagnosticAids
         self.totalCost = totalCost
         self.dateOrder = dateOrder
 
