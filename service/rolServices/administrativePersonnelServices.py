@@ -89,8 +89,8 @@ def getAppointmentsByUserId(hospital, idUser):
         return
 
 # ----------------------------------------------- INVOICE
-def generateInvoice(hospital, id, date, patientName, patientDateBirth, patientId, doctorId, insuranceName, insuranceNumber, insuraceValidity, insuranceDate, medication, procedure, diagnosticAid, totalCost, dateOrder):
-    invoice = models.Invoice(id, date, patientName, patientDateBirth, patientId, doctorId, insuranceName, insuranceNumber, insuraceValidity, insuranceDate, medication, procedure, diagnosticAid, totalCost, dateOrder)
+def generateInvoice(hospital, id, date, patient, doctorId, medication, procedure, diagnosticAid, totalCost, dateOrder):
+    invoice = models.Invoice(id, date, patient, doctorId, medication, procedure, diagnosticAid, totalCost, dateOrder)
     hospital.invoices.append(invoice)
     print("Factura generada correctamente.")
     printInvoice(invoice)
@@ -177,13 +177,13 @@ def getDiagnosticAid(orderDiagnostic):
 def printInvoice(invoice):
     print(f"Factura No. {invoice.id}")
     print(f"Fecha: {invoice.date}")
-    print(f"Nombre del paciente: {invoice.patientName}")
-    print(f"Fecha de nacimiento del paciente: {invoice.patientDateBirth}")
-    print(f"Cedula del paciente: {invoice.patientId}")
+    print(f"Nombre del paciente: {invoice.patient.name}")
+    print(f"Fecha de nacimiento del paciente: {invoice.patient.dateBirth}")
+    print(f"Cedula del paciente: {invoice.patient.id}")
     print(f"Cedula del doctor: {invoice.doctorId}")
-    print(f"Nombre de la aseguradora: {invoice.insuranceName}")
-    print(f"Numero de la aseguradora: {invoice.insuranceNumber}")
-    print(f"Vigencia de la aseguradora: {invoice.insuraceValidity}")
+    print(f"Nombre de la aseguradora: {invoice.patient.insurance.company}")
+    print(f"Numero de la aseguradora: {invoice.patient.insurance.number}")
+    print(f"Vigencia de la aseguradora: {invoice.patient.insurance.status}")
     print(f"Medicamentos: {invoice.medications}")
     print(f"Procedimientos: {invoice.procedures}")
     print(f"Ayudas diagnosticas: {invoice.diagnosticAids}")

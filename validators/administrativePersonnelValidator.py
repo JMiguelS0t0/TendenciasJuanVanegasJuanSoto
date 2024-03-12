@@ -221,7 +221,7 @@ def generateInvoice(hospital):
             totalCost = 50000
         else:
             totalCost = administrativeS.getTotalCostMedications(orderData.orderMedication) 
-    administrativeS.generateInvoice(hospital, id, dateInvoice, patient.name, patient.dateBirth, patient.id, doctorId, patient.insurance.company, patient.insurance.number, patient.insurance.status, patient.insurance.term, medication, procedure, diagnosticAid, totalCost, date)
+    administrativeS.generateInvoice(hospital, id, dateInvoice, patient, doctorId, medication, procedure, diagnosticAid, totalCost, date)
 # -------------------------------------------------------- INVOICES
 # ------------------------------------------------------ OTHERS
 def knowInsuranceStatus():
