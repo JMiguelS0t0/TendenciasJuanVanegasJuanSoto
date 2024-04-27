@@ -7,6 +7,11 @@ def getMedicalRecords(patientId):
     return doctorService.getMedicalRecords(patientId)
 
 
+def getBasicInfoPatient(patientId):
+    patientId = numberValidator(patientId, "Id de paciente")
+    return doctorService.getBasicInfoPatient(patientId)
+
+
 # --------- POST
 def createMedicalRecord(patientId, idDoctor, consultationReason, symptoms, diagnosis, order):
     patientId = numberValidator(patientId, "Id de paciente")

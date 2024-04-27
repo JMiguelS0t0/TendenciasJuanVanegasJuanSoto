@@ -2,7 +2,7 @@ import datetime
 from HospitalApp import models
 from Hospital.conection_mongo import collection
 
-#TO DO: GET BASIC INFO PATIENTS, UPDATE MEDICAL RECORDS, ORDERS
+#TO DO: ORDERS
 
 def getMedicalRecords(patientId):
     try:
@@ -43,3 +43,13 @@ def createMedicalRecord(patientId, idDoctor, consultationReason, symptoms, diagn
 
     collection.update_one({"_id": patientIdStr}, {"$set": medicalRecord})
 
+
+def getBasicInfoPatient(patientId):
+    try:
+        patient = models.Patient.objects.get(id=patientId)
+        return patient
+    except models.Patient.DoesNotExist:
+        raise Exception("El paciente no existe")
+    except Exception as e:
+        raise Exception("Ha ocurrido un error: " + str(e))
+        

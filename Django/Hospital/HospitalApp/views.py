@@ -163,3 +163,11 @@ class MedicalRecordView(View):
 
     def post(self, request):
         return doctorView.postMedicalRecords(self, request)
+
+class DoctorInfoPatientsView(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args: any, **kwargs: any):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, id = None):
+        return doctorView.getBasicInfoPatient(self, request, id)

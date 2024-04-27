@@ -3,6 +3,7 @@ import HospitalApp.validators.doctorValidator as doctorValidator
 from django.http.response import JsonResponse
 import json
 
+
 # --------- MEDICAL RECORDS
 def getMedicalRecords(self, request, id= None):
     try:
@@ -37,3 +38,18 @@ def postMedicalRecords(self, request):
         status = 400
     response = {"message": message}
     return JsonResponse(response, status=status)
+
+
+# --------- BASIC INFO PATIENTS
+
+def getBasicInfoPatient(self, request, id= None):
+    try:
+        patient = doctorValidator.getBasicInfoPatient(id)
+        patientData = model_to_dict(patient)
+        status = 200
+    except Exception as error:
+        message = str(error)
+        status = 400
+        response = {"message": message}
+        return JsonResponse(response, status=status)
+    return JsonResponse(patientData, status=status)

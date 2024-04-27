@@ -62,6 +62,6 @@ urlpatterns = [
 # ------------------------ DOCTOR
     path('hospital/doctor/medicalrecord', MedicalRecordView.as_view(), name="medicalrecord post"),
     path('hospital/doctor/medicalrecord/<int:id>', MedicalRecordView.as_view(), name="medicalrecord get"),
-
+    path('hospital/doctor/basicinfopatient/<int:id>', DoctorInfoPatientsView.as_view(), name="basicinfopatient get"),
 
 ]
