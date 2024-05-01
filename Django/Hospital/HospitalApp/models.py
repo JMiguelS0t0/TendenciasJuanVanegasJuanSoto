@@ -75,7 +75,7 @@ class DiagnosticAid(models.Model):
 
 class OrderMedication(models.Model):
     id = models.AutoField(primary_key=True)
-    idOrder = models.ForeignKey(Order, on_delete=models.CASCADE)
+    idOrder = models.ForeignKey(Order, on_delete=models.CASCADE, to_field='id', db_column='idOrder', related_name='orderMedication_Order')
     idMedication = models.ForeignKey(Medication, on_delete=models.CASCADE, default=None)
     dose = models.CharField(max_length=50)
     duration = models.CharField(max_length=50)
@@ -84,21 +84,21 @@ class OrderMedication(models.Model):
 
 class OrderProcedure(models.Model):
     id = models.AutoField(primary_key=True)
-    idOrder = models.ForeignKey(Order, on_delete=models.CASCADE)
+    idOrder = models.ForeignKey(Order, on_delete=models.CASCADE, to_field='id', db_column='idOrder', related_name='orderProcedure_Order')
     idProcedure = models.ForeignKey(Procedure, on_delete=models.CASCADE, default=None)
     amount = models.CharField(max_length=50)
     frequency = models.CharField(max_length=50)
     item = models.IntegerField()
     specialAssistance = models.BooleanField()
-    idSpecialist = models.ForeignKey(Person, on_delete=models.CASCADE)
+    idSpecialist = models.ForeignKey(Person, on_delete=models.CASCADE, null=True)
 
 class OrderDiagnosticAid(models.Model):
     id = models.AutoField(primary_key=True)
-    idOrder = models.ForeignKey(Order, on_delete=models.CASCADE)
+    idOrder = models.ForeignKey(Order, on_delete=models.CASCADE, to_field='id', db_column='idOrder', related_name='orderDiagnositcAid_Order')
     DiagnosticAid = models.ForeignKey(DiagnosticAid, on_delete=models.CASCADE, default=None)
     quantity = models.CharField(max_length=50)
     specialAssistance = models.BooleanField()
-    idSpecialist = models.ForeignKey(Person, on_delete=models.CASCADE)
+    idSpecialist = models.ForeignKey(Person, on_delete=models.CASCADE, null = True)
 
 class Invoice(models.Model):
     id = models.BigIntegerField(primary_key=True)

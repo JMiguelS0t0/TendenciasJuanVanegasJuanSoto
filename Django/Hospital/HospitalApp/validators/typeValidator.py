@@ -6,11 +6,22 @@ def textValidator(string, element):
         raise ValueError(element + " no puede estar vacío.")
     return string
 
-def numberValidator(string, element):
+
+def booleanValidator(string, element):
+    if not isinstance(string, str):
+        raise ValueError(element + " debe ser una cadena.")
+    if string.lower() not in ['true', 'false']:
+        raise ValueError(element + " debe ser un valor booleano.")
+    return string.lower() == 'true'
+
+def numberValidator(value, element):
+    if value is None:
+        return None
     try:
-        return int(string)
-    except ValueError:
+        return int(value)
+    except (TypeError, ValueError):
         raise ValueError(element + " debe ser un valor numérico.")
+
 
 def passwordValidator(string, element):
     if len(string) < 8:

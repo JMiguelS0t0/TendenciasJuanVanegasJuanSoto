@@ -63,5 +63,9 @@ urlpatterns = [
     path('hospital/doctor/medicalrecord', MedicalRecordView.as_view(), name="medicalrecord post"),
     path('hospital/doctor/medicalrecord/<int:id>', MedicalRecordView.as_view(), name="medicalrecord get"),
     path('hospital/doctor/basicinfopatient/<int:id>', DoctorInfoPatientsView.as_view(), name="basicinfopatient get"),
-
+    path('hospital/doctor/orders/<int:id>', OrdersView.as_view(), name="orders get"),
+    path('hospital/doctor/order', OrdersView.as_view(), name="order post"),
+    path('hospital/doctor/order/ordermedication', OrderMedicationView.as_view(), name="ordermedication post"),
+    path('hospital/doctor/order/orderdiagnosticaid', OrderDiagnosticAidView.as_view(), name="orderdiagnosticaid post"),
+    path('hospital/doctor/order/orderprocedure', OrderProcedureView.as_view(), name="orderprocedure post"),
 ]

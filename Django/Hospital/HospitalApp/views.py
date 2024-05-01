@@ -171,3 +171,38 @@ class DoctorInfoPatientsView(View):
 
     def get(self, request, id = None):
         return doctorView.getBasicInfoPatient(self, request, id)
+
+class OrdersView(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args: any, **kwargs: any):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, id = None):
+        return doctorView.getOrdersByPatient(self, request, id)
+
+    def post(self, request):
+        return doctorView.postOrder(self, request)
+
+class OrderMedicationView(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args: any, **kwargs: any):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request):
+        return doctorView.postOrderMedication(self, request)
+
+class OrderProcedureView(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args: any, **kwargs: any):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request):
+        return doctorView.postOrderProcedure(self, request)
+
+class OrderDiagnosticAidView(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args: any, **kwargs: any):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request):
+        return doctorView.postOrderDiagnosticAid(self, request)
