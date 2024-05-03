@@ -68,4 +68,13 @@ urlpatterns = [
     path('hospital/doctor/order/ordermedication', OrderMedicationView.as_view(), name="ordermedication post"),
     path('hospital/doctor/order/orderdiagnosticaid', OrderDiagnosticAidView.as_view(), name="orderdiagnosticaid post"),
     path('hospital/doctor/order/orderprocedure', OrderProcedureView.as_view(), name="orderprocedure post"),
+# ------------------------ DOCTOR
+
+# ------------------------ NURSE
+    path('hospital/nurse/visit', VisitView.as_view(), name="visit post"),
+    path('hospital/nurse/orders/<int:id>', ordersByPatientView.as_view(), name="orders get"),
+    path('hospital/nurse/order/<int:idPatient>/<int:idOrder>', orderByPatientAndId.as_view(), name="order get"),
+    path('hospital/nurse/visits/<int:id>', VisitView.as_view(), name="visit get"),
+# ------------------------ NURSE
+
 ]

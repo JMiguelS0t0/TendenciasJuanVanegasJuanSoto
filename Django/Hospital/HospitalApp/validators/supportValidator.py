@@ -1,5 +1,5 @@
 from .typeValidator import *
-from HospitalApp.service import supportService
+from HospitalApp.service.rolService import supportService
 
 # ------------------------ MEDICATIONS
 # -------------- POST

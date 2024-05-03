@@ -1,21 +1,9 @@
 from .typeValidator import *
-from HospitalApp.service import doctorService
+from HospitalApp.service.rolService import doctorService
 
 def getBasicInfoPatient(patientId):
     patientId = numberValidator(patientId, "Id de paciente")
     return doctorService.getBasicInfoPatient(patientId)
-
-def patientInstance(user):
-    return doctorService.patientInstance(user)
-
-def doctorInstance(user):
-    return doctorService.personInstance(user)
-
-def orderInstance(orderId):
-    return doctorService.orderInstance(orderId)
-
-def medicationInstance(medicationId):
-    return doctorService.medicationInstance(medicationId)
 
 # ------------------------------------- MEDICAL RECORDS
 # --------- GET

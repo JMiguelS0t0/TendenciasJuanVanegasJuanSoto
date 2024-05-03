@@ -6,6 +6,7 @@ import HospitalApp.Views.administrativePersonnelView as APView
 import HospitalApp.Views.loginView as loginView
 import HospitalApp.Views.supportView as supportView
 import HospitalApp.Views.doctorView as doctorView
+import HospitalApp.Views.nurseView as nurseView
 
 # Create your views here.
 class LoginView(View):
@@ -19,6 +20,7 @@ class LoginView(View):
     def get(self, request):
         return loginView.get(self, request)
 
+# ADMIN
 class PersonView(View):
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args: any, **kwargs: any):
@@ -36,6 +38,7 @@ class PersonView(View):
     def delete(self, request, cedula = None):
         return adminView.delete(self, request, cedula)
 
+# ADMINISTRATIVE P.
 class PatientView(View):
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args: any, **kwargs: any):
@@ -102,6 +105,7 @@ class AppointmentView(View):
     def delete(self, request, id = None):
         return APView.deleteAppointment(self, request, id)
 
+# SUPPORT
 class MedicationView(View):
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args: any, **kwargs: any):
@@ -153,6 +157,7 @@ class DiagnosticAidView(View):
     def delete(self, request, id = None):
         return supportView.deleteDiagnosticAid(self, request, id)
 
+# DOCTOR
 class MedicalRecordView(View):
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args: any, **kwargs: any):
@@ -206,3 +211,31 @@ class OrderDiagnosticAidView(View):
 
     def post(self, request):
         return doctorView.postOrderDiagnosticAid(self, request)
+
+# NURSE
+class VisitView(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args: any, **kwargs: any):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request):
+        return nurseView.addVisit(self, request)
+
+    def get(self, request, id = None):
+        return nurseView.getVisitsById(self, request, id)
+
+class ordersByPatientView(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args: any, **kwargs: any):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, id = None):
+        return nurseView.getOrdersByPatient(self, request, id)
+
+class orderByPatientAndId(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args: any, **kwargs: any):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, idPatient = None, idOrder = None):
+        return nurseView.checkOrderById(self, request, idPatient, idOrder)

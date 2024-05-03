@@ -2,50 +2,9 @@ import datetime
 from HospitalApp import models
 from Hospital.conection_mongo import collection
 from django.core.exceptions import ObjectDoesNotExist
+from HospitalApp.service import instances
 
 # ------------------------------------- OTHERS
-
-def patientInstance(user):
-    try:
-        patient = models.Patient.objects.get(id = user)
-        return patient
-    except Exception as e:
-        raise Exception("No se encontró ningún paciente con la cédula proporcionada." + str(e))
-
-def personInstance(user):
-    try:
-        doctor = models.Person.objects.get(cedula = user)
-        return doctor
-    except Exception as e:
-        raise Exception("No se encontró ningún doctor con la cédula proporcionada." + str(e))
-
-def orderInstance(idOrder):
-    try:
-        order = models.Order.objects.get(id = idOrder)
-        return order
-    except Exception as e:
-        raise Exception("No se encontró ninguna orden con el id proporcionado." + str(e))
-
-def medicationInstance(idMedication):
-    try:
-        medication = models.Medication.objects.get(id = idMedication)
-        return medication
-    except Exception as e:
-        raise Exception("No se encontró ninguna medicación con el id proporcionado." + str(e))
-
-def procedureInstance(idProcedure):
-    try:
-        procedure = models.Procedure.objects.get(id = idProcedure)
-        return procedure
-    except Exception as e:
-        raise Exception("No se encontró ningún procedimiento con el id proporcionado." + str(e))
-
-def diagnosticAidInstance(idDiagnosticAid):
-    try:
-        diagnosticAid = models.DiagnosticAid.objects.get(id = idDiagnosticAid)
-        return diagnosticAid
-    except Exception as e:
-        raise Exception("No se encontró ninguna ayuda diagnóstica con el id proporcionado." + str(e))
 
 def itemNumber(orderinstance):
     return orderinstance.orderMedication_Order.count() + orderinstance.orderProcedure_Order.count() + 1
@@ -142,8 +101,8 @@ def createMedicalRecord(patientId, idDoctor, consultationReason, symptoms, diagn
 
 def generateOrder(patientId, doctorId):
     try:
-        idPatientInstance = patientInstance(patientId)
-        idDoctorInstance = personInstance(doctorId)
+        idPatientInstance = instances.patientInstance(patientId)
+        idDoctorInstance = instances.personInstance(doctorId)
         order = models.Order(patientId=idPatientInstance, doctorId=idDoctorInstance)
         order.save()
         
@@ -175,13 +134,13 @@ def generateOrderDiagnosticAid(orderId, diagnosticAidId, quantity, specialAssist
     if not models.Order.objects.filter(id=orderId).exists():
         raise Exception("La orden no existe")
     
-    idOrderInstance = orderInstance(orderId)
-    idDiagnosticAidInstance = diagnosticAidInstance(diagnosticAidId)
+    idOrderInstance = instances.orderInstance(orderId)
+    idDiagnosticAidInstance = instances.diagnosticAidInstance(diagnosticAidId)
     
     if specialAssistance:
         if idSpecialist is None or not models.Person.objects.filter(cedula=idSpecialist).exists():
             raise Exception("Especialista no válido o no encontrado")
-        idSpecialistAidInstance = personInstance(idSpecialist)
+        idSpecialistAidInstance = instances.personInstance(idSpecialist)
     else:
         idSpecialistAidInstance = None
     
@@ -196,9 +155,11 @@ def generateOrderDiagnosticAid(orderId, diagnosticAidId, quantity, specialAssist
 
 
 def generateOrderMedication(idOrder, idMedication, dose, duration, amount):
+    if models.OrderDiagnosticAid.objects.filter(idOrder=idOrder).exists():
+        raise Exception("No se puede agregar una orden de medicamentos a una orden que contiene ayuda diagnóstica")
     if models.Order.objects.filter(id=idOrder).exists() and models.Medication.objects.filter(id=idMedication).exists():
-        idOrderInstance = orderInstance(idOrder)
-        idMedicationInstance = medicationInstance(idMedication)
+        idOrderInstance = instances.orderInstance(idOrder)
+        idMedicationInstance = instances.medicationInstance(idMedication)
         numItem = itemNumber(idOrderInstance)
         orderMedication = models.OrderMedication(idOrder=idOrderInstance, idMedication=idMedicationInstance, dose=dose, duration=duration, amount=amount, item=numItem)
         orderMedication.save()
@@ -207,13 +168,15 @@ def generateOrderMedication(idOrder, idMedication, dose, duration, amount):
 
 
 def generateOrderProcedure(idOrder, idProcedure, amount, frequency, specialAssistance, idSpecialist):
+    if models.OrderDiagnosticAid.objects.filter(idOrder=idOrder).exists():
+        raise Exception("No se puede agregar una orden de procedimientos a una orden que contiene ayuda diagnóstica")
     if models.Order.objects.filter(id=idOrder).exists() and models.Procedure.objects.filter(id=idProcedure).exists():
-        idProcedureInstance = procedureInstance(idProcedure)
-        idOrderInstance = orderInstance(idOrder)
+        idProcedureInstance = instances.procedureInstance(idProcedure)
+        idOrderInstance = instances.orderInstance(idOrder)
         numItem = itemNumber(idOrderInstance)
         if specialAssistance:
             if models.Person.objects.filter(cedula=idSpecialist).exists():
-                idSpecialistInstance = personInstance(idSpecialist)
+                idSpecialistInstance = instances.personInstance(idSpecialist)
                 orderProcedure = models.OrderProcedure(idOrder=idOrderInstance, idProcedure=idProcedureInstance, amount=amount, frequency=frequency, item=numItem, specialAssistance=specialAssistance, idSpecialist=idSpecialistInstance)
                 orderProcedure.save()
             else:

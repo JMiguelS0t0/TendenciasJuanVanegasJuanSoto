@@ -1,5 +1,5 @@
 from .typeValidator import *
-from HospitalApp.service import adminService
+from HospitalApp.service.rolService import adminService
 
 # --------- POST
 def createUser(name, cedula, email, phoneNumber, dateBirth, address, rol, userName, password):

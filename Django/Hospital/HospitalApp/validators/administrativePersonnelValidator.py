@@ -1,14 +1,14 @@
 from .typeValidator import *
-from HospitalApp.service import administrativePersonnelServices as APService
-
+from HospitalApp.service.rolService import administrativePersonnelServices as APService
+from HospitalApp.service import instances
 
 # ------------------------------------------------- OTHERS
 
 def patientInstance(user):
-    return APService.patientInstance(user)
+    return instances.patientInstance(user)
 
 def doctorInstance(user):
-    return APService.doctorInstance(user)
+    return instances.personInstance(user)
 
 # --------------------------------------------------------- PATIENT
 # --------- POST

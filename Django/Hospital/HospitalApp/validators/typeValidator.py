@@ -6,6 +6,11 @@ def textValidator(string, element):
         raise ValueError(element + " no puede estar vacío.")
     return string
 
+def textValidatorNone(string, element):
+    if not string or string.strip() == "":
+        return None
+    return string.strip()
+
 
 def booleanValidator(string, element):
     if not isinstance(string, str):
