@@ -43,27 +43,21 @@ def getOrdersByPatient(self, request, id=None):
     try:
         orders = doctorValidator.getOrdersByPatient(id)
         if orders.exists():
-            orders_data = []
+            ordersData = []
             for order in orders:
-                order_data = model_to_dict(order)
-                order_data['orderMedications'] = [model_to_dict(medication) for medication in order.orderMedication_Order.all()]
-                order_data['orderProcedures'] = [model_to_dict(procedure) for procedure in order.orderProcedure_Order.all()]
-                order_data['orderDiagnosticAids'] = [
-                    model_to_dict(diagnostic_aid, fields=['id', 'quantity', 'specialAssistance', 'idSpecialist__cedula'])
-                    for diagnostic_aid in order.orderDiagnositcAid_Order.all()
-                ]
-                orders_data.append(order_data)
+                orderData = getOrderData(order)
+                ordersData.append(orderData)
             status = 200
         else:
             status = 404
-            orders_data = []
+            ordersData = []
     except Exception as error:
         message = str(error)
         status = 400
         response = {"message": message}
         return JsonResponse(response, status=status)
     else:
-        return JsonResponse(orders_data, status=status, safe=False)
+        return JsonResponse(ordersData, status=status, safe=False)
 
 def postOrder(self, request):
     try:
@@ -146,3 +140,23 @@ def getBasicInfoPatient(self, request, id= None):
         response = {"message": message}
         return JsonResponse(response, status=status)
     return JsonResponse(patientData, status=status)
+
+# --------- OTHERS
+def getOrderData(order):
+    orderData = model_to_dict(order)
+    orderData['orderMedications'] = getOrderMedications(order)
+    orderData['orderProcedures'] = getOrderProcedures(order)
+    orderData['orderDiagnosticAids'] = getOrderDiagnosticAids(order)
+    return orderData
+
+def getOrderMedications(order):
+    return [model_to_dict(medication) for medication in order.orderMedication_Order.all()]
+
+def getOrderProcedures(order):
+    return [model_to_dict(procedure) for procedure in order.orderProcedure_Order.all()]
+
+def getOrderDiagnosticAids(order):
+    return [
+        model_to_dict(diagnostic_aid, fields=['id', 'quantity', 'specialAssistance', 'idSpecialist__cedula'])
+        for diagnostic_aid in order.orderDiagnositcAid_Order.all()
+    ]

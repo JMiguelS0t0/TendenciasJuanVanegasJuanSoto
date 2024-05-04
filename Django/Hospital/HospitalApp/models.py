@@ -46,18 +46,6 @@ class Order(models.Model):
     patientId = models.ForeignKey(Patient, on_delete=models.CASCADE)
     doctorId = models.ForeignKey(Person, on_delete=models.CASCADE)
 
-class Visit(models.Model):
-    id = models.AutoField(primary_key=True)
-    patientId = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    date = models.DateField()
-    bloodPressure = models.CharField(max_length=50)
-    temperature = models.CharField(max_length=50)
-    pulse = models.CharField(max_length=50)
-    oxygenLvl = models.CharField(max_length=50)
-    orderMedication = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="orderMedication")
-    orderProcedure = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="orderProcedure")
-    observations = models.CharField(max_length=50)
-
 class Medication(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
@@ -80,7 +68,7 @@ class OrderMedication(models.Model):
     dose = models.CharField(max_length=50)
     duration = models.CharField(max_length=50)
     amount = models.CharField(max_length=50)
-    item = models.CharField(max_length=50)
+    item = models.IntegerField()
 
 class OrderProcedure(models.Model):
     id = models.AutoField(primary_key=True)
@@ -99,6 +87,22 @@ class OrderDiagnosticAid(models.Model):
     quantity = models.CharField(max_length=50)
     specialAssistance = models.BooleanField()
     idSpecialist = models.ForeignKey(Person, on_delete=models.CASCADE, null = True)
+
+class Visit(models.Model):
+    id = models.AutoField(primary_key=True)
+    patientId = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    date = models.DateField()
+    bloodPressure = models.CharField(max_length=50)
+    temperature = models.CharField(max_length=50)
+    pulse = models.CharField(max_length=50)
+    oxygenLvl = models.CharField(max_length=50)
+
+    itemMedication = models.IntegerField(null=True)
+    orderMedication = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="orderMedication", null=True)
+    itemProcedure = models.IntegerField(null=True)
+    orderProcedure = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="orderProcedure", null=True)
+
+    observations = models.CharField(max_length=50, null=True, blank=True)
 
 class Invoice(models.Model):
     id = models.BigIntegerField(primary_key=True)

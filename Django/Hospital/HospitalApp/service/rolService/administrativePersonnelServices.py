@@ -1,22 +1,6 @@
 from HospitalApp import models
 from Hospital.conection_mongo import collection
 
-# ------------------------------------- OTHERS
-def patientInstance(user):
-    try:
-        patient = models.Patient.objects.get(id = user)
-        return patient
-    except Exception as e:
-        raise Exception("No se encontró ningún paciente con la cédula proporcionada." + str(e))
-
-
-def doctorInstance(user):
-    try:
-        doctor = models.Person.objects.get(cedula = user)
-        return doctor
-    except Exception as e:
-        raise Exception("No se encontró ningún doctor con la cédula proporcionada." + str(e))
-
 # ------------------------------------- PATIENTS
 # --------- POST
 def createPacient(id, name, dateBirth, gender, address, phoneNumber, email):
