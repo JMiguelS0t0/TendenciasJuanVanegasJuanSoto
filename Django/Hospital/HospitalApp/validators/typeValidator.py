@@ -88,4 +88,3 @@ def userNameValidator(string, element):
         raise ValueError("El nombre de usuario solo puede contener letras y números.")
 
     return string
-
