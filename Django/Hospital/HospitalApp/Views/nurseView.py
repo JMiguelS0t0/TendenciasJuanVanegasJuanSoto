@@ -25,28 +25,43 @@ def addVisit(self, request):
     response = {"message": message}
     return JsonResponse(response, status=status)
 
+def formatMedicationData(visit):
+    if visit.itemMedication is None and visit.orderMedication is None:
+        return {}
+    else:
+        return {
+            "item Medication": visit.itemMedication,
+            "order of Medication": visit.orderMedication.id if visit.orderMedication else None
+        }
+
+def formatProcedureData(visit):
+    if visit.itemProcedure is None and visit.orderProcedure is None:
+        return {}
+    else:
+        return {
+            "item Procedure": visit.itemProcedure,
+            "order of Procedure": visit.orderProcedure.id if visit.orderProcedure else None
+        }
+
+def getVisitsData(visits):
+    return [{
+        "id": visit.id,
+        "patientId": visit.patientId.id,
+        "date": visit.date,
+        "bloodPressure": visit.bloodPressure,
+        "temperature": visit.temperature,
+        "pulse": visit.pulse,
+        "oxygenLvl": visit.oxygenLvl,
+        "Medicamentos": formatMedicationData(visit),
+        "Procedimientos": formatProcedureData(visit),
+        "observations": visit.observations
+    } for visit in visits]
+
 def getVisitsById(self, request, id=None):
     try:
         visits = nurseValidator.getVisitsById(id)
         if visits.exists():
-            visitsData = [{
-                "id": visit.id,
-                "patientId": visit.patientId.id,
-                "date": visit.date,
-                "bloodPressure": visit.bloodPressure,
-                "temperature": visit.temperature,
-                "pulse": visit.pulse,
-                "oxygenLvl": visit.oxygenLvl,
-                "Medicamentos": {} if visit.itemMedication is None and visit.orderMedication is None else {
-                    "item Medication": visit.itemMedication,
-                    "order of Medication": visit.orderMedication.id if visit.orderMedication else None
-                },
-                "Procedimientos": {} if visit.itemProcedure is None and visit.orderProcedure is None else {
-                    "item Procedure": visit.itemProcedure,
-                    "order of Procedure": visit.orderProcedure.id if visit.orderProcedure else None
-                },
-                "observations": visit.observations
-            } for visit in visits]
+            visitsData = getVisitsData(visits)
             status = 200
         else:
             status = 404

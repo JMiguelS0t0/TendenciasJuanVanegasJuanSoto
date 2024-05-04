@@ -50,29 +50,35 @@ def getOrderData(order):
 # ------------------------------------- MEDICAL RECORDS
 # --------- GET
 
+def getOrdersData(patientId):
+    orders = models.Order.objects.filter(patientId=patientId)
+    return {str(order.id): getOrderData(order) for order in orders}
+
+def processHistoryData(historyData, ordersData):
+    for historyEntry in historyData:
+        orderId = historyEntry.pop("orderId", None)
+        historyEntry["order"] = ordersData.get(orderId, {})
+
 def getMedicalRecords(patientId):
     try:
         patientIdStr = str(patientId)
         clinicalHistory = collection.find_one({"_id": patientIdStr})
 
         if clinicalHistory:
-            orders = models.Order.objects.filter(patientId=patientId)
-            ordersData = {str(order.id): getOrderData(order) for order in orders}
-
+            ordersData = getOrdersData(patientId)
             for historyData in clinicalHistory.get("historias", {}).values():
-                for historyEntry in historyData:
-                    orderId = historyEntry.pop("orderId", None)
-                    historyEntry["order"] = ordersData.get(orderId, {})
+                processHistoryData(historyData, ordersData)
 
             return clinicalHistory
         else:
             raise Exception("No se encontraron historias clínicas para el paciente")
-    
+
     except ObjectDoesNotExist:
         raise Exception("El paciente no existe")
 
     except Exception as e:
         raise Exception("Ha ocurrido un error: " + str(e))
+
 
 # --------- POST
 def createMedicalRecord(patientId, idDoctor, consultationReason, symptoms, diagnosis):
