@@ -6,6 +6,7 @@ import { RiDeleteBin6Line, RiDeleteBinLine } from "react-icons/ri";
 import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import StarRate from "./StarRate";
+import { deletePersonData } from "../components/Datas";
 
 const thclass = "text-start text-sm font-medium py-3 px-2 whitespace-nowrap";
 const tdclass = "text-start text-sm py-4 px-2 whitespace-nowrap";
@@ -430,7 +431,17 @@ export function PatientTable({ data, functions, used }) {
 
 // doctor table
 export function DoctorsTable({ data, functions, doctor }) {
-  const DropDown1 = [
+  const handleDelete = async (id) => {
+    console.log("ID to delete:", id);
+    try {
+      await deletePersonData(id);
+      toast.success("Transaction deleted successfully");
+    } catch (error) {
+      toast.error(`Error deleting transaction: ${error.message}`);
+    }
+  };
+
+  const DropDown1 = (item) => [
     {
       title: "View",
       icon: FiEye,
@@ -442,10 +453,11 @@ export function DoctorsTable({ data, functions, doctor }) {
       title: "Delete",
       icon: RiDeleteBin6Line,
       onClick: () => {
-        toast.error("This feature is not available yet");
+        handleDelete(item.user.cedula);
       },
     },
   ];
+
   return (
     <table className="table-auto w-full">
       <thead className="bg-dry rounded-md overflow-hidden">
@@ -486,7 +498,7 @@ export function DoctorsTable({ data, functions, doctor }) {
             <td className={tdclass}>{item.user.rol}</td>
             <td className={tdclass}>{item.user.userName}</td>
             <td className={tdclass}>
-              <MenuSelect datas={DropDown1} item={item}>
+              <MenuSelect datas={DropDown1(item)} item={item}>
                 <div className="bg-dry border text-main text-xl py-2 px-4 rounded-lg">
                   <BiDotsHorizontalRounded />
                 </div>

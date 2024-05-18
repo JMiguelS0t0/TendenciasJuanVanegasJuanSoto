@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { MdOutlineCloudDownload } from 'react-icons/md';
 import { toast } from 'react-hot-toast';
 import { BiPlus } from 'react-icons/bi';
@@ -10,43 +10,43 @@ import { useNavigate } from 'react-router-dom';
 import AddPersonModal from '../../components/Modals/AddPersonModal';
 import { fetchPersonData } from '../../components/Datas';
 
+export const loadpersonsData = async (setPersonData, setError) => {
+  try {
+    const data = await fetchPersonData();
+    const formattedData = data.map((item, index) => ({
+      id: item.id,
+      user: item,
+      title: "Dr.",
+    }));
+    setPersonData(formattedData);
+  } catch (error) {
+    setError(error);
+  }
+};
 
 function Doctors() {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [personsData, setPersonData] = React.useState([]);
-  const [error, setError] = React.useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [personsData, setPersonData] = useState([]);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  React.useEffect(() => {
-    const loadpersonsData = async () => {
-      try {
-        const data = await fetchPersonData();
-        const formattedData = data.map((item, index) => ({
-          id: item.id,
-          user: item,
-          title: "Dr.",
-        }));
-        setPersonData(formattedData);
-      } catch (error) {
-        setError(error);
-      }
-    };
-
-    loadpersonsData();
+  useEffect(() => {
+    loadpersonsData(setPersonData, setError);
   }, []);
 
   const onCloseModal = () => {
     setIsOpen(false);
   };
 
-  const preview = (data) => {
+  const preview = async (data) => {
     navigate(`/doctors/preview/${data.id}`);
+    await loadpersonsData(setPersonData, setError);
   };
 
   return (
     <Layout>
       {
-        // add doctor modal
+        // Modal para agregar doctor
         isOpen && (
           <AddPersonModal
             closeModal={onCloseModal}
@@ -56,14 +56,14 @@ function Doctors() {
           />
         )
       }
-      {/* add button */}
+      {/* Botón para agregar doctor */}
       <button
         onClick={() => setIsOpen(true)}
         className="w-16 animate-bounce h-16 border border-border z-50 bg-subMain text-white rounded-full flex-colo fixed bottom-8 right-12 button-fb"
       >
         <BiPlus className="text-2xl" />
       </button>
-      {/*  */}
+      {/* Encabezado */}
       <h1 className="text-xl font-semibold">Persons</h1>
       <div
         data-aos="fade-up"
@@ -72,8 +72,7 @@ function Doctors() {
         data-aos-offset="200"
         className="bg-white my-8 rounded-xl border-[1px] border-border p-5"
       >
-        {/* datas */}
-
+        {/* Filtros y botón de exportación */}
         <div className="grid md:grid-cols-6 sm:grid-cols-2 grid-cols-1 gap-2">
           <div className="md:col-span-5 grid lg:grid-cols-4 items-center gap-6">
             <input
@@ -82,8 +81,6 @@ function Doctors() {
               className="h-14 w-full text-sm text-main rounded-md bg-dry border border-border px-4"
             />
           </div>
-
-          {/* export */}
           <Button
             label="Export"
             Icon={MdOutlineCloudDownload}
@@ -92,6 +89,7 @@ function Doctors() {
             }}
           />
         </div>
+        {/* Tabla de doctores */}
         <div className="mt-8 w-full overflow-x-scroll">
           <DoctorsTable
             doctor={true}
