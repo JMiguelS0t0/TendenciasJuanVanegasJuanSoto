@@ -110,6 +110,7 @@ export const fetchPersonData = async () => {
     throw error;
   }
 };
+
 export const createPersonData = async (newPersonData) => {
   try {
     const response = await axios.post(
@@ -120,10 +121,27 @@ export const createPersonData = async (newPersonData) => {
   } catch (error) {
     if (error.response && error.response.data) {
       console.error("Error creating person data: ", error.response.data);
-      throw error.response.data;
+      throw new Error(error.response.data.message || "Unknown server error");
     } else {
       console.error("Error creating person data: ", error);
-      throw error;
+      throw new Error(error.message || "Unknown error");
+    }
+  }
+};
+
+export const deletePersonData = async (id) => {
+  try {
+    const response = await axios.delete(
+      `http://127.0.0.1:8000/hospital/person/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      console.log("Error deleting person data: ", error.response.data);
+      throw new Error(error.response.data.message || "Unknown server error");
+    } else {
+      console.log("Error deleting person data: ", error);
+      throw new Error(error.message || "Unknown error");
     }
   }
 };

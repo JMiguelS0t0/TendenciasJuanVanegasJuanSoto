@@ -30,6 +30,20 @@ function AddPersonModal({ closeModal, isOpen, doctor, datas }) {
   const password = useField();
 
   const handleSubmit = async () => {
+    if (
+      !name.value ||
+      !cedula.value ||
+      !email.value ||
+      !phoneNumber.value ||
+      !dateBirth.value ||
+      !address.value ||
+      !userName.value ||
+      !password.value
+    ) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
     try {
       const formData = {
         name: name.value,
@@ -42,26 +56,20 @@ function AddPersonModal({ closeModal, isOpen, doctor, datas }) {
         password: password.value,
         rol: instraction.name,
       };
-  
+
       console.log("Datos enviados en la solicitud POST:", formData);
       await createPersonData(formData);
       toast.success("Person created successfully");
       closeModal();
     } catch (error) {
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        toast.error(error.response.data.message);
+      if (error instanceof Error) {
+        toast.error("Error creating person: " + error.message);
       } else {
-        toast.error("Error creating person: " + JSON.stringify(error));
+        toast.error("Unknown error occurred");
       }
       console.error("Error creating person: ", error);
-      throw error; 
     }
   };
-  
 
   return (
     <Modal
