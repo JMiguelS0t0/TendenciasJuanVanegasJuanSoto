@@ -101,9 +101,13 @@ export const MenuDatas = [
   },
 ];
 
-export const fetchPersonData = async () => {
+export const fetchPersonData = async (id = null) => {
   try {
-    const response = await axios.get("http://127.0.0.1:8000/hospital/person");
+    let url = "http://127.0.0.1:8000/hospital/person";
+    if (id) {
+      url += `/${id}`;
+    }
+    const response = await axios.get(url);
     return response.data;
   } catch (error) {
     console.error("Error fetching person data: ", error);

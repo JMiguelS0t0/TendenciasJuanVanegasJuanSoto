@@ -6,11 +6,14 @@ import { PersonsTable } from "../../components/Tables";
 import AddPersonModal from "../../components/Modals/Person/AddPersonModal";
 import DeletePersonModal from "../../components/Modals/Person/DeletePersonModal";
 import { loadpersonsData } from "../../services/personServices";
+import { Button } from "../../components/Form";
 
 function Doctors() {
   const [isOpen, setIsOpen] = useState(false);
   const [personsData, setPersonData] = useState([]);
+  const [searchCedula, setSearchCedula] = useState("");
   const [error, setError] = useState(null);
+
   const [selectedPerson, setSelectedPerson] = useState({
     editing: null,
     deleting: null,
@@ -18,12 +21,14 @@ function Doctors() {
   const [isDeleteModalOpen, setDeleteModal] = useState(false);
 
   const loadData = async () => {
-    await loadpersonsData(setPersonData, setError);
+    await loadpersonsData(setPersonData, setError, searchCedula);
   };
 
   useEffect(() => {
-    loadData();
-  }, []);
+    if (searchCedula === "") {
+      loadData();
+    }
+  }, [searchCedula]);
 
   const onCloseModal = () => {
     setIsOpen(false);
@@ -92,13 +97,16 @@ function Doctors() {
       >
         {/* Filtros*/}
         <div className="grid md:grid-cols-6 sm:grid-cols-2 grid-cols-1 gap-2">
-          <div className="md:col-span-5 grid lg:grid-cols-4 items-center gap-6">
+          <div className="md:col-span-5 grid lg:grid-cols-2 items-center gap-6">
             <input
-              type="text"
-              placeholder='Search "daudi mburuge"'
+              type="number"
+              placeholder="Search by Cedula"
+              value={searchCedula}
+              onChange={(e) => setSearchCedula(e.target.value)}
               className="h-14 w-full text-sm text-main rounded-md bg-dry border border-border px-4"
             />
           </div>
+          <Button label="Buscar" onClick={loadData} />
         </div>
         {/* Tabla de empleados */}
         <div className="mt-8 w-full overflow-x-scroll">

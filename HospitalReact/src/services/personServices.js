@@ -6,12 +6,13 @@ import {
 } from "../components/Datas";
 import { toast } from "react-hot-toast";
 
-export const loadpersonsData = async (setPersonData, setError) => {
+export const loadpersonsData = async (setPersonData, setError, id = null) => {
   try {
-    const data = await fetchPersonData();
+    const data = await fetchPersonData(id);
     setPersonData(data);
   } catch (error) {
     setError(error);
+    toast.error(error.response.data.message);
   }
 };
 
@@ -70,7 +71,7 @@ export const addPerson = async (
     closeModal();
   } catch (error) {
     if (error instanceof Error) {
-      toast.error("Error creating person: " + error.message);
+      toast.error(error.message);
     } else {
       toast.error("Unknown error occurred");
     }
@@ -104,7 +105,7 @@ export const updatePerson = async (
     return;
   }
   try {
-    const updatedPersonData  = {
+    const updatedPersonData = {
       name,
       cedula,
       email,
@@ -116,13 +117,13 @@ export const updatePerson = async (
       rol: instraction.name,
     };
 
-    console.log("Datos enviados en la solicitud PUT:", updatedPersonData );
-    await updatePersonData(cedula, updatedPersonData );
+    console.log("Datos enviados en la solicitud PUT:", updatedPersonData);
+    await updatePersonData(cedula, updatedPersonData);
     toast.success("Person updated successfully");
     closeModal();
   } catch (error) {
     if (error instanceof Error) {
-      toast.error("Error updating person: " + error.message);
+      toast.error(error.message);
     } else {
       toast.error("Unknown error occurred");
     }
