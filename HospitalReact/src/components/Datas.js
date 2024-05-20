@@ -22,13 +22,10 @@ import {
 import {
   MdListAlt,
   MdOutlineAttachMoney,
-  MdOutlineCampaign,
-  MdOutlineChat,
   MdOutlineInventory2,
   MdOutlineReviews,
   MdOutlineTextsms,
 } from "react-icons/md";
-import { AiOutlineSetting } from "react-icons/ai";
 import { BiCalendar, BiUserPlus } from "react-icons/bi";
 import axios from "axios";
 
@@ -79,26 +76,11 @@ export const MenuDatas = [
     path: "/medicine",
     icon: RiMedicineBottleLine,
   },
-  {
-    title: "Chats",
-    path: "/chats",
-    icon: MdOutlineChat,
-  },
-  {
-    title: "Reviews",
-    path: "/reviews",
-    icon: MdOutlineReviews,
-  },
-  {
-    title: "Campaigns",
-    path: "/campaigns",
-    icon: MdOutlineCampaign,
-  },
-  {
-    title: "Settings",
-    path: "/settings",
-    icon: AiOutlineSetting,
-  },
+  // {
+  //   title: "Settings",
+  //   path: "/settings",
+  //   icon: AiOutlineSetting,
+  // },
 ];
 
 export const fetchPersonData = async (id = null) => {

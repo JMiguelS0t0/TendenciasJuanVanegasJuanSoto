@@ -28,6 +28,7 @@ function Doctors() {
     if (searchCedula === "") {
       loadData();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchCedula]);
 
   const onCloseModal = () => {
