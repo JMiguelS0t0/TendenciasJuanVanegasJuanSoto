@@ -1,35 +1,66 @@
-import React from 'react';
-import { MdOutlineCloudDownload } from 'react-icons/md';
-import { toast } from 'react-hot-toast';
-import { BiChevronDown, BiPlus } from 'react-icons/bi';
-import Layout from '../Layout';
-import { Button, Select } from '../components/Form';
-import { MedicineTable } from '../components/Tables';
-import { medicineData, sortsDatas } from '../components/Datas';
-import AddEditMedicineModal from '../components/Modals/AddEditMedicine';
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect } from "react";
+import { BiChevronDown, BiPlus } from "react-icons/bi";
+import Layout from "../Layout";
+import { Select } from "../components/Form";
+import { MedicineTable } from "../components/Tables";
+import { sortsDatas } from "../components/Datas";
+import AddEditMedicineModal from "../components/Modals/Medicine/AddEditMedicine";
+import DeleteMedicationModal from "../components/Modals/Medicine/DeleteMedicationModal";
+import { loadMedications } from "../services/medicationServices";
 
 function Medicine() {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [data, setData] = React.useState({});
-  const [status, setStatus] = React.useState(sortsDatas.stocks[0]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+  const [data, setData] = useState([]);
+  const [currentMedicine, setCurrentMedicine] = useState(null);
+  const [status, setStatus] = useState(sortsDatas.stocks[0]);
+  const [error, setError] = useState(null);
+
+  const loadData = async () => {
+    await loadMedications(setData, setError);
+  };
+
+  useEffect(() => {
+    loadData();
+  }, []);
 
   const onCloseModal = () => {
     setIsOpen(false);
-    setData({});
+    setCurrentMedicine(null);
+  };
+
+  const onCloseDeleteModal = () => {
+    setIsOpenDeleteModal(false);
+    setCurrentMedicine(null);
+  };
+
+  const onDelete = (datas) => {
+    setCurrentMedicine(datas);
+    setIsOpenDeleteModal(true);
   };
 
   const onEdit = (datas) => {
     setIsOpen(true);
-    setData(datas);
+    setCurrentMedicine(datas);
   };
 
   return (
     <Layout>
       {isOpen && (
         <AddEditMedicineModal
-          datas={data}
           isOpen={isOpen}
+          datas={currentMedicine}
           closeModal={onCloseModal}
+          onMedicationAdded={loadData}
+        />
+      )}
+      {isOpenDeleteModal && (
+        <DeleteMedicationModal
+          isOpen={isOpenDeleteModal}
+          datas={currentMedicine}
+          closeModal={onCloseDeleteModal}
+          onMedicationDelete={loadData}
         />
       )}
       {/* add button */}
@@ -49,7 +80,6 @@ function Medicine() {
         className="bg-white my-8 rounded-xl border-[1px] border-border p-5"
       >
         {/* datas */}
-
         <div className="grid md:grid-cols-6 grid-cols-1 gap-2">
           <div className="md:col-span-5 grid lg:grid-cols-4 xs:grid-cols-2 items-center gap-2">
             <input
@@ -67,18 +97,9 @@ function Medicine() {
               </div>
             </Select>
           </div>
-
-          {/* export */}
-          <Button
-            label="Export"
-            Icon={MdOutlineCloudDownload}
-            onClick={() => {
-              toast.error('Exporting is not available yet');
-            }}
-          />
         </div>
         <div className="mt-8 w-full overflow-x-scroll">
-          <MedicineTable data={medicineData} onEdit={onEdit} />
+          <MedicineTable data={data} onEdit={onEdit} onDelete={onDelete}/>
         </div>
       </div>
     </Layout>
