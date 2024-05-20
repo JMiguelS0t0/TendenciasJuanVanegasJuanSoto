@@ -1,46 +1,40 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
-import { MdOutlineCloudDownload } from 'react-icons/md';
-import { toast } from 'react-hot-toast';
-import { BiPlus } from 'react-icons/bi';
-import Layout from '../../Layout';
-import { Button } from '../../components/Form';
-import { DoctorsTable } from '../../components/Tables';
-import { useNavigate } from 'react-router-dom';
-import AddPersonModal from '../../components/Modals/AddPersonModal';
-import { fetchPersonData } from '../../components/Datas';
-
-export const loadpersonsData = async (setPersonData, setError) => {
-  try {
-    const data = await fetchPersonData();
-    const formattedData = data.map((item, index) => ({
-      id: item.id,
-      user: item,
-      title: "Dr.",
-    }));
-    setPersonData(formattedData);
-  } catch (error) {
-    setError(error);
-  }
-};
+import React, { useState, useEffect } from "react";
+import { MdOutlineCloudDownload } from "react-icons/md";
+import { toast } from "react-hot-toast";
+import { BiPlus } from "react-icons/bi";
+import Layout from "../../Layout";
+import { Button } from "../../components/Form";
+import { PersonsTable } from "../../components/Tables";
+import AddPersonModal from "../../components/Modals/Person/AddPersonModal";
+import { loadpersonsData } from "../../services/personServices";
 
 function Doctors() {
   const [isOpen, setIsOpen] = useState(false);
   const [personsData, setPersonData] = useState([]);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  const [editingPerson, setEditingPerson] = useState(null);
+
+  const loadData = async () => {
+    await loadpersonsData(setPersonData, setError);
+  };
 
   useEffect(() => {
-    loadpersonsData(setPersonData, setError);
+    loadData();
   }, []);
 
   const onCloseModal = () => {
     setIsOpen(false);
+    setEditingPerson(null);
   };
 
   const preview = async (data) => {
-    navigate(`/doctors/preview/${data.id}`);
-    await loadpersonsData(setPersonData, setError);
+    setEditingPerson(data);
+    setIsOpen(true);
+  };
+
+  const handleDelete = async () => {
+    await loadData();
   };
 
   return (
@@ -52,7 +46,8 @@ function Doctors() {
             closeModal={onCloseModal}
             isOpen={isOpen}
             doctor={true}
-            datas={null}
+            datas={editingPerson}
+            onPersonAdded={loadData}
           />
         )
       }
@@ -85,18 +80,19 @@ function Doctors() {
             label="Export"
             Icon={MdOutlineCloudDownload}
             onClick={() => {
-              toast.error('Exporting is not available yet');
+              toast.error("Exporting is not available yet");
             }}
           />
         </div>
         {/* Tabla de doctores */}
         <div className="mt-8 w-full overflow-x-scroll">
-          <DoctorsTable
+          <PersonsTable
             doctor={true}
             data={personsData}
             functions={{
               preview: preview,
             }}
+            onDelete={handleDelete}
           />
         </div>
       </div>

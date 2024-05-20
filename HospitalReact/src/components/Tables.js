@@ -6,10 +6,83 @@ import { RiDeleteBin6Line, RiDeleteBinLine } from "react-icons/ri";
 import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import StarRate from "./StarRate";
-import { deletePersonData } from "../components/Datas";
+import { handleDelete } from "../services/personServices";
 
 const thclass = "text-start text-sm font-medium py-3 px-2 whitespace-nowrap";
 const tdclass = "text-start text-sm py-4 px-2 whitespace-nowrap";
+
+// person table
+export function PersonsTable({ data, functions, doctor, onDelete }) {
+  const DropDown1 = (item) => [
+    {
+      title: "Edit",
+      icon: FiEye,
+      onClick: (data) => {
+        functions.preview(data);
+      },
+    },
+    {
+      title: "Delete",
+      icon: RiDeleteBin6Line,
+      onClick: async () => {
+        await handleDelete(item.cedula);
+        onDelete();
+      },
+    },
+  ];
+
+  return (
+    <table className="table-auto w-full">
+      <thead className="bg-dry rounded-md overflow-hidden">
+        <tr>
+          <th className={thclass}>Cedula</th>
+          <th className={thclass}>Name</th>
+          <th className={thclass}>Email</th>
+          <th className={thclass}>Phone number</th>
+          <th className={thclass}>Date birth</th>
+          <th className={thclass}>Address</th>
+          <th className={thclass}>Rol</th>
+          <th className={thclass}>UserName</th>
+          <th className={thclass}>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((item) => (
+          <tr
+            key={item.cedula}
+            className="border-b border-border hover:bg-greyed transitions"
+          >
+            <td className={tdclass}>{item.cedula}</td>
+            <td className={tdclass}>
+              <div className="flex gap-4 items-center">
+                <h4 className="text-sm font-medium">{item.name}</h4>
+              </div>
+            </td>
+            <td className={tdclass}>{item.email}</td>
+            <td className={tdclass}>
+              <p className="text-textGray">{item.phoneNumber}</p>
+            </td>
+            <td className={tdclass}>
+              <p className="text-textGray">{item.dateBirth}</p>
+            </td>
+            <td className={tdclass}>
+              <p className="text-textGray">{item.address}</p>
+            </td>
+            <td className={tdclass}>{item.rol}</td>
+            <td className={tdclass}>{item.userName}</td>
+            <td className={tdclass}>
+              <MenuSelect datas={DropDown1(item)} item={item}>
+                <div className="bg-dry border text-main text-xl py-2 px-4 rounded-lg">
+                  <BiDotsHorizontalRounded />
+                </div>
+              </MenuSelect>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
 
 export function Transactiontable({ data, action, functions }) {
   const DropDown1 = [
@@ -429,87 +502,6 @@ export function PatientTable({ data, functions, used }) {
   );
 }
 
-// doctor table
-export function DoctorsTable({ data, functions, doctor }) {
-  const handleDelete = async (id) => {
-    console.log("ID to delete:", id);
-    try {
-      await deletePersonData(id);
-      toast.success("Transaction deleted successfully");
-    } catch (error) {
-      toast.error(`Error deleting transaction: ${error.message}`);
-    }
-  };
-
-  const DropDown1 = (item) => [
-    {
-      title: "View",
-      icon: FiEye,
-      onClick: (data) => {
-        functions.preview(data);
-      },
-    },
-    {
-      title: "Delete",
-      icon: RiDeleteBin6Line,
-      onClick: () => {
-        handleDelete(item.user.cedula);
-      },
-    },
-  ];
-
-  return (
-    <table className="table-auto w-full">
-      <thead className="bg-dry rounded-md overflow-hidden">
-        <tr>
-          <th className={thclass}>#</th>
-          <th className={thclass}>Name</th>
-          <th className={thclass}>Email</th>
-          <th className={thclass}>Phone number</th>
-          <th className={thclass}>Date birth</th>
-          <th className={thclass}>Address</th>
-          <th className={thclass}>Rol</th>
-          <th className={thclass}>UserName</th>
-          <th className={thclass}>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((item, index) => (
-          <tr
-            key={item.user.cedula}
-            className="border-b border-border hover:bg-greyed transitions"
-          >
-            <td className={tdclass}>{index + 1}</td>
-            <td className={tdclass}>
-              <div className="flex gap-4 items-center">
-                <h4 className="text-sm font-medium">{item.user.name}</h4>
-              </div>
-            </td>
-            <td className={tdclass}>{item.user.email}</td>
-            <td className={tdclass}>
-              <p className="text-textGray">{item.user.phoneNumber}</p>
-            </td>
-            <td className={tdclass}>
-              <p className="text-textGray">{item.user.dateBirth}</p>
-            </td>
-            <td className={tdclass}>
-              <p className="text-textGray">{item.user.address}</p>
-            </td>
-            <td className={tdclass}>{item.user.rol}</td>
-            <td className={tdclass}>{item.user.userName}</td>
-            <td className={tdclass}>
-              <MenuSelect datas={DropDown1(item)} item={item}>
-                <div className="bg-dry border text-main text-xl py-2 px-4 rounded-lg">
-                  <BiDotsHorizontalRounded />
-                </div>
-              </MenuSelect>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-}
 
 // appointment table
 export function AppointmentTable({ data, functions, doctor }) {

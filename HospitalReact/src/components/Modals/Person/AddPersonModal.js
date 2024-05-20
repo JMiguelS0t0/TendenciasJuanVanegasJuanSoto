@@ -1,14 +1,13 @@
-import React, { useState } from "react";
-import Modal from "./Modal";
-import { Button, Input, Select } from "../Form";
+import React, { useState, useEffect } from "react";
+import Modal from "../Modal";
+import { Button, Input, Select } from "../../Form";
 import { BiChevronDown } from "react-icons/bi";
 import { HiOutlineCheckCircle } from "react-icons/hi";
-import { toast } from "react-hot-toast";
-import { sortsDatas } from "../Datas";
-import { createPersonData } from "../Datas";
+import { sortsDatas } from "../../Datas";
+import { addPerson, updatePerson } from "../../../services/personServices";
 
-const useField = () => {
-  const [value, setValue] = useState("");
+const useField = (initialValue = "") => {
+  const [value, setValue] = useState(initialValue);
 
   const onChange = (event) => {
     setValue(event.target.value);
@@ -17,65 +16,61 @@ const useField = () => {
   return { value, onChange };
 };
 
-function AddPersonModal({ closeModal, isOpen, doctor, datas }) {
+function AddPersonModal({ closeModal, isOpen, doctor, datas, onPersonAdded }) {
   const [instraction, setInstraction] = useState(sortsDatas.roles[0]);
+  const [isEditing, setIsEditing] = useState(false);
 
-  const name = useField();
-  const cedula = useField();
-  const email = useField();
-  const phoneNumber = useField();
-  const dateBirth = useField();
-  const address = useField();
-  const userName = useField();
-  const password = useField();
+  const name = useField(datas ? datas.name : "");
+  const cedula = useField(datas ? datas.cedula : "");
+  const email = useField(datas ? datas.email : "");
+  const phoneNumber = useField(datas ? datas.phoneNumber : "");
+  const dateBirth = useField(datas ? datas.dateBirth : "");
+  const address = useField(datas ? datas.address : "");
+  const userName = useField(datas ? datas.userName : "");
+  const password = useField(datas ? datas.password : "");
+  console.log(datas);
+
+  useEffect(() => {
+    setIsEditing(!!datas);
+  }, [datas]);
 
   const handleSubmit = async () => {
-    if (
-      !name.value ||
-      !cedula.value ||
-      !email.value ||
-      !phoneNumber.value ||
-      !dateBirth.value ||
-      !address.value ||
-      !userName.value ||
-      !password.value
-    ) {
-      toast.error("Please fill in all fields");
-      return;
+    if (isEditing) {
+      console.log("Editando");
+      await updatePerson(
+        name.value,
+        cedula.value,
+        email.value,
+        phoneNumber.value,
+        dateBirth.value,
+        address.value,
+        userName.value,
+        password.value,
+        instraction,
+        closeModal
+      );
+    } else {
+      await addPerson(
+        name.value,
+        cedula.value,
+        email.value,
+        phoneNumber.value,
+        dateBirth.value,
+        address.value,
+        userName.value,
+        password.value,
+        instraction,
+        closeModal
+      );
     }
-
-    try {
-      const formData = {
-        name: name.value,
-        cedula: cedula.value,
-        email: email.value,
-        phoneNumber: phoneNumber.value,
-        dateBirth: dateBirth.value,
-        address: address.value,
-        userName: userName.value,
-        password: password.value,
-        rol: instraction.name,
-      };
-
-      console.log("Datos enviados en la solicitud POST:", formData);
-      await createPersonData(formData);
-      toast.success("Person created successfully");
-      closeModal();
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error("Error creating person: " + error.message);
-      } else {
-        toast.error("Unknown error occurred");
-      }
-      console.error("Error creating person: ", error);
-    }
+    onPersonAdded();
   };
 
   return (
     <Modal
       closeModal={closeModal}
       isOpen={isOpen}
-      title={doctor ? "Add Person" : datas?.id ? "Edit Person" : "Add Person"}
+      title={doctor ? (isEditing ? "Edit Person" : "Add Person") : "Add Person"}
       width={"max-w-3xl"}
     >
       <div className="flex-colo gap-6">
@@ -131,7 +126,7 @@ function AddPersonModal({ closeModal, isOpen, doctor, datas }) {
             label="Date birth"
             color={true}
             name="dateBirth"
-            placeholder="12/12/1995"
+            placeholder="DD/MM/YYYY"
             register={dateBirth}
           />
           <Input

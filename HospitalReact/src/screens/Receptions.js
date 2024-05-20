@@ -4,8 +4,8 @@ import { toast } from 'react-hot-toast';
 import { BiPlus } from 'react-icons/bi';
 import Layout from '../Layout';
 import { Button } from '../components/Form';
-import { DoctorsTable } from '../components/Tables';
-import AddPersonModal from '../components/Modals/AddPersonModal';
+import { PersonsTable } from '../components/Tables';
+import AddPersonModal from '../components/Modals/Person/AddPersonModal';
 import { receptionsData } from '../components/Datas';
 
 function Receptions() {
@@ -72,7 +72,7 @@ function Receptions() {
           />
         </div>
         <div className="mt-8 w-full overflow-x-scroll">
-          <DoctorsTable
+          <PersonsTable
             doctor={false}
             data={receptionsData}
             functions={{
