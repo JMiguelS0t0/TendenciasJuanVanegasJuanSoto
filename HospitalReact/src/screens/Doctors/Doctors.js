@@ -1,19 +1,21 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
-import { MdOutlineCloudDownload } from "react-icons/md";
-import { toast } from "react-hot-toast";
 import { BiPlus } from "react-icons/bi";
 import Layout from "../../Layout";
-import { Button } from "../../components/Form";
 import { PersonsTable } from "../../components/Tables";
 import AddPersonModal from "../../components/Modals/Person/AddPersonModal";
+import DeletePersonModal from "../../components/Modals/Person/DeletePersonModal";
 import { loadpersonsData } from "../../services/personServices";
 
 function Doctors() {
   const [isOpen, setIsOpen] = useState(false);
   const [personsData, setPersonData] = useState([]);
   const [error, setError] = useState(null);
-  const [editingPerson, setEditingPerson] = useState(null);
+  const [selectedPerson, setSelectedPerson] = useState({
+    editing: null,
+    deleting: null,
+  });
+  const [isDeleteModalOpen, setDeleteModal] = useState(false);
 
   const loadData = async () => {
     await loadpersonsData(setPersonData, setError);
@@ -25,33 +27,54 @@ function Doctors() {
 
   const onCloseModal = () => {
     setIsOpen(false);
-    setEditingPerson(null);
+    setSelectedPerson({ ...selectedPerson, editing: null });
   };
 
   const preview = async (data) => {
-    setEditingPerson(data);
+    setSelectedPerson({ ...selectedPerson, editing: data });
     setIsOpen(true);
   };
 
-  const handleDelete = async () => {
-    await loadData();
+  const onCloseDeleteModal = () => {
+    setDeleteModal(false);
+    setSelectedPerson({ ...selectedPerson, deleting: null });
+  };
+
+  const handleDelete = async (cedula) => {
+    const person = personsData.find((p) => p.cedula === cedula);
+    console.log(person);
+    if (person) {
+      setSelectedPerson({ ...selectedPerson, deleting: person.cedula });
+      setDeleteModal(true);
+    }
   };
 
   return (
     <Layout>
       {
-        // Modal para agregar doctor
+        // Modal para agregar empleado
         isOpen && (
           <AddPersonModal
             closeModal={onCloseModal}
             isOpen={isOpen}
             doctor={true}
-            datas={editingPerson}
+            datas={selectedPerson.editing}
             onPersonAdded={loadData}
           />
         )
       }
-      {/* Botón para agregar doctor */}
+      {
+        // Modal para borrar empleado
+        isDeleteModalOpen && (
+          <DeletePersonModal
+            closeModal={onCloseDeleteModal}
+            isOpen={isDeleteModalOpen}
+            datas={selectedPerson.deleting}
+            onPersonDelete={loadData}
+          />
+        )
+      }
+      {/* Botón para agregar empleado */}
       <button
         onClick={() => setIsOpen(true)}
         className="w-16 animate-bounce h-16 border border-border z-50 bg-subMain text-white rounded-full flex-colo fixed bottom-8 right-12 button-fb"
@@ -67,7 +90,7 @@ function Doctors() {
         data-aos-offset="200"
         className="bg-white my-8 rounded-xl border-[1px] border-border p-5"
       >
-        {/* Filtros y botón de exportación */}
+        {/* Filtros*/}
         <div className="grid md:grid-cols-6 sm:grid-cols-2 grid-cols-1 gap-2">
           <div className="md:col-span-5 grid lg:grid-cols-4 items-center gap-6">
             <input
@@ -76,23 +99,16 @@ function Doctors() {
               className="h-14 w-full text-sm text-main rounded-md bg-dry border border-border px-4"
             />
           </div>
-          <Button
-            label="Export"
-            Icon={MdOutlineCloudDownload}
-            onClick={() => {
-              toast.error("Exporting is not available yet");
-            }}
-          />
         </div>
-        {/* Tabla de doctores */}
+        {/* Tabla de empleados */}
         <div className="mt-8 w-full overflow-x-scroll">
           <PersonsTable
             doctor={true}
             data={personsData}
             functions={{
               preview: preview,
+              onDelete: handleDelete,
             }}
-            onDelete={handleDelete}
           />
         </div>
       </div>

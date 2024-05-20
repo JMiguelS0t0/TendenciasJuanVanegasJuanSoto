@@ -6,7 +6,6 @@ import { RiDeleteBin6Line, RiDeleteBinLine } from "react-icons/ri";
 import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import StarRate from "./StarRate";
-import { handleDelete } from "../services/personServices";
 
 const thclass = "text-start text-sm font-medium py-3 px-2 whitespace-nowrap";
 const tdclass = "text-start text-sm py-4 px-2 whitespace-nowrap";
@@ -25,8 +24,7 @@ export function PersonsTable({ data, functions, doctor, onDelete }) {
       title: "Delete",
       icon: RiDeleteBin6Line,
       onClick: async () => {
-        await handleDelete(item.cedula);
-        onDelete();
+        functions.onDelete(item.cedula);
       },
     },
   ];
@@ -38,11 +36,11 @@ export function PersonsTable({ data, functions, doctor, onDelete }) {
           <th className={thclass}>Cedula</th>
           <th className={thclass}>Name</th>
           <th className={thclass}>Email</th>
-          <th className={thclass}>Phone number</th>
-          <th className={thclass}>Date birth</th>
+          <th className={thclass}>Phone</th>
+          <th className={thclass}>Birth</th>
           <th className={thclass}>Address</th>
           <th className={thclass}>Rol</th>
-          <th className={thclass}>UserName</th>
+          <th className={thclass}>Username</th>
           <th className={thclass}>Actions</th>
         </tr>
       </thead>
@@ -55,18 +53,18 @@ export function PersonsTable({ data, functions, doctor, onDelete }) {
             <td className={tdclass}>{item.cedula}</td>
             <td className={tdclass}>
               <div className="flex gap-4 items-center">
-                <h4 className="text-sm font-medium">{item.name}</h4>
+                <p className="text-sm">{item.name}</p>
               </div>
             </td>
             <td className={tdclass}>{item.email}</td>
             <td className={tdclass}>
-              <p className="text-textGray">{item.phoneNumber}</p>
+              <p className="text-sm">{item.phoneNumber}</p>
             </td>
             <td className={tdclass}>
-              <p className="text-textGray">{item.dateBirth}</p>
+              <p className="text-sm">{item.dateBirth}</p>
             </td>
             <td className={tdclass}>
-              <p className="text-textGray">{item.address}</p>
+              <p className="text-sm">{item.address}</p>
             </td>
             <td className={tdclass}>{item.rol}</td>
             <td className={tdclass}>{item.userName}</td>
