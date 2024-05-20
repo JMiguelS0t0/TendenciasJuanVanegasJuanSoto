@@ -22,13 +22,10 @@ import {
 import {
   MdListAlt,
   MdOutlineAttachMoney,
-  MdOutlineCampaign,
-  MdOutlineChat,
   MdOutlineInventory2,
   MdOutlineReviews,
   MdOutlineTextsms,
 } from "react-icons/md";
-import { AiOutlineSetting } from "react-icons/ai";
 import { BiCalendar, BiUserPlus } from "react-icons/bi";
 import axios from "axios";
 
@@ -79,31 +76,20 @@ export const MenuDatas = [
     path: "/medicine",
     icon: RiMedicineBottleLine,
   },
-  {
-    title: "Chats",
-    path: "/chats",
-    icon: MdOutlineChat,
-  },
-  {
-    title: "Reviews",
-    path: "/reviews",
-    icon: MdOutlineReviews,
-  },
-  {
-    title: "Campaigns",
-    path: "/campaigns",
-    icon: MdOutlineCampaign,
-  },
-  {
-    title: "Settings",
-    path: "/settings",
-    icon: AiOutlineSetting,
-  },
+  // {
+  //   title: "Settings",
+  //   path: "/settings",
+  //   icon: AiOutlineSetting,
+  // },
 ];
 
-export const fetchPersonData = async () => {
+export const fetchPersonData = async (id = null) => {
   try {
-    const response = await axios.get("http://127.0.0.1:8000/hospital/person");
+    let url = "http://127.0.0.1:8000/hospital/person";
+    if (id) {
+      url += `/${id}`;
+    }
+    const response = await axios.get(url);
     return response.data;
   } catch (error) {
     console.error("Error fetching person data: ", error);
@@ -141,6 +127,24 @@ export const deletePersonData = async (id) => {
       throw new Error(error.response.data.message || "Unknown server error");
     } else {
       console.log("Error deleting person data: ", error);
+      throw new Error(error.message || "Unknown error");
+    }
+  }
+};
+
+export const updatePersonData = async (id, updatedPersonData) => {
+  try {
+    const response = await axios.put(
+      `http://127.0.0.1:8000/hospital/person/${id}`,
+      updatedPersonData
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      console.log("Error updating person data: ", error.response.data);
+      throw new Error(error.response.data.message || "Unknown server error");
+    } else {
+      console.log("Error updating person data: ", error);
       throw new Error(error.message || "Unknown error");
     }
   }

@@ -14,7 +14,7 @@ function Sidebar() {
   };
 
   return (
-    <div className="bg-white xl:shadow-lg py-6 px-4 xl:h-screen w-full border-r border-border">
+    <div className="bg-white xl:shadow-lg px-4 xl:h-screen w-full border-r border-border">
       <Link to="/">
         <img
           src="/images/logo.png"
