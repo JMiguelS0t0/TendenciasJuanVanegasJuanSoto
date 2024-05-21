@@ -5,7 +5,7 @@ import json
 def get(self, request, cedula = None):
     try:
         persons = [adminValidator.getUser(cedula)] if cedula else adminValidator.getUsers()
-        personsData = [{"name": person.name, "cedula": person.cedula, "email": person.email, "phoneNumber": person.phoneNumber, "dateBirth": person.dateBirth.strftime('%d/%m/%Y'), "address": person.address, "rol": person.rol, "userName": person.userName, "password": person.password} for person in persons]
+        personsData = [{"name": person.name, "cedula": person.cedula, "email": person.email, "phoneNumber": person.phoneNumber, "dateBirth": person.dateBirth, "address": person.address, "rol": person.rol, "userName": person.userName} for person in persons]
         status = 200 if personsData else 404
     except Exception as error:
         message = str(error)
