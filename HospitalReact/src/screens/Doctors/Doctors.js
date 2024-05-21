@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { BiPlus } from "react-icons/bi";
 import Layout from "../../Layout";
 import { PersonsTable } from "../../components/Tables";
-import AddPersonModal from "../../components/Modals/Person/AddPersonModal";
+import AddEditPersonModal from "../../components/Modals/Person/AddEditPersonModal";
 import DeletePersonModal from "../../components/Modals/Person/DeletePersonModal";
 import { loadpersonsData } from "../../services/personServices";
 import { Button } from "../../components/Form";
@@ -60,7 +60,7 @@ function Doctors() {
       {
         // Modal para agregar empleado
         isOpen && (
-          <AddPersonModal
+          <AddEditPersonModal
             closeModal={onCloseModal}
             isOpen={isOpen}
             doctor={true}

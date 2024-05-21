@@ -5,7 +5,7 @@ import { BiPlus } from 'react-icons/bi';
 import Layout from '../Layout';
 import { Button } from '../components/Form';
 import { PersonsTable } from '../components/Tables';
-import AddPersonModal from '../components/Modals/Person/AddPersonModal';
+import AddEditPersonModal from '../components/Modals/Person/AddEditPersonModal';
 import { receptionsData } from '../components/Datas';
 
 function Receptions() {
@@ -27,7 +27,7 @@ function Receptions() {
       {
         // add doctor modal
         isOpen && (
-          <AddPersonModal
+          <AddEditPersonModal
             closeModal={onCloseModal}
             isOpen={isOpen}
             doctor={false}

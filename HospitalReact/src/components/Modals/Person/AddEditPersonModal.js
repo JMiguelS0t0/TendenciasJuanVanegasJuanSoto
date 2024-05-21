@@ -16,7 +16,7 @@ const useField = (initialValue = "") => {
   return { value, onChange };
 };
 
-function AddPersonModal({ closeModal, isOpen, doctor, datas, onPersonAdded }) {
+function AddEditPersonModal({ closeModal, isOpen, doctor, datas, onPersonAdded }) {
   const [instraction, setInstraction] = useState(sortsDatas.roles[0]);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -172,4 +172,4 @@ function AddPersonModal({ closeModal, isOpen, doctor, datas, onPersonAdded }) {
   );
 }
 
-export default AddPersonModal;
+export default AddEditPersonModal;
