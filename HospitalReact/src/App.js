@@ -27,7 +27,7 @@ const Payments = React.lazy(() => import('./screens/Payments/Payments'));
 const Appointments = React.lazy(() => import('./screens/Appointments'));
 const Patients = React.lazy(() => import('./screens/Patients/Patients'));
 const Campaings = React.lazy(() => import('./screens/Campaings'));
-const Services = React.lazy(() => import('./screens/Services'));
+const Services = React.lazy(() => import('./screens/Procedures'));
 const Invoices = React.lazy(() => import('./screens/Invoices/Invoices'));
 const Settings = React.lazy(() => import('./screens/Settings'));
 const CreateInvoice = React.lazy(() =>

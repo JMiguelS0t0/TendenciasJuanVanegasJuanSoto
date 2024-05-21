@@ -66,8 +66,8 @@ export const MenuDatas = [
     icon: TbFileInvoice,
   },
   {
-    title: "Services",
-    path: "/services",
+    title: "Procedures",
+    path: "/services", //ORGANIZAR ESTO
     icon: MdOutlineInventory2,
   },
   {
