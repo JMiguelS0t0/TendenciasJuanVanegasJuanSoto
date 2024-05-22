@@ -5,7 +5,7 @@ function index({ children, title }) {
   return (
     <div className="bg-dry xl:h-screen flex-colo ">
       <div className="grid xl:grid-cols-12 w-full 2xl:max-w-[2000px]">
-        <div className="col-span-2 xl:block hidden">
+        <div className="col-span-2 xl:block hidden h-full">
           <Sidebar />
         </div>
         <div className="col-span-10 xl:h-screen overflow-y-scroll relative">

@@ -13,15 +13,15 @@ function Sidebar() {
   };
 
   return (
-    <div className="bg-white xl:shadow-lg px-4 xl:h-screen w-full border-r border-border">
+    <div className="bg-white xl:shadow-lg px-4 xl:h-screen w-full border-r border-border h-full">
       <Link to="/">
         <img
           src="/images/logo.png"
           alt="logo"
-          className="w-3/4 h-12 ml-4 object-contain"
+          className="w-3/4 h-20 ml-4 object-contain"
         />
       </Link>
-      <div className="flex-colo gap-2 mt-6">
+      <div className="flex-colo gap-2 mt-2">
         {MenuDatas.map((item, index) => (
           <Link
             to={item.path}
