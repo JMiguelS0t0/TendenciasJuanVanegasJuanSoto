@@ -3,7 +3,7 @@ import {
   deletePersonData,
   createPersonData,
   updatePersonData,
-} from "../api/person";
+} from "../api/person.js";
 import { toast } from "react-hot-toast";
 
 export const loadpersonsData = async (setPersonData, setError, id = null) => {
