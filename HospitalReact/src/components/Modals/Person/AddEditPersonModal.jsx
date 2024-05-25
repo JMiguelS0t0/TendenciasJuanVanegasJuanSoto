@@ -6,6 +6,17 @@ import {HiOutlineCheckCircle} from "react-icons/hi";
 import {sortsDatas} from "../../Datas";
 import {addPerson, updatePerson} from "../../../services/personServices.js";
 import useField from "../../../hooks/useField";
+import {parse} from "date-fns";
+
+const formatDate = (dateStr) => {
+    try {
+        const parsedDate = parse(dateStr, "dd/MM/yyyy", new Date());
+        return parsedDate.toISOString().split('T')[0]; // yyyy-MM-dd
+    } catch (error) {
+        console.error("Error parsing date:", error);
+        return "";
+    }
+};
 
 function AddEditPersonModal({closeModal, isOpen, doctor, datas, onPersonAdded}) {
     const [instraction, setInstraction] = useState(sortsDatas.roles[0]);
@@ -15,7 +26,7 @@ function AddEditPersonModal({closeModal, isOpen, doctor, datas, onPersonAdded}) 
     const cedula = useField(datas ? datas.cedula : "");
     const email = useField(datas ? datas.email : "");
     const phoneNumber = useField(datas ? datas.phoneNumber : "");
-    const dateBirth = useField(datas ? datas.dateBirth : "");
+    const dateBirth = useField(datas ? formatDate(datas.dateBirth) : "");
     const address = useField(datas ? datas.address : "");
     const userName = useField(datas ? datas.userName : "");
     const password = useField(datas ? datas.password : "");
@@ -119,6 +130,7 @@ function AddEditPersonModal({closeModal, isOpen, doctor, datas, onPersonAdded}) 
                         label="Date birth"
                         color={true}
                         name="dateBirth"
+                        type="date"
                         placeholder="DD/MM/YYYY"
                         register={dateBirth}
                     />
