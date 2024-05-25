@@ -11,7 +11,7 @@ import PaymentsUsed from "../../components/UsedComp/PaymentUsed";
 import InvoiceUsed from "../../components/UsedComp/InvoiceUsed";
 import Access from "../../components/Access";
 import { MdOutlineMarkChatUnread } from "react-icons/md";
-import ReviewsUsed from "../../components/UsedComp/ReviewUsed.js";
+import ReviewsUsed from "../../components/UsedComp/ReviewUsed.jsx";
 import { useState } from "react";
 
 function DoctorProfile() {

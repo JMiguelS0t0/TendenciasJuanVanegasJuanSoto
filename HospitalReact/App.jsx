@@ -28,8 +28,8 @@ const PatientProfile = lazy(() =>
     import('./src/screens/Patients/PatientProfile')
 )
 const CreatePatient = lazy(() => import('./src/screens/Patients/CreatePatient'))
-const Doctors = lazy(() => import('./src/screens/Doctors/Doctors'))
-const DoctorProfile = lazy(() => import('./src/screens/Doctors/DoctorProfile'))
+const Doctors = lazy(() => import('./src/screens/Persons/Persons.jsx'))
+const DoctorProfile = lazy(() => import('./src/screens/Persons/DoctorProfile'))
 const Receptions = lazy(() => import('./src/screens/Receptions'))
 const NewMedicalRecode = lazy(() =>
     import('./src/screens/Patients/NewMedicalRecode')
