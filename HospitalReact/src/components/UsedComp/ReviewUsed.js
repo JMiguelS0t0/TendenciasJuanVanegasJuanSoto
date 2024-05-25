@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { ReviewTable } from '../Tables';
 import { reviewData } from '../Datas';
 

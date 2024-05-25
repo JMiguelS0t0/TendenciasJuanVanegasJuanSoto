@@ -3,7 +3,7 @@ import {
   addMedication,
   updateMedicationData,
   deleteMedicine,
-} from "../api/medicine";
+} from "../api/medicine.js";
 import { toast } from "react-hot-toast";
 
 export const loadMedications = async (setMedicationData, setError) => {
@@ -46,7 +46,7 @@ export const createMedication = async (name, cost, closeModal) => {
     } else {
       toast.error("Unknown error occurred");
     }
-    console.error("Error creating person: ", error);
+    console.error("Error creating medication: ", error);
   }
 };
 
@@ -70,6 +70,6 @@ export const updateMedication = async (id, name, cost, closeModal) => {
     } else {
       toast.error("Unknown error occurred");
     }
-    console.error("Error updating person: ", error);
+    console.error("Error updating medication: ", error);
   }
 };
