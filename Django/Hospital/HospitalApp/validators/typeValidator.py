@@ -69,6 +69,14 @@ def dateBirthValidator(string, element):
 
     return dateBirth
 
+def dateValidatorYear(string, element):
+    dateBirth = validateDateFormat(string, element)
+
+    if dateBirth > datetime.today():
+        raise ValueError("La fecha no puede ser posterior a la fecha actual.")
+
+    return dateBirth
+
 def futureDateValidator(string, element):
     date = validateDateFormat(string, element)
     if date < datetime.today():

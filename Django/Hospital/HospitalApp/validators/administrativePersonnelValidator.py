@@ -15,7 +15,7 @@ def doctorInstance(user):
 def createPatient(id, name, dateBirth, gender, address, phoneNumber, email):
     id = numberValidator(id, "Cedula del paciente")
     name = textValidator(name, "Nombre del paciente")
-    dateBirth = dateBirthValidator(dateBirth, "Fecha de nacimiento del paciente")
+    dateBirth = dateValidatorYear(dateBirth, "Fecha de nacimiento del paciente")
     phoneNumber = phoneNumberValidator(phoneNumber, "Numero del paciente")
     email = emailValidator(email, "Email del paciente")
     APService.createPacient(id, name, dateBirth, gender, address, phoneNumber, email)

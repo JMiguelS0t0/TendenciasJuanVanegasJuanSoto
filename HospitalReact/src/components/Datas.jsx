@@ -455,11 +455,11 @@ export const sortsDatas = {
         },
         {
             id: 2,
-            name: "Female",
+            name: "Femenino",
         },
         {
             id: 3,
-            name: "Male",
+            name: "Masculino",
         },
     ],
     bloodTypeFilter: [
@@ -576,6 +576,20 @@ export const sortsDatas = {
             value: "products",
         },
     ],
+    statusInsurance: [
+        {
+            id: 1,
+            name: "Status...",
+        },
+        {
+            id: 2,
+            name: "Active",
+        },
+        {
+            id: 3,
+            name: "Inactive",
+        },
+    ]
 };
 
 export const campaignData = [
