@@ -1,4 +1,4 @@
-import {fetchPatientData, createPatientData} from "../api/patient.js";
+import {fetchPatientData, createPatientData, deletePatientData} from "../api/patient.js";
 import {toast} from "react-hot-toast";
 import {format, parseISO} from "date-fns";
 
@@ -34,5 +34,15 @@ export const addPatient = async (idNumber, name, dateBirth, gender, address, pho
             toast.error("Unknown error occurred");
         }
         console.error("Error creating person: ", error);
+    }
+};
+
+export const handleDelete = async (id) => {
+    console.log("ID to delete:", id);
+    try {
+        await deletePatientData(id);
+        toast.success("Transaction deleted successfully");
+    } catch (error) {
+        toast.error(`Error deleting transaction: ${error.message}`);
     }
 };

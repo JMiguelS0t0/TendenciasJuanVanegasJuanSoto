@@ -1,4 +1,4 @@
-import {Button, Input} from "./Form.jsx";
+import {Button, Input, Select} from "./Form.jsx";
 import {RiDeleteBin5Line} from "react-icons/ri";
 import {toast} from "react-hot-toast";
 import useField from "../hooks/useField.js";
@@ -7,17 +7,20 @@ import {addEmergencyContactData} from "../services/emergencycontactServices.js";
 import {addInsuranceData} from "../services/insuranceServices.js";
 import {HiOutlineCheckCircle} from "react-icons/hi";
 import {useNavigate} from "react-router-dom";
+import {useState} from "react";
+import {sortsDatas} from "./Datas.jsx";
+import {BiChevronDown} from "react-icons/bi";
 
 
 function InsuranceForm({patientData, emergencyContactInfo, onCancel}) {
     const company = useField("");
     const number = useField("");
-    const status = useField("");
     const term = useField("");
+    const [status, setStatus] = useState(sortsDatas.statusInsurance[0])
     const navigate = useNavigate()
 
     const handleSubmit = async () => {
-        if (!company.value || !number.value || !status.value || !term.value) {
+        if (!company.value || !number.value || !status.name || !term.value) {
             toast.error("Please fill in all fields (Insurance)");
             return;
         }
@@ -47,7 +50,7 @@ function InsuranceForm({patientData, emergencyContactInfo, onCancel}) {
                 emergencyContactInfo.idUser,
                 company.value,
                 number.value,
-                status.value,
+                status.name,
                 term.value
             );
 
@@ -77,14 +80,19 @@ function InsuranceForm({patientData, emergencyContactInfo, onCancel}) {
                 register={number}
                 placeholder="Enter insurance number"
             />
-            <Input
-                label="Insurance Status"
-                color={true}
-                type="text"
-                name="status"
-                register={status}
-                placeholder="Enter insurance status"
-            />
+            <div className="flex w-full flex-col gap-3">
+                <p className="text-black text-sm">status</p>
+                <Select
+                    selectedPerson={status}
+                    setSelectedPerson={setStatus}
+                    datas={sortsDatas.statusInsurance}
+                >
+                    <div
+                        className="w-full flex-btn text-textGray text-sm p-4 border border-border font-light rounded-lg focus:border focus:border-subMain">
+                        {status?.name} <BiChevronDown className="text-xl"/>
+                    </div>
+                </Select>
+            </div>
             <Input
                 label="Insurance Term"
                 color={true}

@@ -31,3 +31,20 @@ export const createPatientData = async (newPatientData) => {
         }
     }
 };
+
+export const deletePatientData = async (id) => {
+    try {
+        const response = await axios.delete(
+            `http://127.0.0.1:8000/hospital/patient/${id}`
+        );
+        return response.data;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            console.log("Error deleting person data: ", error.response.data);
+            throw new Error(error.response.data.message || "Unknown server error");
+        } else {
+            console.log("Error deleting person data: ", error);
+            throw new Error(error.message || "Unknown error");
+        }
+    }
+};

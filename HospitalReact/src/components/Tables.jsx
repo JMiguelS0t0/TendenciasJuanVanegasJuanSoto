@@ -96,8 +96,8 @@ export function PatientTable({data, functions, used}) {
             {
                 title: "Delete",
                 icon: RiDeleteBin6Line,
-                onClick: () => {
-                    toast.error("This feature is not available yet");
+                onClick: (data) => {
+                    functions.onDelete(data.id);
                 },
             },
         ]
