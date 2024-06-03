@@ -11,6 +11,15 @@ def doctorInstance(user):
     return instances.personInstance(user)
 
 # --------------------------------------------------------- PATIENT
+
+# --------- GET
+def getPatients():
+    return APService.getPatients()
+
+def getPatient(id):
+    id = numberValidator(id, "Cedula del paciente")
+    return APService.getPatient(id)
+
 # --------- POST
 def createPatient(id, name, dateBirth, gender, address, phoneNumber, email):
     id = numberValidator(id, "Cedula del paciente")
@@ -19,18 +28,6 @@ def createPatient(id, name, dateBirth, gender, address, phoneNumber, email):
     phoneNumber = phoneNumberValidator(phoneNumber, "Numero del paciente")
     email = emailValidator(email, "Email del paciente")
     APService.createPacient(id, name, dateBirth, gender, address, phoneNumber, email)
-
-# --------- GET
-def getPatient(id):
-    id = numberValidator(id, "Cedula del paciente")
-    return APService.getPatient(id)
-
-def getPatients():
-    return APService.getPatients()
-
-# --------- DELETE
-def deletePatient(id):
-    return APService.deletePatient(id)
 
 # --------- UPDATE
 def updatePatient(id, name, dateBirth, gender, address, phoneNumber, email):
@@ -42,8 +39,22 @@ def updatePatient(id, name, dateBirth, gender, address, phoneNumber, email):
     return APService.updatePatient(id, name, dateBirth, gender, address, phoneNumber, email)
 
 
+# --------- DELETE
+def deletePatient(id):
+    return APService.deletePatient(id)
+
+
 
 # --------------------------------------------------------- EMERGENCY CONTACT
+
+# --------- GET
+def getContacts():
+    return APService.getContacts()
+
+def getContact(id):
+    id = numberValidator(id, "Cedula del paciente")
+    return APService.getContact(id)
+
 # --------- POST
 def createContact(idUser, name, relationship, phoneNumber):
     idUser = numberValidator(idUser.id, "Cedula del paciente")
@@ -52,18 +63,6 @@ def createContact(idUser, name, relationship, phoneNumber):
     idPatientInstance = patientInstance(idUser)
     APService.createContact(idPatientInstance, name, relationship, phoneNumber)
 
-# --------- GET
-def getContact(id):
-    id = numberValidator(id, "Cedula del paciente")
-    return APService.getContact(id)
-
-def getContacts():
-    return APService.getContacts()
-
-# --------- DELETE
-def deleteContact(id):
-    return APService.deleteContact(id)
-
 # --------- UPDATE
 def updateContact(idUser, name, relationship, phoneNumber):
     name = textValidator(name, "Nombre del contacto")
@@ -71,6 +70,9 @@ def updateContact(idUser, name, relationship, phoneNumber):
     phoneNumber = phoneNumberValidator(phoneNumber, "Numero del contacto")
     return APService.updateContact(idUser, name, relationship, phoneNumber)
 
+# --------- DELETE
+def deleteContact(id):
+    return APService.deleteContact(id)
 
 # --------------------------------------------------------- INSURANCE
 # --------- POST
